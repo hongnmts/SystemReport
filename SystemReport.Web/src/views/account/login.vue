@@ -55,6 +55,7 @@ export default {
     // Try to log the user in with the username
     // and password they provided.
     tryToLogIn() {
+      console.log("abc")
       this.submitted = true;
       // stop here if form is invalid
       this.v$.$touch();

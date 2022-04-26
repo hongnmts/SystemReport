@@ -67,6 +67,7 @@ export default {
     // Try to register the user in with the email, username
     // and password they provided.
     tryToRegisterIn() {
+      console.log("abc")
       this.submitted = true;
       // stop here if form is invalid
       this.v$.$touch();
