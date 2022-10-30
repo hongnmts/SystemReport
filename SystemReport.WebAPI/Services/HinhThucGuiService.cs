@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,8 +10,6 @@ using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services

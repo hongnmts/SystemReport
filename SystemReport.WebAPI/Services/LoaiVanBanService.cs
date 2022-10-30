@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +9,9 @@ using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
-using SystemReport.WebAPI.Interfaces.Identity;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
 using SystemReport.WebAPI.ViewModels;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
@@ -159,7 +158,7 @@ namespace SystemReport.WebAPI.Services
 
         public async Task<List<LoaiVanBanTreeVM>> GetTree()
         {
-            var listLoaiVanBan = await _context.LoaiVanBan.Find(x  => x.IsDeleted ==false).SortBy(x=> x.Ten).ToListAsync();
+            var listLoaiVanBan = await _context.LoaiVanBan.Find(x => x.IsDeleted == false).SortBy(x => x.Ten).ToListAsync();
             List<LoaiVanBanTreeVM> list = new List<LoaiVanBanTreeVM>();
             foreach (var item in listLoaiVanBan)
             {

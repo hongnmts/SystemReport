@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +11,6 @@ using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
@@ -24,7 +24,7 @@ namespace SystemReport.WebAPI.Services
         private IDbSettings _settings;
         private ILoggingService _logger;
 
-        public LoaiTrangThaiService (ILoggingService logger, IDbSettings settings, DataContext context,
+        public LoaiTrangThaiService(ILoggingService logger, IDbSettings settings, DataContext context,
             IHttpContextAccessor contextAccessor)
             : base(context, contextAccessor)
         {
@@ -68,18 +68,18 @@ namespace SystemReport.WebAPI.Services
             if (model.ListTrangThai != default)
             {
                 var trangthaiId = model.ListTrangThai.Select(x => x.Id).ToList();
-                    var trangThai = _context.TrangThai.Find(x => trangthaiId.Contains(x.Id)).ToList().Select(x => new TrangThaiShort()
-                    {
-                        Id = x.Id,
-                        Code = x.Code,
-                        Ten = x.Ten,
-                        BgColor = x.BgColor,
-                        Color = x.Color
-                    }).ToList();
-                    entity.ListTrangThai = trangThai;
+                var trangThai = _context.TrangThai.Find(x => trangthaiId.Contains(x.Id)).ToList().Select(x => new TrangThaiShort()
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Ten = x.Ten,
+                    BgColor = x.BgColor,
+                    Color = x.Color
+                }).ToList();
+                entity.ListTrangThai = trangThai;
             }
 
-            
+
             var result = await BaseMongoDb.CreateAsync(entity);
             if (result.Entity.Id == default || !result.Success)
             {
@@ -123,10 +123,10 @@ namespace SystemReport.WebAPI.Services
             entity.Code = model.Code;
             entity.MoTa = model.MoTa;
             entity.ThuTu = model.ThuTu;
-            
+
             entity.ModifiedAt = DateTime.Now;
             entity.ModifiedBy = CurrentUserName;
-            
+
             if (model.ListTrangThai != default)
             {
                 var trangthaiId = model.ListTrangThai.Select(x => x.Id).ToList();
@@ -159,7 +159,7 @@ namespace SystemReport.WebAPI.Services
                     .WithCode(EResultResponse.FAIL.ToString())
                     .WithMessage(DefaultMessage.DATA_NOT_EMPTY);
             }
-            
+
             var entity = _context.LoaiTrangThai.Find(x => x.Id == id && x.IsDeleted != true).FirstOrDefault();
             if (entity == default)
             {

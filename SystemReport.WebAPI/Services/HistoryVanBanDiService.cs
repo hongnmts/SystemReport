@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Extensions;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
@@ -5,10 +9,6 @@ using SystemReport.WebAPI.Enums;
 using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using Microsoft.OpenApi.Extensions;
 using StringExtensions = SystemReport.WebAPI.Extensions.StringExtensions;
 
 namespace SystemReport.WebAPI.Services

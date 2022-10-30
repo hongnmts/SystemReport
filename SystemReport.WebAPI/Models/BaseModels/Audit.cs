@@ -1,14 +1,14 @@
-using System;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace SystemReport.WebAPI.Models
 {
     public class Audit
     {
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
-        public DateTime? ModifiedAt { get; set; }= DateTime.Now;
+        public DateTime? ModifiedAt { get; set; } = DateTime.Now;
         public string CreatedBy { get; set; }
-        public string ModifiedBy { get; set; } 
+        public string ModifiedBy { get; set; }
 
         [BsonDefaultValue(false)]
         public bool IsDeleted { get; set; }

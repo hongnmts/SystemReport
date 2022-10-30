@@ -6,6 +6,6 @@ namespace SystemReport.WebAPI.ViewModels
     public class RowValueTemp
     {
         public string KeyRow { get; set; }
-        public List<RowValue>  RowValues { get; set; }
+        public List<RowValue> RowValues { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace SystemReport.WebAPI.Models
         [Description("File tài liệu")]
         FILETAILIEU
     }
-    
+
     public enum ELoaiCongVan
     {
         CONG_VAN_DEN = 1,

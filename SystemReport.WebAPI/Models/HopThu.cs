@@ -1,11 +1,11 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using SystemReport.WebAPI.ViewModels;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace SystemReport.WebAPI.Models
 {
-    public class HopThu: Audit, TEntity<string>
+    public class HopThu : Audit, TEntity<string>
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
@@ -14,9 +14,9 @@ namespace SystemReport.WebAPI.Models
         public List<UserTreeChilVM> NguoiNhans { get; set; }
         public List<UserTreeChilVM> Cc { get; set; }
         public string NoiDung { get; set; }
-        public List<FileShort> Files{ get; set; }
+        public List<FileShort> Files { get; set; }
         [BsonIgnore]
-        public List<FileShort> UploadFiles{ get; set; }
+        public List<FileShort> UploadFiles { get; set; }
         public UserShort NguoiGui { get; set; }
         public DateTime? NgayGui { get; set; }
         public UserShort NguoiNhan { get; set; }

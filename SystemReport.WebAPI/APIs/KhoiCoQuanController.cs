@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -6,8 +8,6 @@ using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.APIs
@@ -117,8 +117,8 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
-        
+
+
         [HttpGet]
         [Route("get")]
         public async Task<IActionResult> Get()
@@ -166,7 +166,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("import-KhoiCoQuan")]
         [AllowAnonymous]
@@ -187,7 +187,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("import-CoQuan")]
         [AllowAnonymous]
@@ -208,7 +208,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("import-chucvu")]
         [AllowAnonymous]

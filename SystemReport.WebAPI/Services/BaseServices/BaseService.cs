@@ -1,8 +1,8 @@
-using System.Linq;
 using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
+using System.Linq;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Models;
-using MongoDB.Driver;
 
 namespace SystemReport.WebAPI.Services
 {
@@ -16,10 +16,10 @@ namespace SystemReport.WebAPI.Services
         protected User CurrentUser => GetCurrentUser();
         protected UserShort CurrentUserShort => GetCurrentUserShort();
         protected string CurrentUserName => GetCurrentUser()?.UserName;
-        
-        protected string IdUserName=> GetCurrentUser()?.Id;
-        
-        protected string IdDonVi=> GetCurrentUser()?.DonVi.Id;
+
+        protected string IdUserName => GetCurrentUser()?.Id;
+
+        protected string IdDonVi => GetCurrentUser()?.DonVi.Id;
 
         public BaseService(DataContext context,
             IHttpContextAccessor contextAccessor)
@@ -40,12 +40,12 @@ namespace SystemReport.WebAPI.Services
             _appUser = _context.Users.FindAsync(x => x.Id == userId).Result.FirstOrDefault();
             return _appUser;
         }
-        
+
         private UserShort GetCurrentUserShort()
         {
             // if (!_httpContext.User.Identity.IsAuthenticated)
             //     return new User();
-            
+
 
             var userId = _httpContext.User?.Claims.FirstOrDefault(x => x.Type == "id")?.Value;
             var userShort = _context.Users.AsQueryable().Where(x => x.Id == userId).Select(x => new UserShort()

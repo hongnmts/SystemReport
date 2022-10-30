@@ -7,8 +7,8 @@ namespace SystemReport.WebAPI.Models
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
-        
-        public  string MaXa { get; set; }
+
+        public string MaXa { get; set; }
         // public string XaId { get; set; }
         public string TenXa { get; set; }
         public string HuyenId { get; set; }

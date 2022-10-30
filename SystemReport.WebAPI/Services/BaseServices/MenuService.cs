@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -41,7 +41,7 @@ namespace SystemReport.WebAPI.Services
                 .WithDatabaseName(_settings.DatabaseName)
                 .WithUserName(CurrentUserName);
         }
-        
+
         public async Task<Menu> Create(Menu model)
         {
             if (model == default)
@@ -215,13 +215,13 @@ namespace SystemReport.WebAPI.Services
             if (coquan.Count > 0)
             {
                 target.SubItems = new List<NavMenuVM>();
-                
+
                 foreach (var item in coquan)
                 {
                     NavMenuVM itemDV = new NavMenuVM(item);
                     // target.Children.Add(itemDV);
-                     target.SubItems.Add(itemDV);
-                     GetLoopItemSubItems(ref list, items, itemDV);
+                    target.SubItems.Add(itemDV);
+                    GetLoopItemSubItems(ref list, items, itemDV);
                 }
             }
             return null;

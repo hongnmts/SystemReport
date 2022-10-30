@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +5,10 @@ using MongoDB.Driver;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
@@ -30,7 +29,7 @@ namespace SystemReport.WebAPI.APIs
         }
         [HttpPost]
         [Route("ImportExcel")]
-        public async Task<IActionResult> SyncDMHanhChinh([FromForm]IFormFile file)
+        public async Task<IActionResult> SyncDMHanhChinh([FromForm] IFormFile file)
         {
             List<Huyen> listHuyen = new List<Huyen>();
             List<Xa> listXa = new List<Xa>();
@@ -39,7 +38,7 @@ namespace SystemReport.WebAPI.APIs
             if (!Directory.Exists(uploadPath))
             {
                 Directory.CreateDirectory(uploadPath);
-            }            
+            }
             string sFileExtension = Path.GetExtension(file.FileName).ToLower();
             ISheet sheet;
             string fullPath = Path.Combine(uploadPath, file.FileName);
@@ -47,9 +46,9 @@ namespace SystemReport.WebAPI.APIs
             {
                 file.CopyTo(strem);
             }
-            using (var stream = new FileStream(fullPath,FileMode.Open))
+            using (var stream = new FileStream(fullPath, FileMode.Open))
             {
-    
+
                 file.CopyTo(stream);
                 stream.Position = 0;
                 if (sFileExtension == ".xls")
@@ -87,7 +86,7 @@ namespace SystemReport.WebAPI.APIs
                         listHuyen.Add(huyen);
                     }
 
-                   
+
                     listXa.Add(xa);
                 }
             }
@@ -98,12 +97,12 @@ namespace SystemReport.WebAPI.APIs
                 if (tempXa != default)
                 {
                     // listHuyen[i].DanhSachXa = new List<Xa>();
-                                                                                    // listHuyen[i].DanhSachXa.AddRange(tempXa);
+                    // listHuyen[i].DanhSachXa.AddRange(tempXa);
                 }
             }
             await _dmHanhChinhService.CreateMultiHuyen(listHuyen);
             await _dmHanhChinhService.CreateMultiXa(listXa);
-            return Ok(new {listHuyen, listXa});
+            return Ok(new { listHuyen, listXa });
         }
 
 
@@ -116,10 +115,10 @@ namespace SystemReport.WebAPI.APIs
 
             foreach (var item in mauBieu)
             {
-                if(item.LoaiMauBieu != default)
+                if (item.LoaiMauBieu != default)
                 {
                     var tempLoaiMauBieu = loaiMauBieu.Where(x => x.Id == item.LoaiMauBieu.Id).FirstOrDefault();
-                    if(tempLoaiMauBieu != default)
+                    if (tempLoaiMauBieu != default)
                     {
                         item.LoaiMauBieu = tempLoaiMauBieu;
 

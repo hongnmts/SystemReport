@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -161,7 +161,7 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage(DefaultMessage.UPDATE_FAILURE);
             return entity;
         }
-        
+
         public async Task<Permission> GetPermissionById(Permission model)
         {
             if (model.Id == null && model.IdModule == null)
@@ -179,9 +179,9 @@ namespace SystemReport.WebAPI.Services
                 throw new ResponseMessageException().WithCode(EResultResponse.FAIL.ToString())
                     .WithMessage(DefaultMessage.DATA_NOT_FOUND);
             }
-            return  permission;
+            return permission;
         }
-        
+
         public async Task DeletePermission(Permission model)
         {
             if (model.IdModule == default)
@@ -226,7 +226,7 @@ namespace SystemReport.WebAPI.Services
             result.Data = await _collection.Find(filter)
                 .Sort(param.SortDesc
                 ? Builders<Module>
-                .Sort.Ascending(sortBy)    
+                .Sort.Ascending(sortBy)
                 : Builders<Module>
                         .Sort.Descending(sortBy))
                 .Skip(param.Skip)

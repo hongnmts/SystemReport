@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -158,7 +158,7 @@ namespace SystemReport.WebAPI.Services
                     builder.Where(x => x.Ten.Trim().ToLower().Contains(param.Content.Trim().ToLower())));
             }
 
-            string sortBy =nameof(LoaiMauBieu.ThuTu);
+            string sortBy = nameof(LoaiMauBieu.ThuTu);
             result.TotalRows = await _context.LoaiMauBieu.CountDocumentsAsync(filter);
             result.Data = await _context.LoaiMauBieu.Find(filter)
                 .Sort(param.SortDesc
@@ -174,7 +174,7 @@ namespace SystemReport.WebAPI.Services
 
         public async Task<List<LoaiMauBieuTreeVM>> GetTree()
         {
-            var listLoaiMauBieu = await _context.LoaiMauBieu.Find(x  => x.IsDeleted ==false).SortBy(x=> x.Ten).ToListAsync();
+            var listLoaiMauBieu = await _context.LoaiMauBieu.Find(x => x.IsDeleted == false).SortBy(x => x.Ten).ToListAsync();
             List<LoaiMauBieuTreeVM> list = new List<LoaiMauBieuTreeVM>();
             foreach (var item in listLoaiMauBieu)
             {

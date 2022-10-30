@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
@@ -91,8 +91,8 @@ namespace SystemReport.WebAPI.APIs
                         .WithMessage(ex.ResultString)
                 );
             }
-        }        
-        
+        }
+
         [HttpPost]
         [Route("deleted-maubieu/{id}")]
         public async Task<IActionResult> DeletedMauBieu(string id)
@@ -140,8 +140,8 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
-        
+
+
         [HttpGet]
         [Route("get")]
         public async Task<IActionResult> Get()
@@ -350,7 +350,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("render-table-maubieu/{id}")]
         [AllowAnonymous]
@@ -375,7 +375,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("generate-maubieu")]
         public async Task<IActionResult> GenerateMauBieu([FromBody] InputMauBieuModel model)

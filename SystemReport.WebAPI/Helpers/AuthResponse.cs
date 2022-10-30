@@ -65,9 +65,9 @@ namespace SystemReport.WebAPI.Helpers
         public Avatar Avatar { get; set; }
         public bool IsRequireVerify { get; set; }
         public bool IsRequireChangePassword { get; set; }
-        public  List<NavMenuVM> Menu { get; set; }
+        public List<NavMenuVM> Menu { get; set; }
     }
-    
+
     public class TokenResult
     {
         public string access_token { get; set; }
@@ -80,11 +80,11 @@ namespace SystemReport.WebAPI.Helpers
         public string error { get; set; } = "invalid_client";
         public string error_description { get; set; } = "A valid OAuth client could not be found.";
     }
-    
+
     public class AuthResponsePaygov : AuthResponse
     {
         public int expires_in { get; set; }
-        
+
         public AuthResponsePaygov(UserLogin user, string token, string refreshToken, DateTime expiryDate) : base(user, token, refreshToken, expiryDate)
         {
         }

@@ -1,10 +1,10 @@
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace SystemReport.WebAPI.Models
 {
-    public class Warning: Audit, TEntity<string>
+    public class Warning : Audit, TEntity<string>
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
@@ -16,7 +16,7 @@ namespace SystemReport.WebAPI.Models
         public DateTime WarningDate { get; set; }
         public string Priority { get; set; } //WarningPriority
         public List<FileShort> FileManagers { get; set; }
-        [BsonIgnore] 
+        [BsonIgnore]
         public List<FileShort> UploadFiles { get; set; }
     }
 

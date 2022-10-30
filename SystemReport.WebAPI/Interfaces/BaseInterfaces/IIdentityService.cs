@@ -11,7 +11,7 @@ namespace SystemReport.WebAPI.Interfaces.BaseInterfaces
         Task<AuthResponse> RegisterAsync(User model);
         Task<AuthResponse> LoginAsync(AuthRequest model);
         Task<AuthResponse> TokenAsync(AuthRequest model);
-         Task<AuthResponse> RefreshTokenAsync(AuthRequest model);
+        Task<AuthResponse> RefreshTokenAsync(AuthRequest model);
         Task<AuthResponsePaygov> GetTokenPaygov(AuthRequest model);
         Task<AuthResponsePaygov> GetTokenOthers(AuthRequest model);
     }

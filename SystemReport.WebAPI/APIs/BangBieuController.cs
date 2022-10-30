@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
@@ -116,8 +116,8 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
-        
+
+
         [HttpGet]
         [Route("get")]
         public async Task<IActionResult> Get()
@@ -165,7 +165,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-bangbieu-by-maubieuid/{id}")]
         public async Task<IActionResult> GetPagingParam(string id)
@@ -189,7 +189,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("render-header/{id}")]
         public async Task<IActionResult> RenderHeader(string id)

@@ -1,11 +1,9 @@
-﻿using DocumentFormat.OpenXml.Vml.Office;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
@@ -197,11 +195,11 @@ namespace SystemReport.WebAPI.Services
             var result = new DemoMauBieuVM();
             if (historyValue != default)
             {
-                if(historyValue.JsonData != default)
+                if (historyValue.JsonData != default)
                 {
                     var jsonData = JsonConvert.DeserializeObject<HistoryMauBieuVM>(historyValue.JsonData);
 
-                    if(jsonData != default)
+                    if (jsonData != default)
                     {
                         var headers = await RenderHeader(jsonData.ThuocTinhs);
                         var body = await RenderBodyMainByBangBieuId(jsonData.RowValues);
@@ -236,7 +234,7 @@ namespace SystemReport.WebAPI.Services
             {
                 var newHistoryMauBieuVM = new HistoryMauBieuVM();
 
-                if(bangBieu != default)
+                if (bangBieu != default)
                 {
                     var thuocTinhs = _context.ThuocTinh.Find(x => x.BangBieuId == bangBieu.Id).ToList();
                     var rowValues = _context.RowValue.Find(x => x.BangBieuId == bangBieu.Id).ToList();
@@ -249,7 +247,7 @@ namespace SystemReport.WebAPI.Services
 
                     history.JsonData = jsonData;
                 }
-         
+
             }
 
             return this;
@@ -313,8 +311,8 @@ namespace SystemReport.WebAPI.Services
 
         public HistoryMauBieuService WithCollection(string collection, string collectionId, string collectionName)
         {
-            if (!string.IsNullOrEmpty(collection) 
-                && !string.IsNullOrEmpty(collectionId) 
+            if (!string.IsNullOrEmpty(collection)
+                && !string.IsNullOrEmpty(collectionId)
                 && !string.IsNullOrEmpty(collectionName))
             {
                 history.Collection = collection;
@@ -347,9 +345,9 @@ namespace SystemReport.WebAPI.Services
 
         public HistoryMauBieuService WithOldValue(dynamic oldValue)
         {
-            if(oldValue != null)
+            if (oldValue != null)
             {
-               var value = JsonConvert.SerializeObject(oldValue);
+                var value = JsonConvert.SerializeObject(oldValue);
                 history.OldValue = value;
             }
             return this;

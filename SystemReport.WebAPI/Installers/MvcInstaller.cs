@@ -1,5 +1,3 @@
-using System.IO;
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,8 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using System.IO;
+using System.Text;
 using SystemReport.WebAPI.Authorization;
-using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Interfaces.BaseInterfaces;
@@ -18,19 +17,19 @@ using SystemReport.WebAPI.Services;
 
 namespace SystemReport.WebAPI.Installers
 {
-   public class MvcInstaller : IInstaller
+    public class MvcInstaller : IInstaller
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
             var jwtSettings = new JwtSettings();
             configuration.Bind(nameof(jwtSettings), jwtSettings);
-            
+
             // services.Configure<SignatureDigitalApiKey>(configuration.GetSection("SignatureDigitalApiKey"));
             // var signatureDigitalApiKey = new SignatureDigitalApiKey();
             // configuration.Bind(nameof(signatureDigitalApiKey), signatureDigitalApiKey);
-            
-            
+
+
             services.AddSingleton(jwtSettings);
             // services.AddSingleton(signatureDigitalApiKey);
             services.AddSingleton<IFileProvider>(
@@ -41,11 +40,11 @@ namespace SystemReport.WebAPI.Installers
             services.AddSingleton<IJwtUtils, JwtUtils>();
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            
+
             var appApiKey = new AppApiKey();
             configuration.Bind(nameof(appApiKey), appApiKey);
             services.AddSingleton(appApiKey);
-            
+
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,

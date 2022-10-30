@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace SystemReport.WebAPI.Models
 {

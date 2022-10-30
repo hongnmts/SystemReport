@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -48,17 +48,17 @@ namespace SystemReport.WebAPI.Services
                     .WithCode(EResultResponse.FAIL.ToString())
                     .WithMessage(DefaultMessage.DATA_NOT_EMPTY);
             }
-            
+
             // Tạo key
             var keyRow = BsonObjectId.GenerateNewId().ToString();
             var firstModel = model.FirstOrDefault() ?? new RowValue();
             foreach (var item in model)
             {
                 var code = CommonExtensions.GenerateNewRandomDigit();
-                
+
                 var entity = new RowValue
                 {
-                    KeyRow =keyRow, 
+                    KeyRow = keyRow,
                     Code = code,
                     ThuTu = item.ThuTu,
                     Level = item.Level,
@@ -77,7 +77,7 @@ namespace SystemReport.WebAPI.Services
                     ModifiedBy = CurrentUserName,
                     Order = item.Order
                 };
-                    
+
                 var result = await BaseMongoDb.CreateAsync(entity);
             }
             await StringCongThuc(keyRow);
@@ -104,7 +104,7 @@ namespace SystemReport.WebAPI.Services
             }
             return model;
         }
-        
+
         public async Task<List<RowValue>> Create(List<RowValue> model)
         {
             if (model == default)
@@ -114,7 +114,7 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage(DefaultMessage.DATA_NOT_EMPTY);
             }
 
-            var firstModel = model.FirstOrDefault()?? new RowValue();
+            var firstModel = model.FirstOrDefault() ?? new RowValue();
             var keyRow = BsonObjectId.GenerateNewId().ToString();
             int Level = LevelThuocTinh(model.FirstOrDefault()?.ParentId);
             var ids = model.Select(x => x.ThuocTinhId).ToList();
@@ -150,7 +150,7 @@ namespace SystemReport.WebAPI.Services
                     entity.FontStyle = item.FontStyle;
                     entity.FontWeight = item.FontWeight;
                     entity.FontHorizontalAlign = item.FontHorizontalAlign;
-                    
+
                     var result = await BaseMongoDb.UpdateAsync(entity);
 
                     keyRow = item.KeyRow;
@@ -158,12 +158,12 @@ namespace SystemReport.WebAPI.Services
                 else
                 {
                     isCreate = true;
-                    
+
                     var code = CommonExtensions.GenerateNewRandomDigit();
-                
+
                     var entity = new RowValue
                     {
-                        KeyRow =keyRow, 
+                        KeyRow = keyRow,
                         Code = code,
                         ThuTu = item.ThuTu,
                         Level = Level,
@@ -182,7 +182,7 @@ namespace SystemReport.WebAPI.Services
                         CreatedBy = CurrentUserName,
                         ModifiedBy = CurrentUserName,
                     };
-                    
+
                     var result = await BaseMongoDb.CreateAsync(entity);
                 }
 
@@ -196,7 +196,7 @@ namespace SystemReport.WebAPI.Services
                     var code = CommonExtensions.GenerateNewRandomDigit();
                     var entity = new RowValue
                     {
-                        KeyRow =keyRow, 
+                        KeyRow = keyRow,
                         Code = code,
                         ThuTu = firstModel.ThuTu,
                         Level = Level,
@@ -212,7 +212,7 @@ namespace SystemReport.WebAPI.Services
                         CreatedBy = CurrentUserName,
                         ModifiedBy = CurrentUserName,
                     };
-                    
+
                     var result = await BaseMongoDb.CreateAsync(entity);
                 }
 
@@ -230,7 +230,7 @@ namespace SystemReport.WebAPI.Services
                 if (tt != default)
                 {
                     ct.TinhTongChiTieuCon = true;
-                   await LoopTinhToanChiTieu(ct, rowValues);
+                    await LoopTinhToanChiTieu(ct, rowValues);
                 }
             }
             return model;
@@ -265,7 +265,7 @@ namespace SystemReport.WebAPI.Services
             entity.FontWeight = model.FontWeight;
             entity.FontHorizontalAlign = model.FontHorizontalAlign;
             entity.TinhTongChiTieuCon = model.TinhTongChiTieuCon;
-            
+
             entity.ModifiedAt = DateTime.Now;
             entity.ModifiedBy = CurrentUserName;
 
@@ -300,15 +300,15 @@ namespace SystemReport.WebAPI.Services
             }
 
             /// Tìm và xóa những chỉ tiêu tính công thức ở cha
-           await RemoveChiTieuCodeInFormula(bangBieuId, keyRow);
-            
+            await RemoveChiTieuCodeInFormula(bangBieuId, keyRow);
+
             var rowValues = _context.RowValue.Find(x => x.KeyRow == keyRow && x.IsDeleted != true).ToList();
             var children = GetNodeLeftRowValue(bangBieuId, keyRow);
             foreach (var item in rowValues)
             {
                 var result = await BaseMongoDb.DeletedAsync(item);
             }
-    
+
             var selectParents = children.Select(x => x.KeyRow).ToList();
             var listValueFormKyRow = _context.RowValue.Find(x => selectParents.Contains(x.KeyRow)).ToList();
             if (listValueFormKyRow.Count > 0)
@@ -318,9 +318,9 @@ namespace SystemReport.WebAPI.Services
                     await BaseMongoDb.DeletedAsync(cd);
                 }
             }
-            
-            
-            
+
+
+
             return model;
         }
 
@@ -328,10 +328,10 @@ namespace SystemReport.WebAPI.Services
         {
             var dsThuocTinh = _context.ThuocTinh
                 .Find(x => x.BangBieuId == bangBieuId && x.TinhChiTieuCon == true).ToList();
-           
+
             var rowValues = _context.RowValue.Find(x => x.BangBieuId == bangBieuId && x.IsDeleted != true)
                 .ToList();
-            
+
             var chiTieus = rowValues.Where(x => x.KeyRow == keyRow).ToList();
             foreach (var ct in chiTieus)
             {
@@ -350,17 +350,17 @@ namespace SystemReport.WebAPI.Services
                                 if (findFormulaCode)
                                 {
                                     parent.StringCongThuc = parent.StringCongThuc.Replace($"<{ct.Code}>", "0");
-                                    
+
                                     var checkChildren = rowValues.Where(x => x.ParentId == parent.KeyRow && x.KeyRow != keyRow).ToList();
                                     if (checkChildren.Count <= 0)
                                     {
-                                        parent.StyleInput =  new StyleInput()
+                                        parent.StyleInput = new StyleInput()
                                         {
                                             Id = "int",
                                             Name = "Kiểu số nguyên"
                                         };
                                     }
-                                  
+
                                     await BaseMongoDb.UpdateAsync(parent);
                                 }
                             }
@@ -405,11 +405,11 @@ namespace SystemReport.WebAPI.Services
             return await _context.RowValue.Find(x => x.Id == id && x.IsDeleted != true)
                 .FirstOrDefaultAsync();
         }
-        
+
         public async Task<List<RowValueTreeVM>> GetTreeByBangBieuId(string bangBieuId)
         {
             // var listChiTiec = _context.RowValue.AsQueryable().Where(x  => x.BangBieuId == bangBieuId && x.IsDeleted ==false)
-            var listDonVi = await _context.RowValue.Find(x  => x.BangBieuId == bangBieuId && x.IsDeleted ==false).SortBy(donVi => donVi.Level).ToListAsync();
+            var listDonVi = await _context.RowValue.Find(x => x.BangBieuId == bangBieuId && x.IsDeleted == false).SortBy(donVi => donVi.Level).ToListAsync();
             var parents = listDonVi.Where(x => x.ParentId == null).ToList();
             List<RowValueTreeVM> list = new List<RowValueTreeVM>();
             foreach (var item in parents)
@@ -458,18 +458,18 @@ namespace SystemReport.WebAPI.Services
         }
         public async Task<List<BodyTableVM>> RenderBodyMainByBangBieuId(string bangBieuId)
         {
-            var rowValues = await _context.RowValue.Find(x  => x.BangBieuId == bangBieuId  && x.IsDeleted ==false).SortBy(donVi => donVi.Level).ToListAsync();
+            var rowValues = await _context.RowValue.Find(x => x.BangBieuId == bangBieuId && x.IsDeleted == false).SortBy(donVi => donVi.Level).ToListAsync();
             var parents = rowValues.Where(x => x.ParentId == null).ToList();
             List<RowValue> list = new List<RowValue>();
             foreach (var item in parents)
             {
                 var check = list.Any(x => x.Id == item.Id);
-                if(check)
+                if (check)
                     continue;
                 list.Add(item);
                 RenderGetLoopItem(ref list, rowValues, item);
             }
-            
+
             var data = list.GroupBy(x => x.KeyRow).Select(x => new BodyTableVM()
             {
                 KeyRow = x.Key,
@@ -503,18 +503,18 @@ namespace SystemReport.WebAPI.Services
             // Chỉ lấy những cái là is chi tiêu
             var thuocTinhs = _context.ThuocTinh.AsQueryable()
                 .Where(x => x.BangBieuId == bangBieuId && x.IsChiTieu == true && x.IsDeleted != true).Select(x => x.Id).ToList();
-            var rowValues = await _context.RowValue.Find(x  => x.BangBieuId == bangBieuId && thuocTinhs.Contains(x.ThuocTinhId) && x.IsDeleted ==false).SortBy(donVi => donVi.Level).ToListAsync();
+            var rowValues = await _context.RowValue.Find(x => x.BangBieuId == bangBieuId && thuocTinhs.Contains(x.ThuocTinhId) && x.IsDeleted == false).SortBy(donVi => donVi.Level).ToListAsync();
             var parents = rowValues.Where(x => x.ParentId == null).ToList();
             List<RowValue> list = new List<RowValue>();
             foreach (var item in parents)
             {
                 var check = list.Any(x => x.Id == item.Id);
-                if(check)
+                if (check)
                     continue;
                 list.Add(item);
                 RenderGetLoopItem(ref list, rowValues, item);
             }
-            
+
             var data = list.GroupBy(x => x.KeyRow).Select(x => new BodyTableVM()
             {
                 KeyRow = x.Key,
@@ -522,7 +522,7 @@ namespace SystemReport.WebAPI.Services
             }).ToList();
             return data;
         }
-        
+
         private List<dynamic> RenderGetLoopItem(ref List<RowValue> list, List<RowValue> items, RowValue target)
         {
             try
@@ -533,7 +533,7 @@ namespace SystemReport.WebAPI.Services
                     foreach (var item in coquan)
                     {
                         var check = list.Any(x => x.Id == item.Id);
-                        if(check)
+                        if (check)
                             continue;
                         list.Add(item);
                         RenderGetLoopItem(ref list, items, item);
@@ -549,12 +549,12 @@ namespace SystemReport.WebAPI.Services
 
             return null;
         }
-        
+
         public async Task<List<RowValueTreeVM>> GetTreeParentRowValue(string bangBieuId)
         {
             // var listChiTiec = _context.RowValue.AsQueryable().Where(x  => x.BangBieuId == bangBieuId && x.IsDeleted ==false)
-            var listDonVi = await _context.RowValue.Find(x  => x.BangBieuId == bangBieuId && x.IsDeleted ==false).SortBy(donVi => donVi.Level).ToListAsync();
-            var groupBy = listDonVi.GroupBy(x => x.KeyRow).Select(x => new RowValueTemp() {KeyRow = x.Key,RowValues  = x.ToList()}).ToList();
+            var listDonVi = await _context.RowValue.Find(x => x.BangBieuId == bangBieuId && x.IsDeleted == false).SortBy(donVi => donVi.Level).ToListAsync();
+            var groupBy = listDonVi.GroupBy(x => x.KeyRow).Select(x => new RowValueTemp() { KeyRow = x.Key, RowValues = x.ToList() }).ToList();
 
             var tempRowValue = new List<RowValue>();
             foreach (var item in groupBy)
@@ -563,9 +563,9 @@ namespace SystemReport.WebAPI.Services
                 itemRowValue.Id = item.KeyRow;
                 itemRowValue.ParentId = item.RowValues.Select(x => x.ParentId).FirstOrDefault();
                 var temp = item.RowValues.OrderBy(x => x.ThuTu).Select(x => x.Value).ToList();
-                string combinedString = string.Join( "-", temp.ToArray() );
+                string combinedString = string.Join("-", temp.ToArray());
                 itemRowValue.Value = combinedString;
-                
+
                 tempRowValue.Add(itemRowValue);
             }
             var parents = tempRowValue.Where(x => x.ParentId == null).ToList();
@@ -578,7 +578,7 @@ namespace SystemReport.WebAPI.Services
             }
             return list;
         }
-        
+
         private List<DonViTreeVM> GetLoopItemTreeParent(ref List<RowValueTreeVM> list, List<RowValue> items, RowValueTreeVM target)
         {
             try
@@ -609,12 +609,12 @@ namespace SystemReport.WebAPI.Services
         {
             return _context.RowValue.Find(x => x.KeyRow == keyRow).ToList();
         }
-        
+
         public List<RowValue> GetNodeLeftRowValue(string bangBieuId, string parentId)
         {
             var thuocTinhs = _context.RowValue.Find(x => x.BangBieuId == bangBieuId && x.IsDeleted != true).ToList();
             var parents = thuocTinhs.Where(x => x.ParentId == parentId).ToList();
-          parents =  parents.DistinctBy(x => x.KeyRow).ToList();
+            parents = parents.DistinctBy(x => x.KeyRow).ToList();
             List<RowValue> list = new List<RowValue>();
             foreach (var item in parents)
             {
@@ -624,7 +624,7 @@ namespace SystemReport.WebAPI.Services
 
             return list;
         }
-        
+
         private List<ThuocTinhListTreeVM> LoopGetRowValueConsLeft(ref List<RowValue> list, List<RowValue> items, RowValue target)
         {
             var coquan = items.Where((item) => item.ParentId == target.KeyRow).OrderByDescending(x => x.Level).ToList();
@@ -645,11 +645,11 @@ namespace SystemReport.WebAPI.Services
             var values = _context.RowValue.Find(x => x.KeyRow == keyRow).ToList();
             var thuocTinhs = values.Select(x => x.ThuocTinhId).ToList();
             var rawThuocTinh = _context.ThuocTinh.Find(x => thuocTinhs.Contains(x.Id) && x.IsDeleted != true).ToList();
-        
+
             // lấy thuộc tính có công thức
             var thuocTinhCoCongThuc =
                 rawThuocTinh.Where(x => x.StyleInput != default && x.StyleInput.Id == "formula").ToList();
-            
+
             foreach (var rv in values)
             {
                 var findTTCC = thuocTinhCoCongThuc.FirstOrDefault(x => x.Id == rv.ThuocTinhId);
@@ -657,12 +657,12 @@ namespace SystemReport.WebAPI.Services
                 if (findTTCC != default)
                 {
                     string strCongThuc = findTTCC.StringCongThuc;
-                    
+
                     rv.StyleInput = findTTCC.StyleInput;
-                
+
                     List<string> arrays = new List<string>();
                     var getStringFormBetween = new GetStringFormBetween();
-                    arrays = getStringFormBetween.Get(strCongThuc,"<", ">");
+                    arrays = getStringFormBetween.Get(strCongThuc, "<", ">");
 
                     var thuocThinhArray = rawThuocTinh.Where(x => arrays.Contains(x.Code)).ToList();
                     foreach (var ar in thuocThinhArray)
@@ -683,7 +683,7 @@ namespace SystemReport.WebAPI.Services
         {
             var rowValues = _context.RowValue.Find(x => x.BangBieuId == rowValue.BangBieuId && x.IsDeleted != true)
                 .ToList();
-         
+
         }
 
         public async Task LoopTinhToanChiTieu(RowValue rowValue, List<RowValue> rowValues)
@@ -707,7 +707,7 @@ namespace SystemReport.WebAPI.Services
                         parent.TinhTongChiTieuCon = true;
                         if (parent.StyleInput != default && parent.StyleInput.Id != "formula")
                         {
-                            parent.StyleInput = new StyleInput() {Id = "formula", Name = "Công thức"};
+                            parent.StyleInput = new StyleInput() { Id = "formula", Name = "Công thức" };
                         }
 
                         if (string.IsNullOrEmpty(parent.StringCongThuc))
@@ -719,10 +719,10 @@ namespace SystemReport.WebAPI.Services
                             var check = parent.StringCongThuc.Contains(rowValue.Code);
                             if (!check)
                             {
-                                parent.StringCongThuc += $"+ <{rowValue.Code}>"; 
+                                parent.StringCongThuc += $"+ <{rowValue.Code}>";
                             }
                         }
-                     
+
                         await BaseMongoDb.UpdateAsync(parent);
 
                         await LoopTinhToanChiTieu(parent, rowValues);
@@ -786,18 +786,18 @@ namespace SystemReport.WebAPI.Services
                 bool checkFirstTime = true;
                 foreach (var item in thuocTinhs)
                 {
-                 
+
                     var code = CommonExtensions.GenerateNewRandomDigit();
                     var entity = new RowValue
                     {
-                        KeyRow =keyRow, 
+                        KeyRow = keyRow,
                         Code = code,
                         ThuTu = 1,
                         Level = 1,
                         ParentId = null,
                         ThuocTinhId = item.Id,
                         BangBieuId = item.BangBieuId,
-                        StyleInput = new StyleInput(){Id = "formula", Name = "Công thức"},
+                        StyleInput = new StyleInput() { Id = "formula", Name = "Công thức" },
                         Value = 0,
                         GhiChu = item.GhiChu,
                         FontStyle = item.FontStyle,
@@ -812,7 +812,7 @@ namespace SystemReport.WebAPI.Services
                     if (checkFirstTime)
                     {
                         entity.Value = "Tổng số";
-                        entity.StyleInput = new StyleInput() {Id = "text", Name = "Kiểu chuỗi"};
+                        entity.StyleInput = new StyleInput() { Id = "text", Name = "Kiểu chuỗi" };
                     }
                     var result = await BaseMongoDb.CreateAsync(entity);
                     checkFirstTime = false;
@@ -833,7 +833,7 @@ namespace SystemReport.WebAPI.Services
                 }
                 else
                 {
-                    result +=$"<{item.Code}>";
+                    result += $"<{item.Code}>";
                 }
             }
 

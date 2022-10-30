@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using SystemReport.WebAPI.Models;
 
 namespace SystemReport.WebAPI.Params

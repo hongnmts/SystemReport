@@ -1,6 +1,6 @@
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace SystemReport.WebAPI.Models
 {
@@ -36,10 +36,10 @@ namespace SystemReport.WebAPI.Models
         public int RowSpan { get; set; }
     }
 
-//public class ThanhPhanThamDu
+    //public class ThanhPhanThamDu
     //{
-        //public string UserId { get; set; }
-        //public string Ten { get; set; }
-        //public string ChucVu { get; set; }
+    //public string UserId { get; set; }
+    //public string Ten { get; set; }
+    //public string ChucVu { get; set; }
     //}
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -104,7 +102,7 @@ namespace SystemReport.WebAPI.Extensions
 
             return (String.Join(" ", names.ToArray()), firstName);
         }
-        
+
         public static string SHA256(string randomString)
         {
             var crypt = new SHA256Managed();
@@ -116,7 +114,7 @@ namespace SystemReport.WebAPI.Extensions
             }
             return hash;
         }
-        
+
         public static string convertToUnSign3(this string s)
         {
             if (s == default)
@@ -125,8 +123,8 @@ namespace SystemReport.WebAPI.Extensions
             Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
             string temp = s.Normalize(NormalizationForm.FormD);
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
-        }  
-        
+        }
+
         /// <summary>
         /// takes a substring between two anchor strings (or the end of the string if that anchor is null)
         /// </summary>
@@ -138,14 +136,14 @@ namespace SystemReport.WebAPI.Extensions
         public static string Substring(this string @this, string from = null, string until = null, StringComparison comparison = StringComparison.InvariantCulture)
         {
             var fromLength = (from ?? string.Empty).Length;
-            var startIndex = !string.IsNullOrEmpty(from) 
+            var startIndex = !string.IsNullOrEmpty(from)
                 ? @this.IndexOf(from, comparison) + fromLength
                 : 0;
 
             if (startIndex < fromLength) { throw new ArgumentException("from: Failed to find an instance of the first anchor"); }
 
-            var endIndex = !string.IsNullOrEmpty(until) 
-                ? @this.IndexOf(until, startIndex, comparison) 
+            var endIndex = !string.IsNullOrEmpty(until)
+                ? @this.IndexOf(until, startIndex, comparison)
                 : @this.Length;
 
             if (endIndex < 0) { throw new ArgumentException("until: Failed to find an instance of the last anchor"); }

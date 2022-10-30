@@ -25,7 +25,7 @@ namespace SystemReport.WebAPI.ViewModels
         public string Code { get; set; }
         public string Color { get; set; }
         public string BgColor { get; set; }
-        
+
 
         public bool Selected { get; set; } = false;
         public bool Opened { get; set; } = false;

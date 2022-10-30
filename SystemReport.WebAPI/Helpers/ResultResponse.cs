@@ -48,7 +48,7 @@ namespace SystemReport.WebAPI.Helpers
 
             return this;
         }
-        
+
     }
 
     public enum EResultResponse

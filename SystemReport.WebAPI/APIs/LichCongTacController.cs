@@ -1,18 +1,17 @@
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using Microsoft.AspNetCore.Mvc;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.APIs
 {
     [Route("api/v1/[controller]")]
     // [Authorize]
-    public class LichCongTacController: ControllerBase
+    public class LichCongTacController : ControllerBase
     {
         private ILichCongTacService _lichCongTacService;
 
@@ -20,7 +19,7 @@ namespace SystemReport.WebAPI.APIs
         {
             _lichCongTacService = lichCongTacService;
         }
-        
+
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create([FromBody] LichCongTac model)
@@ -135,7 +134,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-all")]
         public async Task<IActionResult> GetAll()
@@ -181,8 +180,8 @@ namespace SystemReport.WebAPI.APIs
                         .WithMessage(ex.ResultString)
                 );
             }
-        } 
-                [HttpPost]
+        }
+        [HttpPost]
         [Route("create-congviec")]
         public async Task<IActionResult> CreateCongViec([FromBody] CongViec model)
         {
@@ -230,7 +229,7 @@ namespace SystemReport.WebAPI.APIs
 
         [HttpPost]
         [Route("delete-congviec")]
-        public async Task<IActionResult> DeleteCongViec([FromBody]CongViec model)
+        public async Task<IActionResult> DeleteCongViec([FromBody] CongViec model)
         {
             try
             {
@@ -253,7 +252,7 @@ namespace SystemReport.WebAPI.APIs
 
         [HttpPost]
         [Route("get-by-id-congviec")]
-        public async Task<IActionResult> GetByIdCongViec([FromBody]CongViec model)
+        public async Task<IActionResult> GetByIdCongViec([FromBody] CongViec model)
         {
             try
             {
@@ -274,6 +273,6 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
     }
 }

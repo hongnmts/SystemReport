@@ -1,15 +1,13 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
-using SystemReport.WebAPI.Interfaces.Identity;
 using SystemReport.WebAPI.Models;
-using SystemReport.WebAPI.Params;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
@@ -22,7 +20,7 @@ namespace SystemReport.WebAPI.Services
         private IDbSettings _settings;
 
         IMongoCollection<RefreshToken> _collection;
-        
+
         public RefreshTokenService(
             ILoggingService logger,
             IDbSettings settings,

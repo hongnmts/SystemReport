@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SystemReport.WebAPI.Models;
+﻿using SystemReport.WebAPI.Models;
 
 namespace SystemReport.WebAPI.ViewModels
 {
@@ -20,7 +19,7 @@ namespace SystemReport.WebAPI.ViewModels
         }
         public string Id { get; set; }
         public string Label { get; set; }
-        
+
 
         public bool Selected { get; set; } = false;
         public bool Opened { get; set; } = false;

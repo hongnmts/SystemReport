@@ -22,10 +22,11 @@ namespace SystemReport.WebAPI.ViewModels
         public string Name { get; set; }
     }
 
-    public class ItemLoaiMauBieu { 
-    
+    public class ItemLoaiMauBieu
+    {
+
         public string Name { get; set; }
-        
+
         public List<MauBieu> MauBieus { get; set; }
     }
 }

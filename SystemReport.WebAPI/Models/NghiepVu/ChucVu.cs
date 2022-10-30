@@ -10,14 +10,14 @@ namespace SystemReport.WebAPI.Models
         public string Ten { get; set; }
         public string MoTa { get; set; }
         public int ThuTu { get; set; }
-        
+
         [BsonIgnore]
         public ChucVu Value { get; set; }
         public string Label { get; set; }
 
         public ChucVu()
         {
-            
+
         }
 
         public ChucVu(ChucVu model)

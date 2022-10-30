@@ -7,7 +7,7 @@ namespace SystemReport.WebAPI.Interfaces
 {
     public interface ICongVanService
     {
-        Task<CongVan> Create(CongVan model);  
+        Task<CongVan> Create(CongVan model);
         Task<CongVan> Update(CongVan model);
         Task Delete(string id);
         Task<List<CongVan>> Get();
@@ -15,7 +15,7 @@ namespace SystemReport.WebAPI.Interfaces
         Task<PagingModel<CongVan>> GetPaging(CongVanParam param);
         Task<PagingModel<LuuCVDi>> GetPagingLuuCVDi(CongVanParam param);
         Task<PagingModel<LuuCVDen>> GetPagingLuuCVDen(CongVanParam param);
-        Task<LuuCVDen> GetByIdLuuCVDen(string id);        
+        Task<LuuCVDen> GetByIdLuuCVDen(string id);
         Task<LuuCVDi> GetByIdLuuCVDi(string id);
     }
 }

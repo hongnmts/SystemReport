@@ -1,10 +1,7 @@
-using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver.Core.WireProtocol.Messages;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces.BaseInterfaces;
@@ -53,9 +50,9 @@ namespace SystemReport.WebAPI.APIs.Identity
         //         );
         //     }
         // }
-        
-        
-        
+
+
+
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
@@ -80,22 +77,22 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromHeader] string clientid, [FromHeader] string secretkey, [FromBody] User model)
         {
             try
             {
-                if(!_appApiKey.SecretKey.Equals(secretkey) || !_appApiKey.ClientId.Equals(clientid))
+                if (!_appApiKey.SecretKey.Equals(secretkey) || !_appApiKey.ClientId.Equals(clientid))
                 {
                     return Unauthorized();
                 }
@@ -107,7 +104,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 }
 
                 var response = await _identityService.RegisterAsync(model);
-            
+
                 return Ok(
                     new ResultResponse<AuthResponse>()
                         .WithData(response)

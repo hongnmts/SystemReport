@@ -29,7 +29,7 @@ namespace SystemReport.WebAPI.Models
         public string ImageBase64 { get; set; }
         public dynamic Payload { get; set; }
         public dynamic File { get; set; }
-        
+
         public string FontFamily { get; set; }
         public int LineHeight { get; set; }
         public List<string> Lines { get; set; }

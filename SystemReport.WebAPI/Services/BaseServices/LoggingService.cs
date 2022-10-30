@@ -1,7 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
+using System;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Interfaces;
@@ -130,12 +130,12 @@ namespace SystemReport.WebAPI.Services
             if (!String.IsNullOrEmpty(param.Content))
             {
                 filter = builder.And(filter,
-                    builder.Where(x => 
+                    builder.Where(x =>
                      x.CreatedBy.Trim().ToLower().Contains(param.Content.Trim().ToLower())
                      || x.Action.Trim().ToLower().Contains(param.Content.Trim().ToLower())
                             || x.ContentLog.Trim().ToLower().Contains(param.Content.Trim().ToLower())
                             || x.CollectionName.Trim().ToLower().Contains(param.Content.Trim().ToLower())
-                           
+
                     ));
             }
 
@@ -164,7 +164,7 @@ namespace SystemReport.WebAPI.Services
                         builder.Where(x => x.CreatedAt != default && x.CreatedAt >= lastDay));
                 }
             }
-            
+
             result.TotalRows = await _loggingCollection.CountDocumentsAsync(filter);
             result.Data = await _loggingCollection.Find(filter)
                 .SortByDescending(x => x.CreatedAt)

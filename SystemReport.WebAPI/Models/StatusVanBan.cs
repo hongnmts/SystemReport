@@ -6,7 +6,7 @@ namespace SystemReport.WebAPI.Models
     {
         public string StatusCode { get; set; }
         public string StatusName { get; set; }
-        
+
         [BsonIgnore]
         public string QuestionId { get; set; }
     }

@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -72,7 +72,7 @@ namespace SystemReport.WebAPI.Services
             };
 
             var result = await BaseMongoDb.CreateAsync(entity);
-            
+
             if (result.Entity.Id == default || !result.Success)
                 throw new ResponseMessageException().WithCode(EResultResponse.FAIL.ToString())
                     .WithMessage(DefaultMessage.CREATE_FAILURE);
@@ -188,7 +188,7 @@ namespace SystemReport.WebAPI.Services
             result.Data = await _context.Roles.Find(filter)
                 .Sort(false
                 ? Builders<Role>
-                .Sort.Ascending(sortBy)    
+                .Sort.Ascending(sortBy)
                 : Builders<Role>
                         .Sort.Descending(sortBy))
                 .Skip(param.Skip)

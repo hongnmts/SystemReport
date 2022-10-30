@@ -1,7 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
+using System;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -13,31 +13,31 @@ using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
 {
-    public class FileService :  BaseService, IFileService
+    public class FileService : BaseService, IFileService
     {
-    private DataContext _context;
-    private BaseMongoDb<File, string> BaseMongoDb;
-    private ILoggingService _logger;
-    private IDbSettings _settings;
+        private DataContext _context;
+        private BaseMongoDb<File, string> BaseMongoDb;
+        private ILoggingService _logger;
+        private IDbSettings _settings;
 
-    IMongoCollection<File> _collection;
-    
-    public FileService(
-        IMenuService menuService,
-        ILoggingService logger,
-        IDbSettings settings,
-        DataContext context,
-        IHttpContextAccessor contextAccessor) :
-        base(context, contextAccessor)
-    {
-        _context = context;
-        BaseMongoDb = new BaseMongoDb<File, string>(_context.Files);
-        _settings = settings;
-        _logger = logger.WithCollectionName(_settings.FileCollectionName)
-            .WithDatabaseName(_settings.DatabaseName)
-            .WithUserName(CurrentUserName);
-        _collection = context.Files;
-    }
+        IMongoCollection<File> _collection;
+
+        public FileService(
+            IMenuService menuService,
+            ILoggingService logger,
+            IDbSettings settings,
+            DataContext context,
+            IHttpContextAccessor contextAccessor) :
+            base(context, contextAccessor)
+        {
+            _context = context;
+            BaseMongoDb = new BaseMongoDb<File, string>(_context.Files);
+            _settings = settings;
+            _logger = logger.WithCollectionName(_settings.FileCollectionName)
+                .WithDatabaseName(_settings.DatabaseName)
+                .WithUserName(CurrentUserName);
+            _collection = context.Files;
+        }
 
 
         public File GetById(string id)
@@ -56,10 +56,10 @@ namespace SystemReport.WebAPI.Services
             entity.Ext = fileExt;
             entity.CreatedAt = DateTime.Now;
             entity.IsDeleted = false;
-    //        await _collection.InsertOneAsync(entity);
+            //        await _collection.InsertOneAsync(entity);
 
             var result = await BaseMongoDb.CreateAsync(entity);
-            
+
             if (result.Entity.Id == default || !result.Success)
                 throw new ResponseMessageException().WithCode(EResultResponse.FAIL.ToString())
                     .WithMessage(DefaultMessage.CREATE_FAILURE);

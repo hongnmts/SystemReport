@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +13,6 @@ using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
 using SystemReport.WebAPI.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
@@ -26,7 +25,7 @@ namespace SystemReport.WebAPI.Services
         private BaseMongoDb<LuuCVDi, string> BaseMongoVanBanDi;
         private BaseMongoDb<LuuCVDen, string> BaseMongoVanBanDen;
         public NotifyService(DataContext context, IHttpContextAccessor contextAccessor)
-            : base(context,contextAccessor)
+            : base(context, contextAccessor)
         {
             _context = context;
             _collection = _context.Notify;
@@ -34,9 +33,9 @@ namespace SystemReport.WebAPI.Services
             BaseMongoVanBanDi = new BaseMongoDb<LuuCVDi, string>(context.LuuCVDi);
             BaseMongoVanBanDen = new BaseMongoDb<LuuCVDen, string>(context.LuuCVDen);
         }
-        
+
         private List<string> _recipientIds { get; set; }
-        
+
         private Notify _notify;
 
         public NotifyService WithNotify(Notify notify)
@@ -93,7 +92,7 @@ namespace SystemReport.WebAPI.Services
                 _notify.SenderId = CurrentUser.Id;
                 _notify.Recipient = user.FullName;
                 _notify.RecipientId = user.Id;
-                
+
                 var result = await BaseMongoDb.CreateAsync(_notify);
             }
 
@@ -106,7 +105,7 @@ namespace SystemReport.WebAPI.Services
             var builder = Builders<Notify>.Filter;
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.RecipientId == CurrentUser.Id && x.IsDeleted == false));
-            
+
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             result.Data = await _collection.Find(filter)
                 .SortByDescending(x => x.ModifiedAt)
@@ -115,7 +114,7 @@ namespace SystemReport.WebAPI.Services
                 .ToListAsync();
             return result;
         }
-        
+
         public async Task<Notify> GetById(string id)
         {
             var data = await _context.Notify.Find(x => x.Id == id).FirstOrDefaultAsync();
@@ -137,7 +136,8 @@ namespace SystemReport.WebAPI.Services
                             files.Add(vanBan.FilePDF.LastOrDefault());
                         }
                     }
-                }else if (data.LoaiCongVan == ELoaiCongVan.CONG_VAN_DEN)
+                }
+                else if (data.LoaiCongVan == ELoaiCongVan.CONG_VAN_DEN)
                 {
                     var vanBan = _context.VanBanDen.Find(x => x.Id == data.CongVanId).FirstOrDefault();
                     if (vanBan != default)
@@ -164,8 +164,8 @@ namespace SystemReport.WebAPI.Services
             var filter = builder.Empty;
             try
             {
-                var notifyVm = new NotifyVM();      
-		        filter = builder.And(filter, builder.Where(x => x.RecipientId == CurrentUser.Id && x.Read == false));
+                var notifyVm = new NotifyVM();
+                filter = builder.And(filter, builder.Where(x => x.RecipientId == CurrentUser.Id && x.Read == false));
                 var TotalRows = await _context.Notify.CountDocumentsAsync(filter);
                 var data = await _context.Notify.Find(filter).SortByDescending(x => x.ModifiedAt)
                     .Skip(0)
@@ -177,12 +177,12 @@ namespace SystemReport.WebAPI.Services
                 resultResponse.ResultCode = EResultResponse.SUCCESS.ToString();
                 resultResponse.ResultString = "Lấy thông báo thành công";
                 resultResponse.Data = notifyVm;
-                
-	        }
-	        catch (Exception ex)
-	        {
 
-		        resultResponse.ResultCode = EResultResponse.ERROR.ToString();
+            }
+            catch (Exception ex)
+            {
+
+                resultResponse.ResultCode = EResultResponse.ERROR.ToString();
                 resultResponse.ResultString = "Lỗi" + ex.Message;
             }
 
@@ -289,12 +289,12 @@ namespace SystemReport.WebAPI.Services
                     entity.MucDoBaoMat = congVanDi.MucDoBaoMat;
                     entity.MucDoTinhChat = congVanDi.MucDoTinhChat;
                     entity.HoSoDonVi = congVanDi.HoSoDonVi;
-                    
+
                     entity.CreatedBy = CurrentUserName;
                     entity.ModifiedBy = CurrentUserName;
                     entity.CreatedAt = DateTime.Now;
                     entity.ModifiedAt = DateTime.Now;
-                      
+
                     var result = await BaseMongoVanBanDi.CreateAsync(entity);
                     if (result.Entity.Id == default || !result.Success)
                     {
@@ -303,9 +303,10 @@ namespace SystemReport.WebAPI.Services
                             .WithMessage(DefaultMessage.CREATE_FAILURE);
                     }
                 }
-            }else if (notify.LoaiCongVan == ELoaiCongVan.CONG_VAN_DEN)
+            }
+            else if (notify.LoaiCongVan == ELoaiCongVan.CONG_VAN_DEN)
             {
-                     var congVanDen = _context.VanBanDen.Find(x => x.Id == notify.CongVanId && x.IsDeleted != true).FirstOrDefault();
+                var congVanDen = _context.VanBanDen.Find(x => x.Id == notify.CongVanId && x.IsDeleted != true).FirstOrDefault();
                 if (congVanDen != default)
                 {
                     var checkSoLuu = _context.LuuCVDen.Find(x => x.SoLuuCV == congVanDen.SoLuuCV && x.IsDeleted != true)
@@ -347,7 +348,7 @@ namespace SystemReport.WebAPI.Services
                     entity.ModifiedBy = CurrentUserName;
                     entity.CreatedAt = DateTime.Now;
                     entity.ModifiedAt = DateTime.Now;
-                      
+
                     var result = await BaseMongoVanBanDen.CreateAsync(entity);
                     if (result.Entity.Id == default || !result.Success)
                     {

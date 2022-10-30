@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DocumentFormat.OpenXml.EMMA;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -204,7 +203,7 @@ namespace SystemReport.WebAPI.Services
             List<THeaderVM> theader = new List<THeaderVM>();
 
             var MaxRow = thuocTinhs.Max(x => x.Level);
-            
+
             foreach (var thuocTinh in thuocTinhs)
             {
                 var th = new THeaderVM();
@@ -212,7 +211,7 @@ namespace SystemReport.WebAPI.Services
                 th.Level = thuocTinh.Level;
                 th.RowSpan = FindRow(thuocTinh.Level, MaxRow, thuocTinh.Id, thuocTinhs);
                 var findCol = FindDeepThuocTinh(thuocTinh.Id, thuocTinhs);
-                th.ColSpan = findCol == 0? 1: findCol;
+                th.ColSpan = findCol == 0 ? 1 : findCol;
 
                 th.ThuTu = thuocTinh.ThuTu;
                 // Config
@@ -282,12 +281,12 @@ namespace SystemReport.WebAPI.Services
         private int FindRow(int level, int maxRow, string id, List<ThuocTinh> thuocTinhs)
         {
             var hasChildren = HasChildren(thuocTinhs, id);
-            
+
             if (level == 1 && !hasChildren)
                 return maxRow;
             if (level < maxRow && !hasChildren)
                 return maxRow - (maxRow - level);
-             return 1;
+            return 1;
         }
 
         private bool HasChildren(List<ThuocTinh> thuocTinhs, string id)
@@ -295,7 +294,7 @@ namespace SystemReport.WebAPI.Services
             var check = thuocTinhs.Any(x => x.Id != id && x.ParentId == id);
             return check;
         }
-        
+
         public int FindDeepThuocTinh(string thuocTinhId, List<ThuocTinh> thuocTinhs)
         {
             var listDonVi = thuocTinhs;
@@ -314,7 +313,7 @@ namespace SystemReport.WebAPI.Services
             var coquan = items.Where((item) => item.ParentId == target.Id).OrderByDescending(x => x.Level).ToList();
             if (coquan.Count > 0)
             {
-              
+
                 foreach (var item in coquan)
                 {
                     GetLoopItemTree(ref deep, items, item);
@@ -340,9 +339,9 @@ namespace SystemReport.WebAPI.Services
             var headers = await RenderHeader(bangBieu.Id);
             var body = await _rowValueService.RenderBodyMainByBangBieuId(bangBieu.Id);
             var values = await _context.RowValue.Find(x => x.BangBieuId == bangBieu.Id).ToListAsync();
-            
+
             var data = new RenderTableNhapLieu();
-            
+
             data.BangBieu = bangBieu;
             data.Headers = headers;
             data.Body = body;
@@ -354,14 +353,14 @@ namespace SystemReport.WebAPI.Services
 
         public async Task SaveDataBangBieu(List<BodyTableVM> data)
         {
-            if(data == default)
+            if (data == default)
             {
                 throw new ResponseMessageException()
                     .WithCode(EResultResponse.FAIL.ToString())
                     .WithMessage(DefaultMessage.DATA_NOT_EMPTY);
             }
             var bangBieuId = "";
-            if(data.Count > 0)
+            if (data.Count > 0)
             {
                 foreach (BodyTableVM item in data)
                 {
@@ -379,13 +378,13 @@ namespace SystemReport.WebAPI.Services
                         }
                         continue;
                     }
-                    if(item.RowValues != default && item.RowValues.Count > 0)
+                    if (item.RowValues != default && item.RowValues.Count > 0)
                     {
                         var tempRowValues = item.RowValues;
                         foreach (var rv in tempRowValues)
                         {
                             var findRV = rowValues.Where(x => x.Id == rv.Id && x.IsDeleted != true).FirstOrDefault();
-                            if(findRV != default)
+                            if (findRV != default)
                             {
                                 rv.ModifiedAt = DateTime.Now;
                                 rv.ModifiedBy = CurrentUserName;
@@ -398,14 +397,14 @@ namespace SystemReport.WebAPI.Services
                         }
 
                     }
-                   
+
                 }
 
 
                 // history mẫu biểu
                 var bangBieu = _context.BangBieu.Find(x => x.Id == bangBieuId).FirstOrDefault();
                 var mauBieu = _context.MauBieu.Find(x => x.Id == bangBieu.MauBieuId).FirstOrDefault();
-           
+
                 await _historyMauBieuService.WithFormKey(mauBieu.Id)
                       .WithCollection(_settings.BangBieuCollectionName, bangBieu.Id, "Bảng biểu")
                       .WithTitle("Cập nhật dữ liệu bảng biểu")
@@ -419,7 +418,7 @@ namespace SystemReport.WebAPI.Services
 
 
         }
-        
-        
+
+
     }
 }

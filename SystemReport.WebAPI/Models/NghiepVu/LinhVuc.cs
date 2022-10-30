@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace SystemReport.WebAPI.Models
 {
@@ -11,7 +11,7 @@ namespace SystemReport.WebAPI.Models
         public string Ten { get; set; }
         public string MoTa { get; set; }
         public int ThuTu { get; set; }
-    
+
         public List<DonViShort> DonVis { get; set; } = new List<DonViShort>();
     }
     public class LinhVucShort

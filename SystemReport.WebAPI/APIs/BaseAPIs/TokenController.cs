@@ -1,7 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Helpers;
@@ -57,7 +57,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                     {
                         string user = StringExtensions.Base64Decode(tempdecode[0]);
                         string pass = StringExtensions.Base64Decode(tempdecode[1]);
-                        var model = new AuthRequest() {UserName = user, Password = pass};
+                        var model = new AuthRequest() { UserName = user, Password = pass };
                         var response = await _identityService.GetTokenOthers(model);
 
                         return Ok(
@@ -119,7 +119,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                     {
                         string user = StringExtensions.Base64Decode(tempdecode[0]);
                         string pass = StringExtensions.Base64Decode(tempdecode[1]);
-                        var model = new AuthRequest() {UserName = user, Password = pass};
+                        var model = new AuthRequest() { UserName = user, Password = pass };
                         var response = await _identityService.GetTokenOthers(model);
 
                         return Ok(

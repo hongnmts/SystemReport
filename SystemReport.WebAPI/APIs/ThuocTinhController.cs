@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
@@ -113,7 +113,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-thuoc-tinh-by-bang-bieu-id/{id}")]
         public async Task<IActionResult> GetThuocTinhByBangBieuId(string id)
@@ -137,7 +137,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get")]
         public async Task<IActionResult> Get()
@@ -184,7 +184,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-list-tree-thuoc-tinh-by-bang-bieu-id/{id}")]
         public async Task<IActionResult> GetListTreeThuocTinhByBangBieuId(string id)
@@ -208,7 +208,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("get-paging-params")]
         public async Task<IActionResult> GetPagingParam([FromBody] PagingParam param)
@@ -232,7 +232,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-thuoc-tinh-chitieu/{id}")]
         public IActionResult GetThuocTinhChiTieu(string id)
@@ -256,7 +256,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-thuoc-tinh-haschildren/{id}")]
         public IActionResult GetThuocTinhHasChildren(string id)

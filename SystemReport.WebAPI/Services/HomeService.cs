@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
-using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
@@ -108,7 +107,7 @@ namespace SystemReport.WebAPI.Services
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.IsTemplate == false && x.IsDeleted == false));
 
-            if(param.LoaiMauBieuIds != default && param.LoaiMauBieuIds.Count > 0)
+            if (param.LoaiMauBieuIds != default && param.LoaiMauBieuIds.Count > 0)
             {
                 filter = builder.And(filter,
                   builder.Where(x => x.LoaiMauBieu != default && param.LoaiMauBieuIds.Contains(x.LoaiMauBieu.Id)));

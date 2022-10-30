@@ -16,7 +16,7 @@ namespace SystemReport.WebAPI.Interfaces.Identity
         Task<Module> AddPermissionToModule(Permission model);
         Task<Permission> GetPermissionById(Permission model);
         Task DeletePermission(Permission model);
-        
+
         Task<PagingModel<Module>> GetPaging(LinhVucParam param);
         Task<List<ModuleTreeVM>> GetTreeModule();
     }

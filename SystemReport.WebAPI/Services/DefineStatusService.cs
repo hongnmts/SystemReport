@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
-using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
-using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
-using SystemReport.WebAPI.Params;
-using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
 {
@@ -22,13 +16,13 @@ namespace SystemReport.WebAPI.Services
         private IMongoCollection<LinhVuc> _collection;
         private IDbSettings _settings;
         private ILoggingService _logger;
-        public DefineStatusService (ILoggingService logger, IDbSettings settings, DataContext context,
+        public DefineStatusService(ILoggingService logger, IDbSettings settings, DataContext context,
             IHttpContextAccessor contextAccessor)
             : base(context, contextAccessor)
         {
-            
+
         }
-        
+
         public async Task<List<StatusQuestion>> GetStatusQuestion()
         {
             List<StatusQuestion> result = new List<StatusQuestion>();

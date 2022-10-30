@@ -1,17 +1,7 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using Microsoft.AspNetCore.Http;
+﻿using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
-using System.Net.Http;
-using System.Net;
-using System.Threading.Tasks;
-using SystemReport.WebAPI.Exceptions;
-using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
-using SystemReport.WebAPI.Models;
-using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
-using ClosedXML.Excel;
-using SystemReport.WebAPI.Services;
 
 namespace SystemReport.WebAPI.APIs
 {
@@ -51,13 +41,13 @@ namespace SystemReport.WebAPI.APIs
                     foreach (var td in hd.THeaderVms)
                     {
                         worksheet.Cell(row, col).Value = td.TenThuocTinh;
-                        if(td.RowSpan > 1)
+                        if (td.RowSpan > 1)
                         {
-                            worksheet.Range(worksheet.Cell(row , col), worksheet.Cell(row + td.RowSpan, col)).Merge();
+                            worksheet.Range(worksheet.Cell(row, col), worksheet.Cell(row + td.RowSpan, col)).Merge();
                         }
                         if (td.ColSpan > 1)
                         {
-                            worksheet.Range(worksheet.Cell(row, col), worksheet.Cell(row , col + td.ColSpan)).Merge();
+                            worksheet.Range(worksheet.Cell(row, col), worksheet.Cell(row, col + td.ColSpan)).Merge();
                         }
                         col++;
                     }

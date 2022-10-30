@@ -7,7 +7,7 @@ namespace SystemReport.WebAPI.Enums
         DELETE,
         CHANGESTATUS
     }
-    
+
     public enum ETypeHistory
     {
         Question,

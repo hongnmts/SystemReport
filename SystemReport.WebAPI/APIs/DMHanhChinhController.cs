@@ -1,5 +1,5 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
@@ -222,7 +222,7 @@ namespace SystemReport.WebAPI.APIs
             try
             {
                 var response = await _dmHanhChinhService.GetByIdXa(id);
-    
+
                 return Ok(
                     new ResultResponse<Xa>()
                         .WithData(response)
@@ -241,7 +241,7 @@ namespace SystemReport.WebAPI.APIs
 
         [HttpPost]
         [Route("get-paging-params-xa")]
-        public async Task<IActionResult> GetPagingParamXa([FromBody]ChildPaging param)
+        public async Task<IActionResult> GetPagingParamXa([FromBody] ChildPaging param)
         {
             try
             {

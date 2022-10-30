@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace SystemReport.WebAPI.Models
 {
-    public class MauBieu: Audit, ICloneable, TEntity<string>
+    public class MauBieu : Audit, ICloneable, TEntity<string>
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
@@ -17,10 +17,13 @@ namespace SystemReport.WebAPI.Models
         public DonVi DonViNhan { get; set; }
         public DonVi DonViBaoCao { get; set; }
         [BsonIgnore]
-        public string Nam { get
+        public string Nam
+        {
+            get
             {
                 return DenNgay.HasValue ? DenNgay.Value.ToLocalTime().Year.ToString() : "";
-            } }
+            }
+        }
         public DateTime? TuNgay { get; set; }
         public DateTime? DenNgay { get; set; }
         public KyBaoCao KyBaoCao { get; set; }
@@ -36,7 +39,8 @@ namespace SystemReport.WebAPI.Models
                 if (KyBaoCao.LoaiKyBaoCao == "nam")
                 {
                     return $"{KyBaoCao.Ten} - {DenNgay.Value.ToLocalTime().Year}";
-                }else if (KyBaoCao.LoaiKyBaoCao == "giaidoan")
+                }
+                else if (KyBaoCao.LoaiKyBaoCao == "giaidoan")
                 {
                     return $"Giai đoạn {TuNgay.Value.ToLocalTime().Year}-{DenNgay.Value.ToLocalTime().Year}";
                 }
@@ -52,9 +56,9 @@ namespace SystemReport.WebAPI.Models
 
         public int ThuTu { get; set; }
         /// Footter
-        
+
         public LoaiMauBieu LoaiMauBieu { get; set; }
-        
+
         // Phân quyền báo cáo
         public List<DonVi> PhanQuyenDonVi { get; set; }
         public List<string> PhanQuyenDonViIds { get; set; }

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System.Globalization;
 using SystemReport.WebAPI.Installers;
 
 namespace SystemReport.WebAPI
@@ -44,7 +38,7 @@ namespace SystemReport.WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SystemReport.WebAPI", Version = "v1" });
             });
-            
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -52,12 +46,13 @@ namespace SystemReport.WebAPI
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .WithOrigins("http://localhost:8080",
-                            "https://stis.dongthap.gov.vn")
+                             "http://localhost:8081",
+                             "https://stis.dongthap.gov.vn") 
                         .AllowCredentials()
                 );
             });
-            
-            
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,7 +68,7 @@ namespace SystemReport.WebAPI
                 // Call the next delegate/middleware in the pipeline
                 await next();
             });
-                
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -88,7 +83,7 @@ namespace SystemReport.WebAPI
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

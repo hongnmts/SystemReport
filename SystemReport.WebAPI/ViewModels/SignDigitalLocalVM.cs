@@ -10,7 +10,7 @@ namespace SystemReport.WebAPI.ViewModels
         public string Content { get; set; }
         public bool Reject { get; set; } = false;
         public bool ChoPhepKy { get; set; } = false;
-        
+
         public string VanBanDiId { get; set; }
         public List<SignDigitalLocal> SignDigitals { get; set; }
         public float Scale { get; set; } = 1.0f;

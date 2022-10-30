@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using SystemReport.WebAPI.ViewModels;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.APIs

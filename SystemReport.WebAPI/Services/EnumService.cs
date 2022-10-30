@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
@@ -5,8 +7,6 @@ using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 
 namespace SystemReport.WebAPI.Services
 {
@@ -17,11 +17,11 @@ namespace SystemReport.WebAPI.Services
         private IMongoCollection<LinhVuc> _collection;
         private IDbSettings _settings;
         private ILoggingService _logger;
-        public EnumService (ILoggingService logger, IDbSettings settings, DataContext context,
+        public EnumService(ILoggingService logger, IDbSettings settings, DataContext context,
             IHttpContextAccessor contextAccessor)
             : base(context, contextAccessor)
         {
-            
+
         }
 
         public async Task<List<EnumModel>> GetMucDo()
@@ -44,7 +44,7 @@ namespace SystemReport.WebAPI.Services
             });
             return await Task.FromResult(result);
         }
-        
+
         public async Task<List<EnumModel>> GetLoaiLichCongTac()
         {
             List<EnumModel> result = new List<EnumModel>();

@@ -1,6 +1,6 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
@@ -115,7 +115,7 @@ namespace SystemReport.WebAPI.APIs
 
         [HttpPost]
         [Route("get-paging-params")]
-        public async Task<IActionResult> GetPagingParam( [FromBody]QuestionParamFilter param)
+        public async Task<IActionResult> GetPagingParam([FromBody] QuestionParamFilter param)
         {
             try
             {
@@ -136,10 +136,10 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("get-paging-params-receive")]
-        public async Task<IActionResult> GetPagingParamReceive( [FromBody]QuestionParamFilter param)
+        public async Task<IActionResult> GetPagingParamReceive([FromBody] QuestionParamFilter param)
         {
             try
             {
@@ -160,11 +160,11 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
-        
+
+
         [HttpPost]
         [Route("get-paging-params-handle")]
-        public async Task<IActionResult> GetPagingParamHandle( [FromBody]QuestionParamFilter param)
+        public async Task<IActionResult> GetPagingParamHandle([FromBody] QuestionParamFilter param)
         {
             try
             {
@@ -185,9 +185,9 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
-        
-        
+
+
+
         [HttpPost]
         [Route("change-status-question")]
         public async Task<IActionResult> ChangeStatusQuestion([FromBody] StatusQuestion model)
@@ -210,7 +210,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("question-navigation")]
         public async Task<IActionResult> QuestionNavigation([FromBody] Question model)
@@ -233,8 +233,8 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
-        
+
+
         [HttpPost]
         [Route("not-approve")]
         public async Task<IActionResult> NotApprove([FromBody] Question model)

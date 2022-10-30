@@ -11,7 +11,7 @@ namespace SystemReport.WebAPI.Helpers
         public const string THU_KY_HIEU_TRUONG = "9998";
         public const string HIEU_TRUONG = "9999";
     }
-    
+
     public class StatusConstants
     {
         public const string TRINH_LANH_DAO_TRUONG = "TLDT";

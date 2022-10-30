@@ -5,7 +5,7 @@ namespace SystemReport.WebAPI.ViewModels
 {
     public class ModuleTreeVM
     {
-        public  ModuleTreeVM(){}
+        public ModuleTreeVM() { }
         public ModuleTreeVM(ModuleTreeVM model)
         {
             this.Id = model.Id;
@@ -31,8 +31,8 @@ namespace SystemReport.WebAPI.ViewModels
         }
         public string Id { get; set; }
         public string Label { get; set; }
-        
-        
+
+
         public List<ModuleTreeChilVM> Children { get; set; }
     }
 
@@ -40,5 +40,5 @@ namespace SystemReport.WebAPI.ViewModels
     {
         public string Id { get; set; }
         public string Label { get; set; }
-    } 
+    }
 }

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace SystemReport.WebAPI.Models
 {
@@ -11,14 +11,14 @@ namespace SystemReport.WebAPI.Models
         public string FullName { get; set; }
         public string PrivateKey { get; set; }
         public string PublicKey { get; set; }
-        
+
         public string Content { get; set; }
         public bool Reject { get; set; } = false;
         public bool ChoPhepKy { get; set; } = false;
         public DateTime? NgayKy { get; set; }
         public string VanBanDiId { get; set; }
-        
-        
+
+
         // Thông tin chữ ký
         public string Type { get; set; }
         public string X { get; set; }
@@ -29,7 +29,7 @@ namespace SystemReport.WebAPI.Models
         public int HeightPage { get; set; }
         public int Page { get; set; }
         public string ImageBase64 { get; set; }
-        
+
         public int LineHeight { get; set; }
         public List<string> Lines { get; set; }
         public string Text { get; set; }
@@ -37,8 +37,8 @@ namespace SystemReport.WebAPI.Models
         public int FontSize { get; set; }
         public int Size { get; set; }
         public bool Absolute { get; set; } = false;
-        
-        
+
+
         [BsonIgnore]
         public string ShowNgayKy
         {

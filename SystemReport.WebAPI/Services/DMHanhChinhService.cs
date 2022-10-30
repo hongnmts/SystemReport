@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -74,7 +74,7 @@ namespace SystemReport.WebAPI.Services
             var entity = new Huyen()
             {
                 TenHuyen = model.TenHuyen,
-                MaHuyen= model.MaHuyen,
+                MaHuyen = model.MaHuyen,
                 CapDonVi = model.CapDonVi,
                 ModifiedAt = DateTime.Now,
                 ModifiedBy = CurrentUserName,
@@ -188,16 +188,16 @@ namespace SystemReport.WebAPI.Services
             }
             string sortBy = nameof(LinhVuc.ThuTu);
             result.TotalRows = await _context.Huyen.CountDocumentsAsync(filter);
-             var  a = await _context.Huyen.Find(filter)
-                .Sort(param.SortDesc
-                    ? Builders<Huyen>
-                        .Sort.Descending(sortBy)
-                    : Builders<Huyen>
-                        .Sort.Ascending(sortBy))
-                .Skip(param.Skip)
-                .Limit(param.Limit)
-                .ToListAsync();
-             result.Data = getCountXa(a).Result;
+            var a = await _context.Huyen.Find(filter)
+               .Sort(param.SortDesc
+                   ? Builders<Huyen>
+                       .Sort.Descending(sortBy)
+                   : Builders<Huyen>
+                       .Sort.Ascending(sortBy))
+               .Skip(param.Skip)
+               .Limit(param.Limit)
+               .ToListAsync();
+            result.Data = getCountXa(a).Result;
             return result;
         }
 
@@ -206,7 +206,7 @@ namespace SystemReport.WebAPI.Services
             List<Huyen> result = new List<Huyen>();
             foreach (var item in list)
             {
-                item.SoLuongXa = (int) await _context.Xa.CountDocumentsAsync(x=>x.HuyenId == item.Id);
+                item.SoLuongXa = (int)await _context.Xa.CountDocumentsAsync(x => x.HuyenId == item.Id);
                 result.Add(item);
             }
             return list;

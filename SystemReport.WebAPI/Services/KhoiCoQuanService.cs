@@ -1,3 +1,7 @@
+using ExcelDataReader;
+using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,10 +14,6 @@ using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using ExcelDataReader;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
@@ -39,8 +39,8 @@ namespace SystemReport.WebAPI.Services
                 .WithDatabaseName(_settings.DatabaseName)
                 .WithUserName(CurrentUserName);
         }
-        
-                public async Task<KhoiCoQuan> Create(KhoiCoQuan model)
+
+        public async Task<KhoiCoQuan> Create(KhoiCoQuan model)
         {
             if (model == default)
             {
@@ -192,7 +192,7 @@ namespace SystemReport.WebAPI.Services
                 .ToListAsync();
             return result;
         }
-        
+
         public async Task ReadDataKhoiCoQuan(string filePath)
         {
             List<KhoiCoQuan> KhoiCoQuan = new List<KhoiCoQuan>();
@@ -249,12 +249,12 @@ namespace SystemReport.WebAPI.Services
         {
             var khoiCoQuan = _context.KhoiCoQuan.AsQueryable().Where(x => x.IsDeleted != true)
                 .Select(x => new KhoiCoQuanShort()
-            {
-                Id = x.Id,
-                Ten =x.Ten,
-                MoTa = x.MoTa,
-                KhoiCoQuanId = x.KhoiCoQuanId
-            }).ToList();
+                {
+                    Id = x.Id,
+                    Ten = x.Ten,
+                    MoTa = x.MoTa,
+                    KhoiCoQuanId = x.KhoiCoQuanId
+                }).ToList();
             List<CoQuan> CoQuan = new List<CoQuan>();
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             using (var stream = System.IO.File.Open(filePath, FileMode.Open, FileAccess.Read))
@@ -270,10 +270,10 @@ namespace SystemReport.WebAPI.Services
                             var khoiCoQuanId = 0;
                             var checkKhoiCoQuan = int.TryParse(reader.GetValue(2)?.ToString(), out khoiCoQuanId);
                             var khoiCoQuanEntity = new KhoiCoQuanShort();
-                            if(checkKhoiCoQuan  && khoiCoQuanId != 0)
+                            if (checkKhoiCoQuan && khoiCoQuanId != 0)
                             {
                                 khoiCoQuanEntity = khoiCoQuan.Where(x => x.KhoiCoQuanId == khoiCoQuanId.ToString()).FirstOrDefault();
-                                if(khoiCoQuanEntity == default)
+                                if (khoiCoQuanEntity == default)
                                     continue;
                             }
                             var unitGroup = new CoQuan()
@@ -288,7 +288,7 @@ namespace SystemReport.WebAPI.Services
                     }
                 }
             }
-        
+
         }
     }
 }

@@ -19,7 +19,7 @@ namespace SystemReport.WebAPI.Models
     {
         public string FileId { get; set; }
         public string FileName { get; set; }
-        
-        public  string Ext { get; set;  }
+
+        public string Ext { get; set; }
     }
 }

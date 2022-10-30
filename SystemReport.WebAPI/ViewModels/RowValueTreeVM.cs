@@ -15,11 +15,11 @@ namespace SystemReport.WebAPI.ViewModels
         }
         public string Id { get; set; }
         public dynamic Label { get; set; }
-        
+
 
         public bool Selected { get; set; } = false;
         public bool Opened { get; set; } = false;
-        
+
         public List<RowValueTreeVM> Children { get; set; }
     }
 }

@@ -1,10 +1,6 @@
-using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver.Core.WireProtocol.Messages;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces.Identity;
@@ -122,7 +118,7 @@ namespace SystemReport.WebAPI.APIs.Identity
         {
             try
             {
-              await _menuService.Delete(id);
+                await _menuService.Delete(id);
 
                 return Ok(
                     new ResultMessageResponse()

@@ -1,13 +1,8 @@
-using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver.Core.WireProtocol.Messages;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
-using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Interfaces.Identity;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
@@ -25,8 +20,8 @@ namespace SystemReport.WebAPI.APIs.Identity
         {
             _roleService = roleService;
         }
-        
-          [HttpPost]
+
+        [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create([FromBody] Role model)
         {
@@ -143,7 +138,7 @@ namespace SystemReport.WebAPI.APIs.Identity
 
         [HttpPost]
         [Route("get-paging-params")]
-        public async Task<IActionResult> GetPagingParam([FromBody]RoleParam param)
+        public async Task<IActionResult> GetPagingParam([FromBody] RoleParam param)
         {
             try
             {

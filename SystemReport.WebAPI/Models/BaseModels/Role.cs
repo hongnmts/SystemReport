@@ -1,9 +1,9 @@
-using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace SystemReport.WebAPI.Models
 {
-    public class Role: Audit, TEntity<string>
+    public class Role : Audit, TEntity<string>
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
@@ -20,7 +20,7 @@ namespace SystemReport.WebAPI.Models
         public string Label { get; set; }
         public Role()
         {
-            
+
         }
 
         public Role(Role model)

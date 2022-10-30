@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,14 +13,11 @@ using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
 using SystemReport.WebAPI.ViewModels;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
 {
-    public class HopThuService: BaseService, IHopThuService
+    public class HopThuService : BaseService, IHopThuService
     {
         private readonly DataContext _context;
         private readonly BaseMongoDb<HopThu, string> BaseMongoDb;
@@ -48,7 +48,7 @@ namespace SystemReport.WebAPI.Services
                 .WithUserName(CurrentUserName);
             _history = history.WithUserName(CurrentUserName);
         }
-        
+
         public async Task<HopThu> CreateSend(HopThu model)
         {
             if (model == default)
@@ -66,56 +66,56 @@ namespace SystemReport.WebAPI.Services
                 NguoiNhans = model.NguoiNhans,
                 Cc = model.Cc,
             };
-            
-             if (model.UploadFiles != default && model.UploadFiles.Count > 0)
-             {
-                 foreach (var file in model.UploadFiles)
-                 {
-                     if (entity.Files == default)
-                         entity.Files = new List<FileShort>();
-                     var newFile = new FileShort();
-                     newFile.FileId = file.FileId;
-                     newFile.FileName = file.FileName;
-                     newFile.Ext = file.Ext;
-                     entity.Files.Add(newFile);
-                 }
-             }
 
-             var userRep = new List<UserTreeChilVM>();
+            if (model.UploadFiles != default && model.UploadFiles.Count > 0)
+            {
+                foreach (var file in model.UploadFiles)
+                {
+                    if (entity.Files == default)
+                        entity.Files = new List<FileShort>();
+                    var newFile = new FileShort();
+                    newFile.FileId = file.FileId;
+                    newFile.FileName = file.FileName;
+                    newFile.Ext = file.Ext;
+                    entity.Files.Add(newFile);
+                }
+            }
 
-             if (model.NguoiNhans != default)
-             {
-                 userRep.AddRange(model.NguoiNhans);
-             }
-             if (model.Cc != default)
-             {
-                 userRep.AddRange(model.Cc);
-             }
+            var userRep = new List<UserTreeChilVM>();
 
-             entity.NguoiGui = CurrentUserShort;
-             entity.NgayGui = DateTime.Now;
-             
-             foreach (var item in userRep)
-             {
-                 var tempEmail = entity;
-                 tempEmail.Id = BsonObjectId.GenerateNewId().ToString();
-                 tempEmail.DaXem = false;
-                 tempEmail.NgayNhan = DateTime.Now;
-                 tempEmail.NguoiNhan = new UserShort()
-                 {
-                     Id = item.Id,
-                     UserName = item.UserName,
-                     FullName = item.FullName,
-                     DonVi = item.DonVi,
-                     ChucVu = item.ChucVu
-                 };
-                 
-                 await BaseMongoDb.CreateAsync(tempEmail);
-             }
+            if (model.NguoiNhans != default)
+            {
+                userRep.AddRange(model.NguoiNhans);
+            }
+            if (model.Cc != default)
+            {
+                userRep.AddRange(model.Cc);
+            }
 
-             return entity;
+            entity.NguoiGui = CurrentUserShort;
+            entity.NgayGui = DateTime.Now;
+
+            foreach (var item in userRep)
+            {
+                var tempEmail = entity;
+                tempEmail.Id = BsonObjectId.GenerateNewId().ToString();
+                tempEmail.DaXem = false;
+                tempEmail.NgayNhan = DateTime.Now;
+                tempEmail.NguoiNhan = new UserShort()
+                {
+                    Id = item.Id,
+                    UserName = item.UserName,
+                    FullName = item.FullName,
+                    DonVi = item.DonVi,
+                    ChucVu = item.ChucVu
+                };
+
+                await BaseMongoDb.CreateAsync(tempEmail);
+            }
+
+            return entity;
         }
-        
+
         public Task<HopThu> Create(HopThu model)
         {
             throw new NotImplementedException();
@@ -160,7 +160,7 @@ namespace SystemReport.WebAPI.Services
                     .WithCode(EResultResponse.FAIL.ToString())
                     .WithMessage("Không tìm thấy thư!");
             }
-            
+
             var result = await BaseMongoDb.DeletedAsync(entity);
             if (!result.Success)
             {
@@ -175,7 +175,7 @@ namespace SystemReport.WebAPI.Services
             var builder = Builders<HopThu>.Filter;
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.NguoiNhan.UserName == CurrentUserName && x.IsDeleted == false));
-            
+
             string sortBy = nameof(VanBanDi.ModifiedAt);
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             result.Data = await _collection.Find(filter)
@@ -192,7 +192,7 @@ namespace SystemReport.WebAPI.Services
             var builder = Builders<HopThu>.Filter;
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.NguoiGui.UserName == CurrentUserName && x.IsDeleted == false));
-            
+
             string sortBy = nameof(VanBanDi.ModifiedAt);
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             result.Data = await _collection.Find(filter)
@@ -202,14 +202,14 @@ namespace SystemReport.WebAPI.Services
                 .ToListAsync();
             return result;
         }
-        
+
         public async Task<PagingModel<HopThu>> GetPagingRac(HopThuParam param)
         {
             var result = new PagingModel<HopThu>();
             var builder = Builders<HopThu>.Filter;
             var filter = builder.Empty;
-            filter = builder.And(filter, builder.Where(x =>( x.NguoiGui.UserName == CurrentUserName || x.NguoiNhan.UserName == CurrentUserName ) && x.IsDeleted == true));
-            
+            filter = builder.And(filter, builder.Where(x => (x.NguoiGui.UserName == CurrentUserName || x.NguoiNhan.UserName == CurrentUserName) && x.IsDeleted == true));
+
             string sortBy = nameof(VanBanDi.ModifiedAt);
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             result.Data = await _collection.Find(filter)

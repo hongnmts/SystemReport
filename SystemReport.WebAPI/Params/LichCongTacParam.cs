@@ -7,7 +7,7 @@ namespace SystemReport.WebAPI.Params
         public string LoaiLichCongTac { get; set; }
         public DateTime? SelectDay { get; set; }
     }
-    
+
     public class PagingParamDate
     {
         public DateRange DateRange { get; set; }

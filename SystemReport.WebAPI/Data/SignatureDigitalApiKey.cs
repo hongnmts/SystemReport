@@ -3,8 +3,8 @@
     public class SignatureDigitalApiKey : ISignatureDigitalApiKey
     {
         public string ServiceUri { get; set; }
-       public string ClientId { get; set; }
-       public string ClientSecret { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
     }
 
     public interface ISignatureDigitalApiKey

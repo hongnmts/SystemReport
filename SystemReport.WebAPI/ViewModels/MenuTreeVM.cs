@@ -31,7 +31,7 @@ namespace SystemReport.WebAPI.ViewModels
         public List<MenuTreeVM> SubItems { get; set; } = new List<MenuTreeVM>();
         public State State { get; set; } = new State();
         public bool Opened { get; set; } = false;
-        public string ParentId { get; set; }= "";
+        public string ParentId { get; set; } = "";
         public string Link { get; set; } = "";
         public string Icon { get; set; } = "";
         public bool Selected { get; set; } = false;

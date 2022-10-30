@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
-using SystemReport.WebAPI.Enums;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Helpers;
@@ -12,9 +14,6 @@ using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
 using SystemReport.WebAPI.ViewModels;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
@@ -28,7 +27,7 @@ namespace SystemReport.WebAPI.Services
         private INotifyService _notifyService;
         private ILoggingService _logger;
 
-        public LichCongTacService(ILoggingService logger, IDbSettings settings, DataContext context,INotifyService notifyService,
+        public LichCongTacService(ILoggingService logger, IDbSettings settings, DataContext context, INotifyService notifyService,
             IHttpContextAccessor contextAccessor)
             : base(context, contextAccessor)
         {
@@ -72,7 +71,7 @@ namespace SystemReport.WebAPI.Services
 
             try
             {
-                
+
                 var notify = new Notify()
                 {
                     Title =
@@ -82,7 +81,7 @@ namespace SystemReport.WebAPI.Services
                 };
 
                 var listUser = entity.ChuTri.Select(x => x.Id).ToList();
-                await  _notifyService.WithNotify(notify).WithRecipients(listUser).PushNotify();
+                await _notifyService.WithNotify(notify).WithRecipients(listUser).PushNotify();
             }
             catch (Exception e)
             {
@@ -122,7 +121,7 @@ namespace SystemReport.WebAPI.Services
 
             try
             {
-                
+
                 var notify = new Notify()
                 {
                     Title =
@@ -132,7 +131,7 @@ namespace SystemReport.WebAPI.Services
                 };
 
                 var listUser = entity.ChuTri.Select(x => x.Id).ToList();
-                await  _notifyService.WithNotify(notify).WithRecipients(listUser).PushNotify();
+                await _notifyService.WithNotify(notify).WithRecipients(listUser).PushNotify();
             }
             catch (Exception e)
             {
@@ -147,11 +146,11 @@ namespace SystemReport.WebAPI.Services
             var filter = builder.Empty;
             if (!string.IsNullOrEmpty(param.LoaiLichCongTac))
             {
-                filter = builder.And(filter, builder.Where(x =>x.CreatedBy == CurrentUserName && x.LoaiLichCongTac == param.LoaiLichCongTac && x.IsDeleted == false));
+                filter = builder.And(filter, builder.Where(x => x.CreatedBy == CurrentUserName && x.LoaiLichCongTac == param.LoaiLichCongTac && x.IsDeleted == false));
             }
             else
             {
-                filter = builder.And(filter, builder.Where(x =>x.CreatedBy == CurrentUserName && x.LoaiLichCongTac == null && x.IsDeleted == false));
+                filter = builder.And(filter, builder.Where(x => x.CreatedBy == CurrentUserName && x.LoaiLichCongTac == null && x.IsDeleted == false));
             }
 
             string sortBy = nameof(LichCongTac.NgayXepLich);
@@ -193,7 +192,7 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage(DefaultMessage.DELETE_FAILURE);
             }
         }
-        
+
         public async Task<LichCongTac> GetById(string id)
         {
             return await _context.LichCongTac.Find(x => x.Id == id && x.IsDeleted != true)
@@ -205,7 +204,7 @@ namespace SystemReport.WebAPI.Services
             var data = await _context.LichCongTac.Find(x => x.IsDeleted != true)
                 .ToListAsync();
             var results = data.GroupBy(
-                p => p.NgayXepLich, 
+                p => p.NgayXepLich,
                 p => p,
                 (key, g) => new { NgayXepLich = key.ToString("dddd", vietNam) + " ngày " + key.ToString("dd/MM/yyyy", vietNam) + $"{GetDateOfChineseNewYear(key.ToLocalTime())}", LichCongTac = g.ToList() });
 
@@ -214,7 +213,7 @@ namespace SystemReport.WebAPI.Services
             {
                 var itemLCT = new LichCongTacVM();
                 itemLCT.NgayXepLich = item.NgayXepLich;
-            
+
                 foreach (var lct in item.LichCongTac)
                 {
                     if (itemLCT.CongViecs == default)
@@ -233,17 +232,17 @@ namespace SystemReport.WebAPI.Services
                             cv.RowSpan = lct.CongViecs.Count;
                         }
 
-                      
+
                         itemLCT.CongViecs.Add(cv);
                     }
- 
+
                 }
                 lichCongTac.Add(itemLCT);
-                
+
             }
             return lichCongTac;
         }
-        
+
         public async Task<dynamic> GetPaging(LichCongTacParam param)
         {
             var builder = Builders<LichCongTac>.Filter;
@@ -285,7 +284,7 @@ namespace SystemReport.WebAPI.Services
             var data = await _context.LichCongTac.Find(filter).SortBy(x => x.NgayXepLich)
                 .ToListAsync();
             var results = data.GroupBy(
-                p => p.NgayXepLich, 
+                p => p.NgayXepLich,
                 p => p,
                 (key, g) => new { NgayXepLich = key.ToString("dddd", vietNam) + " ngày " + key.ToString("dd/MM/yyyy", vietNam) + $"{GetDateOfChineseNewYear(key.ToLocalTime())}", LichCongTac = g.ToList() });
 
@@ -294,7 +293,7 @@ namespace SystemReport.WebAPI.Services
             {
                 var itemLCT = new LichCongTacVM();
                 itemLCT.NgayXepLich = item.NgayXepLich;
-            
+
                 foreach (var lct in item.LichCongTac)
                 {
                     if (itemLCT.CongViecs == default)
@@ -315,27 +314,27 @@ namespace SystemReport.WebAPI.Services
                                 cv.RowSpan = lct.CongViecs.Count;
                             }
 
-                      
+
                             itemLCT.CongViecs.Add(cv);
                         }
                     }
-       
- 
+
+
                 }
                 lichCongTac.Add(itemLCT);
-                
+
             }
             return lichCongTac;
         }
         #region CongViec
         public string GetDateOfChineseNewYear(DateTime date)
         {
-            ChineseLunisolarCalendar chinese   = new ChineseLunisolarCalendar();
+            ChineseLunisolarCalendar chinese = new ChineseLunisolarCalendar();
 
             DateTime utcNow = date;
-            Int32 year  = chinese.GetYear( date );
-            Int32 month = chinese.GetMonth( date );
-            Int32 day   = chinese.GetDayOfMonth( date );
+            Int32 year = chinese.GetYear(date);
+            Int32 month = chinese.GetMonth(date);
+            Int32 day = chinese.GetDayOfMonth(date);
 
             var dayString = day.ToString();
             var monthString = month.ToString();
@@ -359,7 +358,7 @@ namespace SystemReport.WebAPI.Services
             }
 
             var lichCongTac = await _context.LichCongTac.Find(x => x.Id == model.LichCongTacId).FirstOrDefaultAsync();
-            
+
             if (lichCongTac == default)
             {
                 throw new ResponseMessageException()
@@ -387,7 +386,7 @@ namespace SystemReport.WebAPI.Services
             try
             {
                 var listUser = new List<string>();
-                foreach (var item in  lichCongTac.CongViecs)
+                foreach (var item in lichCongTac.CongViecs)
                 {
                     var notify = new Notify()
                     {
@@ -398,7 +397,7 @@ namespace SystemReport.WebAPI.Services
                             $"Nôi dung công việc: <br />" +
                             $"{item.NoiDung}"
                     };
-                    await  _notifyService.WithNotify(notify).WithRecipients(item.ThanhPhanThamDu?.Select(x => x.Id).ToList()).PushNotify();
+                    await _notifyService.WithNotify(notify).WithRecipients(item.ThanhPhanThamDu?.Select(x => x.Id).ToList()).PushNotify();
                 }
 
             }
@@ -449,7 +448,7 @@ namespace SystemReport.WebAPI.Services
                 var listUser = new List<string>();
                 if (entity.CongViecs != default)
                 {
-                    foreach (var item in  entity.CongViecs)
+                    foreach (var item in entity.CongViecs)
                     {
                         var notify = new Notify()
                         {
@@ -460,7 +459,7 @@ namespace SystemReport.WebAPI.Services
                                 $"Nôi dung công việc: <br />" +
                                 $"{item.NoiDung}"
                         };
-                        await  _notifyService.WithNotify(notify).WithRecipients(item.ThanhPhanThamDu?.Select(x => x.Id).ToList()).PushNotify();
+                        await _notifyService.WithNotify(notify).WithRecipients(item.ThanhPhanThamDu?.Select(x => x.Id).ToList()).PushNotify();
                     }
                 }
 
@@ -514,7 +513,7 @@ namespace SystemReport.WebAPI.Services
 
         public async Task<CongViec> GetByIdCongViec(CongViec model)
         {
-            var lichCongTac = await  _context.LichCongTac.Find(x => x.Id == model.LichCongTacId && x.IsDeleted != true)
+            var lichCongTac = await _context.LichCongTac.Find(x => x.Id == model.LichCongTacId && x.IsDeleted != true)
                 .FirstOrDefaultAsync();
             if (lichCongTac == default)
             {

@@ -65,7 +65,7 @@ namespace SystemReport.WebAPI.Extensions
 
         public static string ChangeFileNameToPrePDF(string fileName)
         {
-      
+
             var dateTimeNow = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
             string str = "";
             try
@@ -85,10 +85,10 @@ namespace SystemReport.WebAPI.Extensions
                 return fileName;
             }
         }
-        
+
         public static string ChangeFileNameToPreLocalPDF(string fileName)
         {
-      
+
             var dateTimeNow = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
             string str = "";
             try

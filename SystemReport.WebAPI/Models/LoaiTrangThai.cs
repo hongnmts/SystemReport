@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace SystemReport.WebAPI.Models
 {
@@ -9,7 +9,7 @@ namespace SystemReport.WebAPI.Models
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
-        public  string Ten { get; set;  }
+        public string Ten { get; set; }
         public string Code { get; set; }
         public string MoTa { get; set; }
         public int ThuTu { get; set; }

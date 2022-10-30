@@ -1,7 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace SystemReport.WebAPI.Models
 {
@@ -17,7 +16,7 @@ namespace SystemReport.WebAPI.Models
         public LoaiVanBan LoaiVanBan { get; set; }
         public TrangThaiShort TrangThai { get; set; }
         public string SoLuuCV { get; set; }
-        public string SoVBDi{ get; set; }
+        public string SoVBDi { get; set; }
         public DateTime? NgayNhap { get; set; }
         public DateTime? NgayBanHanh { get; set; }
         public DateTime? NgayTraLoi { get; set; }
@@ -40,10 +39,10 @@ namespace SystemReport.WebAPI.Models
         public string NoiLuuTru { get; set; }
         public CoQuan CoQuanNhan { get; set; }
         public string CoQuanNhanTen { get; set; }
-        
+
         public KhoiCoQuan KhoiCoQuanNhan { get; set; }
         public string KhoiCoQuanNhanTen { get; set; }
-        
+
         public CoQuan CoQuanGui { get; set; }
         public string CoQuanGuiTen { get; set; }
         public KhoiCoQuan KhoiCoQuanGui { get; set; }
@@ -61,7 +60,7 @@ namespace SystemReport.WebAPI.Models
         public List<FileShort> FilePDF { get; set; }
         public List<PhanCongKySo> PhanCongKySo { get; set; }
         [BsonIgnore]
-        public List<FileShort> UploadFiles{ get; set; }
+        public List<FileShort> UploadFiles { get; set; }
         public List<NguoiPhanCong> NguoiPhanCong { get; set; }
         public UserShort Ower { get; set; }
         public List<string> ListOwerId { get; set; } = new List<string>();

@@ -19,7 +19,7 @@ namespace SystemReport.WebAPI.ViewModels
             }
             else
             {
-                this.Label =  model.Ten;
+                this.Label = model.Ten;
             }
 
             this.Selected = false;
@@ -27,11 +27,11 @@ namespace SystemReport.WebAPI.ViewModels
         }
         public string Id { get; set; }
         public string Label { get; set; }
-        
+
 
         public bool Selected { get; set; } = false;
         public bool Opened { get; set; } = false;
-        
+
         public List<ThuocTinhTreeVM> Children { get; set; }
     }
 }

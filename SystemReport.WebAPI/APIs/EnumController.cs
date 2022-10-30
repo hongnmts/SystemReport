@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
-using Microsoft.AspNetCore.Mvc;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.APIs
@@ -15,12 +15,12 @@ namespace SystemReport.WebAPI.APIs
     {
         private IEnumService _enumService;
 
-        public  EnumController(IEnumService enumService)
+        public EnumController(IEnumService enumService)
         {
             _enumService = enumService;
-            
+
         }
-        
+
         [HttpGet]
         [Route("get-muc-do")]
         public async Task<IActionResult> GetMucDo()
@@ -44,6 +44,6 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
     }
 }

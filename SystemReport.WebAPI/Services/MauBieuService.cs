@@ -1462,8 +1462,8 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage("Không tìm thấy mẫu biểu!");
             }
 
-            
-            
+
+
             trangThai.Content = model.NoiDung;
             trangThai.CurrentUser = CurrentUser;
 

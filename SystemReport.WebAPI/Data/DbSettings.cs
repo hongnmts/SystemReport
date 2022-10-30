@@ -40,24 +40,24 @@ namespace SystemReport.WebAPI.Data
         public string LoaiTrangThaiCollectionName { get; set; }
         public string HopThuCollectionName { get; set; }
         public string CongVanCollectionName { get; set; }
-      public  string LuuCVDenCollectionName { get; set; }
-      public  string LuuCVDiCollectionName { get; set; }
-      public  string Environment  { get; set; }
-      
-      
-      public string KyBaoCaoCollectionName { get; set; }
-      public string DonViTinhCollectionName { get; set; }
-      public string MauBieuCollectionName { get; set; }
-      public string BangBieuCollectionName { get; set; }
-      public string ThuocTinhCollectionName { get; set; }
-      public string RowValueCollectionName { get; set; }
-      public string LoaiMauBieuCollectionName { get; set; }
-      public string HistoryMauBieuCollectionName { get; set; }
+        public string LuuCVDenCollectionName { get; set; }
+        public string LuuCVDiCollectionName { get; set; }
+        public string Environment { get; set; }
+
+
+        public string KyBaoCaoCollectionName { get; set; }
+        public string DonViTinhCollectionName { get; set; }
+        public string MauBieuCollectionName { get; set; }
+        public string BangBieuCollectionName { get; set; }
+        public string ThuocTinhCollectionName { get; set; }
+        public string RowValueCollectionName { get; set; }
+        public string LoaiMauBieuCollectionName { get; set; }
+        public string HistoryMauBieuCollectionName { get; set; }
     }
 
     public interface IDbSettings
     {
-        string Environment  { get; set; }
+        string Environment { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
         string LoggingCollectionName { get; set; }
@@ -95,9 +95,9 @@ namespace SystemReport.WebAPI.Data
         string CongVanCollectionName { get; set; }
         string LuuCVDenCollectionName { get; set; }
         string LuuCVDiCollectionName { get; set; }
-        
+
         // System Report
-        
+
         string KyBaoCaoCollectionName { get; set; }
         string DonViTinhCollectionName { get; set; }
         string MauBieuCollectionName { get; set; }

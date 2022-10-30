@@ -1,10 +1,7 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
-using SystemReport.WebAPI.Interfaces;
-using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Services;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
@@ -18,7 +15,7 @@ namespace SystemReport.WebAPI.APIs
         {
             _historyVanBanDi = historyVanBanDi;
         }
-        
+
         [HttpGet]
         [Route("get-van-ban-di-id/{id}")]
         public async Task<IActionResult> GetById(string id)

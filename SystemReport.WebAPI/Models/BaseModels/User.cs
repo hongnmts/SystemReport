@@ -1,6 +1,6 @@
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 using SystemReport.WebAPI.ViewModels;
 
 namespace SystemReport.WebAPI.Models
@@ -40,8 +40,8 @@ namespace SystemReport.WebAPI.Models
         public string SystemReportId { get; set; }
         public DateTime? TuNgay { get; set; }
         public DateTime? DenNgay { get; set; }
-        [BsonIgnore]   public bool IsRequireChangePassword { get; set; } = false;
-        [BsonIgnore]     public bool IsRequireVerify { get; set; } = false;
+        [BsonIgnore] public bool IsRequireChangePassword { get; set; } = false;
+        [BsonIgnore] public bool IsRequireVerify { get; set; } = false;
         [BsonIgnore] public string Password { get; set; }
         [BsonIgnore] public List<string> Permissions { get; set; }
         [BsonIgnore] public List<NavMenuVM> Menu { get; set; }
@@ -61,19 +61,19 @@ namespace SystemReport.WebAPI.Models
         public string Height { get; set; }
         public string OriginalWidth { get; set; }
         public string OriginalHeight { get; set; }
-        
-        
+
+
         public enum ESignatureSave
         {
-            SIGN =1,
-            COMMENT =2
+            SIGN = 1,
+            COMMENT = 2
         }
     }
-    
-    
+
+
     public class UserShort
     {
-        public UserShort(){}
+        public UserShort() { }
 
         public UserShort(User model)
         {

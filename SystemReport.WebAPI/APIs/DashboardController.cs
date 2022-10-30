@@ -1,16 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
-using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.APIs
 {
-    [Route("api/v1/[controller]")] 
+    [Route("api/v1/[controller]")]
     [Authorize]
     public class DashboardController : ControllerBase
     {
@@ -27,7 +26,7 @@ namespace SystemReport.WebAPI.APIs
         {
             try
             {
-                var response =  _dashboardService.GetDashboard();
+                var response = _dashboardService.GetDashboard();
                 return Ok(
                     new ResultResponse<DashboardVM>()
                         .WithData(response)

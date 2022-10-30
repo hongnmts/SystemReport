@@ -9,7 +9,7 @@ namespace SystemReport.WebAPI.Exceptions
 
         public ResponseMessageException()
         {
-            
+
         }
         public ResponseMessageException(string resultCode, string resultString)
         {
@@ -26,7 +26,7 @@ namespace SystemReport.WebAPI.Exceptions
 
             return this;
         }
-        
+
         public ResponseMessageException WithMessage(string message)
         {
             if (!string.IsNullOrEmpty(message))
@@ -43,13 +43,13 @@ namespace SystemReport.WebAPI.Exceptions
 
         public ResponseException()
         {
-            
+
         }
         public ResponseException(string resultCode, string resultString, T data) : base(resultCode, resultString)
         {
             this.Data = data;
         }
-        
+
         public ResponseMessageException WithData(T data)
         {
             if (data != null)

@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +12,6 @@ using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
@@ -23,10 +23,10 @@ namespace SystemReport.WebAPI.Services
         private readonly IMongoCollection<CongVan> _collection;
         private readonly IDbSettings _settings;
         private ILoggingService _logger;
-        private List<String> filePicture = new List<string>() {".jpeg", ".jpg", ".gif", ".png"};
-        private List<String> filSystemReport = new List<string>() {".docx", ".doc", ".csv", ".xlsx", ".pptx", ".pdf"};
+        private List<String> filePicture = new List<string>() { ".jpeg", ".jpg", ".gif", ".png" };
+        private List<String> filSystemReport = new List<string>() { ".docx", ".doc", ".csv", ".xlsx", ".pptx", ".pdf" };
         private ICongVanService _congVanServiceImplementation;
-        
+
         public CongVanService(ILoggingService logger, IDbSettings settings,
             DataContext context,
             IHttpContextAccessor contextAccessor)
@@ -40,7 +40,7 @@ namespace SystemReport.WebAPI.Services
                 .WithDatabaseName(_settings.DatabaseName)
                 .WithUserName(CurrentUserName);
         }
-        
+
         public async Task<CongVan> Create(CongVan model)
         {
             if (model == default)
@@ -81,7 +81,7 @@ namespace SystemReport.WebAPI.Services
             };
             if (model.HoSoDonVi != default)
             {
-                entity.HoSoDonVi = model.HoSoDonVi; 
+                entity.HoSoDonVi = model.HoSoDonVi;
             }
 
             if (model.HinhThucNhan != default)
@@ -93,12 +93,12 @@ namespace SystemReport.WebAPI.Services
             {
                 entity.LoaiVanBan = model.LoaiVanBan;
             }
-            
+
             if (model.TrangThai != default)
             {
                 entity.TrangThai = model.TrangThai;
             }
-            
+
             if (model.UploadFiles != default)
             {
                 var exps = model.UploadFiles.Select(x => x.Ext).ToList();
@@ -125,7 +125,7 @@ namespace SystemReport.WebAPI.Services
                 }
             }
 
-            
+
             var result = await BaseMongoDb.CreateAsync(entity);
             if (result.Entity.Id == default || !result.Success)
             {
@@ -133,7 +133,7 @@ namespace SystemReport.WebAPI.Services
                     .WithCode(EResultResponse.FAIL.ToString())
                     .WithMessage(DefaultMessage.CREATE_FAILURE);
             }
-            
+
             // await _history.WithQuestionId(entity.Id)
             //     .WithAction(EAction.CREATE)
             //     .WithStatus(entity.TrangThai.Id, entity.TrangThaiTen)
@@ -230,7 +230,7 @@ namespace SystemReport.WebAPI.Services
             //     .SaveChangeHistoryQuestion();
             return entity;
         }
-        
+
         public async Task Delete(string id)
         {
             if (id == default)
@@ -291,7 +291,7 @@ namespace SystemReport.WebAPI.Services
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.IsDeleted == false));
             // filter = filter & builder.In(x => x.IdOwner, CurrentUser.DonViIds);
-            
+
             if (!String.IsNullOrEmpty(param.Content))
             {
                 filter = builder.And(filter,
@@ -317,7 +317,7 @@ namespace SystemReport.WebAPI.Services
                 .ToListAsync();
             return result;
         }
-        
+
         public async Task<PagingModel<LuuCVDen>> GetPagingLuuCVDen(CongVanParam param)
         {
             var result = new PagingModel<LuuCVDen>();
@@ -325,7 +325,7 @@ namespace SystemReport.WebAPI.Services
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.IsDeleted == false));
             // filter = filter & builder.In(x => x.IdOwner, CurrentUser.DonViIds);
-            
+
             if (!String.IsNullOrEmpty(param.Content))
             {
                 filter = builder.And(filter,
@@ -351,7 +351,7 @@ namespace SystemReport.WebAPI.Services
                 .ToListAsync();
             return result;
         }
-        
+
         public async Task<PagingModel<LuuCVDi>> GetPagingLuuCVDi(CongVanParam param)
         {
             var result = new PagingModel<LuuCVDi>();
@@ -359,7 +359,7 @@ namespace SystemReport.WebAPI.Services
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.IsDeleted == false));
             // filter = filter & builder.In(x => x.IdOwner, CurrentUser.DonViIds);
-            
+
             if (!String.IsNullOrEmpty(param.Content))
             {
                 filter = builder.And(filter,
@@ -385,14 +385,14 @@ namespace SystemReport.WebAPI.Services
                 .ToListAsync();
             return result;
         }
-        
+
         public async Task<LuuCVDen> GetByIdLuuCVDen(string id)
         {
             var model = await _context.LuuCVDen.Find(x => x.Id == id && x.IsDeleted != true)
                 .FirstOrDefaultAsync();
             return model;
         }
-        
+
         public async Task<LuuCVDi> GetByIdLuuCVDi(string id)
         {
             var model = await _context.LuuCVDi.Find(x => x.Id == id && x.IsDeleted != true)

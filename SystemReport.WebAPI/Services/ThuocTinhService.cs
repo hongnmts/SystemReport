@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -56,7 +56,7 @@ namespace SystemReport.WebAPI.Services
                 ThuTu = model.ThuTu,
                 TinhChiTieuCon = model.TinhChiTieuCon,
                 Level = LevelThuocTinh(model.ParentId),
-                ParentId =  model.ParentId,
+                ParentId = model.ParentId,
                 BangBieuId = model.BangBieuId,
                 StringCongThuc = model.StringCongThuc,
                 FontStyle = model.FontStyle,
@@ -64,14 +64,14 @@ namespace SystemReport.WebAPI.Services
                 FontHorizontalAlign = model.FontHorizontalAlign,
                 FontVerticalAlign = model.FontVerticalAlign,
                 Width = model.Width,
-                
+
                 DonViTinh = model.DonViTinh,
                 GhiChu = model.GhiChu,
                 Formula = model.Formula,
                 StyleInput = model.StyleInput,
-                
+
                 IsChiTieu = model.IsChiTieu,
-                
+
                 CreatedBy = CurrentUserName,
                 ModifiedBy = CurrentUserName,
             };
@@ -84,9 +84,9 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage(DefaultMessage.CREATE_FAILURE);
             }
 
-            
+
             // Cập nhật lại vị trí của thuộc tính
-          await  UpdateOrderThuocTinh(entity.BangBieuId);
+            await UpdateOrderThuocTinh(entity.BangBieuId);
             return entity;
         }
 
@@ -118,14 +118,14 @@ namespace SystemReport.WebAPI.Services
             }
 
             var code = CommonExtensions.GenerateNewRandomDigit();
-            if(entity.Code == default)
+            if (entity.Code == default)
             {
                 entity.Code = code;
             }
             entity.Ten = model.Ten;
             entity.TenKhongDau = model.Ten.convertToUnSign3();
             entity.ThuTu = model.ThuTu;
-            entity.Level =  LevelThuocTinh(model.ParentId);
+            entity.Level = LevelThuocTinh(model.ParentId);
             entity.ParentId = model.ParentId;
             entity.BangBieuId = model.BangBieuId;
             entity.StringCongThuc = model.StringCongThuc;
@@ -140,9 +140,9 @@ namespace SystemReport.WebAPI.Services
             entity.DonViTinh = model.DonViTinh;
             entity.Formula = model.Formula;
             entity.StyleInput = model.StyleInput;
-            
+
             entity.IsChiTieu = model.IsChiTieu;
-            
+
             entity.ModifiedAt = DateTime.Now;
             entity.ModifiedBy = CurrentUserName;
 
@@ -182,15 +182,15 @@ namespace SystemReport.WebAPI.Services
             entity.ModifiedAt = DateTime.Now;
             entity.ModifiedBy = CurrentUserName;
             entity.IsDeleted = true;
-            
-            
+
+
             var result = await BaseMongoDb.DeleteAsync(entity);
 
             // Kiểm tra có con thì deleted
             var listCons = await GetThuocTinhCon(entity.Id, entity.BangBieuId);
             var thuocTinhThuocBangBieu = _context.ThuocTinh
                 .Find(x => x.BangBieuId == entity.BangBieuId && x.IsDeleted != true).ToList();
-            
+
             foreach (var item in listCons)
             {
                 var tt = thuocTinhThuocBangBieu.Where(x => x.Id == item).FirstOrDefault();
@@ -225,13 +225,13 @@ namespace SystemReport.WebAPI.Services
         public async Task UpdateRowValue(ThuocTinh thuocTinh)
         {
             var values = _context.RowValue.Find(x => x.ThuocTinhId == thuocTinh.Id && x.IsDeleted != true).ToList();
-            if(values.Count > 0)
+            if (values.Count > 0)
             {
                 foreach (var item in values)
                 {
-                 //   item.StyleInput = thuocTinh.StyleInput;
-                 //   item.FontHorizontalAlign = thuocTinh.FontHorizontalAlign;
-                 //   item.FontVerticalAlign = thuocTinh.FontVerticalAlign;
+                    //   item.StyleInput = thuocTinh.StyleInput;
+                    //   item.FontHorizontalAlign = thuocTinh.FontHorizontalAlign;
+                    //   item.FontVerticalAlign = thuocTinh.FontVerticalAlign;
                     item.Width = thuocTinh.Width;
                     item.StringCongThuc = thuocTinh.StringCongThuc;
                     await RowValueDb.UpdateAsync(item);
@@ -245,7 +245,7 @@ namespace SystemReport.WebAPI.Services
 
         private async Task UpdateFormulaRowValue(ThuocTinh thuocTinh)
         {
-            if(thuocTinh != default)
+            if (thuocTinh != default)
             {
                 if (!string.IsNullOrEmpty(thuocTinh.StringCongThuc))
                 {
@@ -255,25 +255,25 @@ namespace SystemReport.WebAPI.Services
                     var getStringFormBetween = new GetStringFormBetween();
                     arrays = getStringFormBetween.Get(thuocTinh.StringCongThuc, "<", ">");
 
-                    
+
                     var thuocTinhByCode = _context.ThuocTinh.Find(x => arrays.Contains(x.Code) && x.BangBieuId == thuocTinh.BangBieuId).SortBy(x => x.Order).ToList();
 
                     var thuocTinhByCodeIds = thuocTinhByCode.Select(x => x.Id).ToList();
 
                     var rowValuesTemp = _context.RowValue.Find(x => thuocTinhByCodeIds.Contains(x.ThuocTinhId) || x.ThuocTinhId == thuocTinh.Id).ToList();
-              
+
 
                     foreach (var item in rowValues)
                     {
                         item.StyleInput = thuocTinh.StyleInput;
-                    
+
 
                         var strCongThuc = thuocTinh.StringCongThuc;
 
                         foreach (var ttId in thuocTinhByCode)
                         {
                             var tt = rowValuesTemp.Where(x => x.KeyRow == item.KeyRow && x.ThuocTinhId == ttId.Id).FirstOrDefault();
-                            if(tt != default)
+                            if (tt != default)
                             {
                                 strCongThuc = strCongThuc.Replace($"{ttId.Code}", tt.Code);
                             }
@@ -324,10 +324,10 @@ namespace SystemReport.WebAPI.Services
             return await _context.ThuocTinh.Find(x => x.BangBieuId == bangBieuId && x.IsDeleted != true).SortBy(x => x.ThuTu)
                 .ToListAsync();
         }
-        
+
         public async Task<List<ThuocTinhTreeVM>> GetTreeByBangBieuId(string bangBieuId)
         {
-            var listDonVi = await _context.ThuocTinh.Find(x  => x.BangBieuId == bangBieuId && x.IsDeleted ==false).SortBy(donVi => donVi.Level).ToListAsync();
+            var listDonVi = await _context.ThuocTinh.Find(x => x.BangBieuId == bangBieuId && x.IsDeleted == false).SortBy(donVi => donVi.Level).ToListAsync();
             var parents = listDonVi.Where(x => x.ParentId == null).ToList();
             List<ThuocTinhTreeVM> list = new List<ThuocTinhTreeVM>();
             foreach (var item in parents)
@@ -364,8 +364,8 @@ namespace SystemReport.WebAPI.Services
 
             return null;
         }
-        
-        
+
+
         public async Task<List<ThuocTinhListTreeVM>> GetListTreeByBangBieuId(string bangBieuId)
         {
             var listDonVi = await _context.ThuocTinh.Find(_ => _.BangBieuId == bangBieuId && _.IsDeleted != true).SortByDescending(donVi => donVi.Level).ThenBy(x => x.ThuTu).ToListAsync();
@@ -396,7 +396,7 @@ namespace SystemReport.WebAPI.Services
             return null;
         }
 
-        public async Task< List<string>> GetThuocTinhCon(string id, string bangBieuId)
+        public async Task<List<string>> GetThuocTinhCon(string id, string bangBieuId)
         {
             var listDonVi = await _context.ThuocTinh.Find(_ => _.BangBieuId == bangBieuId && _.IsDeleted != true).SortByDescending(thuocTinh => thuocTinh.Level).ToListAsync();
             var parents = listDonVi.Where(x => x.ParentId == id).ToList();
@@ -407,9 +407,9 @@ namespace SystemReport.WebAPI.Services
                 list.Add(donVi);
                 LoopGetThuocTinhCons(ref list, listDonVi, donVi);
             }
-            return list != default? list.Select(x => x.Id).ToList(): new List<string>();
+            return list != default ? list.Select(x => x.Id).ToList() : new List<string>();
         }
-        
+
         private List<ThuocTinhListTreeVM> LoopGetThuocTinhCons(ref List<ThuocTinh> list, List<ThuocTinh> items, ThuocTinh target)
         {
             var coquan = items.Where((item) => item.ParentId == target.Id).OrderByDescending(x => x.Level).ToList();
@@ -442,7 +442,7 @@ namespace SystemReport.WebAPI.Services
 
             return list;
         }
-        
+
         private List<ThuocTinhListTreeVM> LoopGetThuocTinhConsLeft(ref List<ThuocTinh> list, List<ThuocTinh> items, ThuocTinh target)
         {
             var coquan = items.Where((item) => item.ParentId == target.Id).OrderBy(x => x.ThuTu).ToList();
@@ -479,7 +479,7 @@ namespace SystemReport.WebAPI.Services
                 await BaseMongoDb.UpdateAsync(item);
             }
         }
-        
+
         private List<ThuocTinhListTreeVM> LoopGetThuocTinhConsLeft1(ref List<ThuocTinh> list, List<ThuocTinh> items, ThuocTinh target)
         {
             var coquan = items.Where((item) => item.ParentId == target.Id).OrderBy(x => x.ThuTu).ToList();

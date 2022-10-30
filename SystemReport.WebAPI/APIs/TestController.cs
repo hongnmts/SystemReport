@@ -1,9 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using SystemReport.WebAPI.Extensions;
-using SystemReport.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using SystemReport.WebAPI.Interfaces;
 
@@ -40,7 +34,7 @@ namespace SystemReport.WebAPI.APIs
             // double result = stf.Eval(formula);
             // var between = "<81818> + <21231>".Replace("<81818>", "abc");
             // between = between.Replace("<21231>", "123");
-            
+
             // string str1 = "<81818> + <21231>";
             // List<string> arrays = new List<string>();
             // foreach (Match match in Regex.Matches(str1,"<[^}]+>"))

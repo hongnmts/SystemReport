@@ -1,10 +1,11 @@
+using ExcelDataReader;
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -13,8 +14,6 @@ using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
 using SystemReport.WebAPI.ViewModels;
-using ExcelDataReader;
-using MongoDB.Bson;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.Services
@@ -63,7 +62,7 @@ namespace SystemReport.WebAPI.Services
         {
             return await _context.Users.Find(x => x.Id == id && x.IsDeleted != true).FirstOrDefaultAsync();
         }
-        
+
         public async Task<User> GetUserByIdDonVi(string id)
         {
             return await _context.Users.Find(x => x.DonVi.Id == id && x.IsDeleted != true).FirstOrDefaultAsync();
@@ -85,7 +84,7 @@ namespace SystemReport.WebAPI.Services
             result.TotalRows = await _context.Users.CountDocumentsAsync(filter);
             result.Data = await _context.Users.Find(filter)
                 .Sort(param.SortDesc
-                ?Builders<User>
+                ? Builders<User>
                     .Sort.Ascending(sortBy)
                 : Builders<User>
                         .Sort.Descending(sortBy)
@@ -118,11 +117,11 @@ namespace SystemReport.WebAPI.Services
                         {
                             var user = new User()
                             {
-                                SystemReportId =  reader.GetValue(0)?.ToString(),
+                                SystemReportId = reader.GetValue(0)?.ToString(),
                                 LastName = reader.GetValue(1)?.ToString(),
                                 FirstName = reader.GetValue(2)?.ToString(),
                                 Email = reader.GetValue(3)?.ToString(),
-                                UserName =  reader.GetValue(7)?.ToString(),
+                                UserName = reader.GetValue(7)?.ToString(),
                             };
                             var donVi = donVis.Where(x => x.Ten.ToLower() == reader.GetValue(4)?.ToString().ToLower()).FirstOrDefault();
                             if (donVi != default)
@@ -175,7 +174,7 @@ namespace SystemReport.WebAPI.Services
                 UserName = model.UserName,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                FullName = model.LastName + " " +model.FirstName,
+                FullName = model.LastName + " " + model.FirstName,
                 SystemReportId = model.SystemReportId,
                 PhoneNumber = model.PhoneNumber,
                 Email = model.Email,
@@ -193,10 +192,10 @@ namespace SystemReport.WebAPI.Services
                 TuNgay = model.TuNgay,
                 DenNgay = model.DenNgay
             };
-            
+
             // Tao5 khoa
             SignDigitalService.GeneratSignKey(ref entity);
-            
+
             if (model.DonVi != default)
             {
                 entity.DonVi = model.DonVi;
@@ -219,10 +218,10 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage(DefaultMessage.CREATE_FAILURE);
             }
 
-            if(entity.TuNgay != default)
+            if (entity.TuNgay != default)
             {
-              await  _logger.WithAction(nameof(this.Create)).WithActionResult(EResultResponse.SUCCESS.ToString())
-                .WithContentLog($"{entity.UserName} - {entity.FullName} bắt đầu làm việc tại {entity.DonVi.Ten} từ ngày {entity.TuNgay.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")}").SaveChanges();
+                await _logger.WithAction(nameof(this.Create)).WithActionResult(EResultResponse.SUCCESS.ToString())
+                  .WithContentLog($"{entity.UserName} - {entity.FullName} bắt đầu làm việc tại {entity.DonVi.Ten} từ ngày {entity.TuNgay.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")}").SaveChanges();
             }
             else
             {
@@ -254,7 +253,7 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage("Tên tài khoản đã tồn tại");
 
             var donVi = _context.DonVis.Find(x => x.Id == model.DonVi.Id).FirstOrDefault();
-            if(donVi != default)
+            if (donVi != default)
             {
                 oldDonVi = entity.DonVi;
                 entity.DonVi = donVi;
@@ -276,7 +275,7 @@ namespace SystemReport.WebAPI.Services
             entity.IsActived = model.IsActived;
             entity.TuNgay = model.TuNgay;
             entity.DenNgay = model.DenNgay;
-            
+
             if (model.DonVi != default)
             {
                 if (model.DonVi.Id != entity.DonVi.Id)
@@ -306,7 +305,7 @@ namespace SystemReport.WebAPI.Services
                 .WithContentLog(DefaultMessage.UPDATE_SUCCESS)
                 .SaveChanges();
 
-            if(oldDonVi.Id != entity.Id)
+            if (oldDonVi.Id != entity.Id)
             {
                 if (entity.TuNgay != default && entity.DenNgay != default)
                 {
@@ -453,9 +452,9 @@ namespace SystemReport.WebAPI.Services
             var data = new List<DonViTreeMail>();
             var users = _context.Users.Find(x => x.DonVi != null && x.IsDeleted != true).ToList();
             var dvs = _context.DonVis.Find(x => x.IsDeleted != true).ToList();
-         
+
             var donVis = users.GroupBy(
-                p => p.DonVi.Id, 
+                p => p.DonVi.Id,
                 p => p,
                 (key, g) => new { DonViId = key, Users = g.ToList() });
 
@@ -473,7 +472,7 @@ namespace SystemReport.WebAPI.Services
                     var userstemp = donVi.Users;
                     foreach (var us in userstemp)
                     {
-                        if(us != default)
+                        if (us != default)
                             temp.Children.Add(new UserTreeChilVM(us));
                     }
                 }
@@ -491,7 +490,7 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage("Không tìm thấy người dùng!");
 
             user.SignatureSaves = model.SignatureSaves;
-            
+
             var result = await BaseMongoDb.UpdateAsync(user);
             if (!result.Success)
             {

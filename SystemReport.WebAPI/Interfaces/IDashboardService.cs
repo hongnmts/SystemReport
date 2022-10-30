@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using SystemReport.WebAPI.ViewModels;
+﻿using SystemReport.WebAPI.ViewModels;
 
 namespace SystemReport.WebAPI.Interfaces
 {

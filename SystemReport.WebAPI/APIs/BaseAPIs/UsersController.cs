@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
@@ -119,7 +118,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-user-by-id-don-vi/{id}")]
         public async Task<IActionResult> GetUserByIdDonVi(string id)
@@ -167,7 +166,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("get-paging-params")]
         public async Task<IActionResult> GetPagingParam([FromBody] PagingParam param)
@@ -215,7 +214,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] UserVM model)
@@ -239,7 +238,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("import-user")]
         [AllowAnonymous]
@@ -260,7 +259,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-user-tree-for-donvi")]
         public async Task<IActionResult> UserTreeForDonVi()
@@ -284,7 +283,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("update-signature")]
         public async Task<IActionResult> UpdateSignature([FromBody] SignatureSaveVM model)
@@ -321,14 +320,14 @@ namespace SystemReport.WebAPI.APIs.Identity
         {
             try
             {
-              var data =  await _userService.GetSignature(id);
+                var data = await _userService.GetSignature(id);
 
-              
-              return Ok(
-                  new ResultResponse<List<SignatureSave>>().WithData(data)
-                      .WithCode(EResultResponse.SUCCESS.ToString())
-                      .WithMessage("Lấy dữ liệu thành công")
-              );
+
+                return Ok(
+                    new ResultResponse<List<SignatureSave>>().WithData(data)
+                        .WithCode(EResultResponse.SUCCESS.ToString())
+                        .WithMessage("Lấy dữ liệu thành công")
+                );
             }
             catch (ResponseMessageException ex)
             {

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using SystemReport.WebAPI.Models;
 
 namespace SystemReport.WebAPI.Params
 {
@@ -22,19 +21,19 @@ namespace SystemReport.WebAPI.Params
 
     public class ChildPaging : PagingParam
     {
-        public  string ParentId { get; set; }
+        public string ParentId { get; set; }
     }
 
 
 
 
-    public class PagingModel<T> 
+    public class PagingModel<T>
     {
         public long TotalRows { get; set; }
 
         // public long TotalRows { get; set; }
         public IEnumerable<T> Data { get; set; }
     }
-    
-    
+
+
 }

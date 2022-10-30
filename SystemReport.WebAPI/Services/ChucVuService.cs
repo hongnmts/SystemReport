@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -156,7 +156,7 @@ namespace SystemReport.WebAPI.Services
                 .ToListAsync();
             return data.Select(x => new ChucVu(x)).ToList();
         }
-        
+
         public async Task<List<ChucVu>> GetAll()
         {
             var data = await _context.ChucVu.Find(x => x.IsDeleted != true).SortByDescending(x => x.ThuTu)

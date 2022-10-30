@@ -1,10 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
-using SystemReport.WebAPI.Enums;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Helpers;

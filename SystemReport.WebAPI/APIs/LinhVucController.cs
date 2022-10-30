@@ -1,13 +1,11 @@
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using SystemReport.WebAPI.ViewModels;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.APIs
@@ -116,8 +114,8 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
-        
+
+
         [HttpGet]
         [Route("get")]
         public async Task<IActionResult> Get()
@@ -165,10 +163,10 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("add-fields")]
-        public async Task<IActionResult> AddFields([FromBody]  List<DonViShort> list)
+        public async Task<IActionResult> AddFields([FromBody] List<DonViShort> list)
         {
             try
             {
@@ -188,7 +186,7 @@ namespace SystemReport.WebAPI.APIs
             }
         }
 
-        
+
         [HttpPost]
         [Route("delete-fields")]
         public async Task<IActionResult> DeleteFields([FromBody] DonViShort model)
@@ -210,13 +208,13 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
-        
-        
-        
-        [HttpPost]  
+
+
+
+
+        [HttpPost]
         [Route("get-by-id-by-fields")]
-        public async Task<IActionResult>GetByIdByFields([FromBody] ChildPaging param)
+        public async Task<IActionResult> GetByIdByFields([FromBody] ChildPaging param)
         {
             try
             {
@@ -236,13 +234,13 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
     }
 }

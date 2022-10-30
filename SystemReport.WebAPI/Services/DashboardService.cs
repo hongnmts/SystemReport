@@ -1,20 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
-using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
-using SystemReport.WebAPI.Interfaces.Identity;
-using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.ViewModels;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 
 namespace SystemReport.WebAPI.Services
 {
     public class DashboardService : BaseService, IDashboardService
     {
         private DataContext _context;
-        
+
         private IDbSettings _settings;
         private ILoggingService _logger;
 
@@ -32,10 +28,10 @@ namespace SystemReport.WebAPI.Services
         public DashboardVM GetDashboard()
         {
             var data = new DashboardVM();
-            data.SoCVDen = (int)_context.VanBanDen.Find(x =>(
+            data.SoCVDen = (int)_context.VanBanDen.Find(x => (
                 x.CreatedBy == CurrentUserName || (x.ListOwerId != default && x.ListOwerId.Contains(CurrentUserName)) || (x.TrangThai != default && x.TrangThai.Code == DefaultRoleCode.BAN_HANH_VAN_BAN_DEN)) &&
                 x.IsDeleted != true).CountDocuments();
-            data.SoCVDi = (int)_context.VanBanDi.Find(x =>(
+            data.SoCVDi = (int)_context.VanBanDi.Find(x => (
                 x.CreatedBy == CurrentUserName || (x.ListOwerId != default && x.ListOwerId.Contains(CurrentUserName) || (x.TrangThai != default && x.TrangThai.Code == DefaultRoleCode.BAN_HANH))) &&
                 x.IsDeleted != true).CountDocuments();
             data.SoThongBao = (int)_context.Notify.Find(x => x.RecipientId == CurrentUser.Id).CountDocuments();

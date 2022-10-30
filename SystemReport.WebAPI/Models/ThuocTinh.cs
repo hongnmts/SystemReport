@@ -1,5 +1,5 @@
-﻿using System;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace SystemReport.WebAPI.Models
 {
@@ -18,26 +18,29 @@ namespace SystemReport.WebAPI.Models
         public string BangBieuId { get; set; }
         public string MauBieuId { get; set; }
         public string CloneId { get; set; }
-        
+
         // Config Style
-        public StyleModel FontStyle { get; set; } = new StyleModel() {Id = "normal", Name = "Bình thường"};
+        public StyleModel FontStyle { get; set; } = new StyleModel() { Id = "normal", Name = "Bình thường" };
         public StyleModel FontWeight { get; set; }
-        public StyleModel FontHorizontalAlign { get; set; }= new StyleModel() {Id = "center", Name = "Canh giữa"};
+        public StyleModel FontHorizontalAlign { get; set; } = new StyleModel() { Id = "center", Name = "Canh giữa" };
         public StyleModel FontVerticalAlign { get; set; }
         public int Width { get; set; }
-        
+
         // Config Content
         public DonViTinh DonViTinh { get; set; }
         public GhiChu GhiChu { get; set; }
-        
+
         public FormulaModel Formula { get; set; }
         public StyleInput StyleInput { get; set; }
         public string StringCongThuc { get; set; }
         public bool TinhChiTieuCon { get; set; }
-        
+        public PhepTongHop PhepTongHop { get; set; }
+        public LoaiDanhMuc LoaiDanhMuc { get; set; }
+        public DanhMuc DanhMuc { get; set; }
+
         // Config chitieu
         public bool IsChiTieu { get; set; }
-        
+
         public int Order { get; set; }
 
         public object Clone()
@@ -57,8 +60,14 @@ namespace SystemReport.WebAPI.Models
         public string Id { get; set; }
         public string Name { get; set; }
     }
-    
+
     public class StyleInput
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class PhepTongHop
     {
         public string Id { get; set; }
         public string Name { get; set; }

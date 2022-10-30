@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace SystemReport.WebAPI.Models
 {
-    public class BangBieu: Audit,ICloneable, TEntity<string>
+    public class BangBieu : Audit, ICloneable, TEntity<string>
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]

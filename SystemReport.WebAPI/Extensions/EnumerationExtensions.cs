@@ -1,5 +1,4 @@
-﻿using System;
-namespace SystemReport.WebAPI.Extensions
+﻿namespace SystemReport.WebAPI.Extensions
 {
     public static class EnumerationExtensions
     {

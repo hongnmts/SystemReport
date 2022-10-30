@@ -1,6 +1,5 @@
-using System.Security.Authentication;
-using System.Threading.Tasks;
 using MongoDB.Driver;
+using System.Security.Authentication;
 using SystemReport.WebAPI.Models;
 
 namespace SystemReport.WebAPI.Data
@@ -44,8 +43,8 @@ namespace SystemReport.WebAPI.Data
         private readonly IMongoCollection<CongVan> _congVan;
         private readonly IMongoCollection<LuuCVDi> _luuCVDi;
         private readonly IMongoCollection<LuuCVDen> _luuCVDen;
-        
-        
+
+
         // System Report
         private readonly IMongoCollection<KyBaoCao> _kyBaoCao;
         private readonly IMongoCollection<DonViTinh> _donViTinh;
@@ -55,7 +54,7 @@ namespace SystemReport.WebAPI.Data
         private readonly IMongoCollection<RowValue> _rowValue;
         private readonly IMongoCollection<LoaiMauBieu> _loaiMauBieu;
         private readonly IMongoCollection<HistoryMauBieu> _historyMauBieu;
-        
+
         private readonly IDbSettings _settings;
         public DataContext(IDbSettings settings)
         {
@@ -67,24 +66,24 @@ namespace SystemReport.WebAPI.Data
                 settings1.UseTls = false;
                 settings1.SslSettings = new SslSettings();
                 settings1.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
-                
+
                 MongoIdentity identity = new MongoInternalIdentity("SystemReport", "admin");
                 MongoIdentityEvidence evidence = new PasswordEvidence("DongThap@123");
-                
+
                 settings1.Credential = new MongoCredential("SCRAM-SHA-1", identity, evidence);
                 _client = new MongoClient(settings1);
             }
             else
             {
-                
-               _client = new MongoClient("mongodb://localhost:27017");
+
+                _client = new MongoClient("mongodb://localhost:27017");
             }
 
             if (_client != null)
             {
                 _context = _client.GetDatabase(_settings.DatabaseName);
             }
-            
+
             _users = _context.GetCollection<User>(_settings.UserCollectionName);
             _roles = _context.GetCollection<Role>(_settings.RoleCollectionName);
             _menu = _context.GetCollection<Menu>(_settings.MenuCollectionName);
@@ -92,14 +91,14 @@ namespace SystemReport.WebAPI.Data
             _file = _context.GetCollection<File>(_settings.FileCollectionName);
             _logging = _context.GetCollection<Logging>(_settings.LoggingCollectionName);
             _refreshToken = _context.GetCollection<RefreshToken>(_settings.RefreshTokenCollectionName);
-            
+
             // Nghiệp vụ
             _donVi = _context.GetCollection<DonVi>(_settings.DonViCollectionName);
             _linhVuc = _context.GetCollection<LinhVuc>(_settings.LinhVucCollectionName);
             _chucVu = _context.GetCollection<ChucVu>(_settings.ChucVuCollectionName);
             _xa = _context.GetCollection<Xa>(_settings.XaCollectionName);
             _huyen = _context.GetCollection<Huyen>(_settings.HuyenCollectionName);
-            
+
             _question = _context.GetCollection<Question>(_settings.QuestionCollectionName);
             _answer = _context.GetCollection<Answer>(_settings.AnswerCollectionName);
             _historyVanBanDi = _context.GetCollection<HistoryVanBanDi>(_settings.HistoryVanBanDiCollectionName);
@@ -130,7 +129,7 @@ namespace SystemReport.WebAPI.Data
             // History
             _historyMauBieu = _context.GetCollection<HistoryMauBieu>(_settings.HistoryMauBieuCollectionName);
         }
-        
+
         public IMongoDatabase Database
         {
             get { return _context; }
@@ -146,7 +145,7 @@ namespace SystemReport.WebAPI.Data
         public IMongoCollection<Module> Modules { get => _module; }
         public IMongoCollection<Logging> Loggings { get => _logging; }
         public IMongoCollection<RefreshToken> RefreshToken { get => _refreshToken; }
-        
+
         // Nghiệp vụ
         public IMongoCollection<DonVi> DonVis { get => _donVi; }
         public IMongoCollection<LinhVuc> LinhVuc { get => _linhVuc; }
@@ -171,42 +170,42 @@ namespace SystemReport.WebAPI.Data
         public IMongoCollection<KhoiCoQuan> KhoiCoQuan { get => _khoiCoQuan; }
         public IMongoCollection<LoaiTrangThai> LoaiTrangThai { get => _loaiTrangThai; }
         public IMongoCollection<HopThu> HopThu { get => _hopThu; }
-        
+
         public IMongoCollection<CongVan> CongVan { get => _congVan; }
         public IMongoCollection<LuuCVDi> LuuCVDi { get => _luuCVDi; }
         public IMongoCollection<LuuCVDen> LuuCVDen { get => _luuCVDen; }
-        
+
         //
         public IMongoCollection<KyBaoCao> KyBaoCao
         {
             get => _kyBaoCao;
         }
-        
+
         public IMongoCollection<DonViTinh> DonViTinh
         {
             get => _donViTinh;
         }
-        
+
         public IMongoCollection<MauBieu> MauBieu
         {
             get => _mauBieu;
         }
-        
+
         public IMongoCollection<BangBieu> BangBieu
         {
             get => _bangBieu;
         }
-        
+
         public IMongoCollection<ThuocTinh> ThuocTinh
         {
             get => _thuocTinh;
         }
-        
+
         public IMongoCollection<RowValue> RowValue
         {
             get => _rowValue;
         }
-        
+
         public IMongoCollection<LoaiMauBieu> LoaiMauBieu
         {
             get => _loaiMauBieu;

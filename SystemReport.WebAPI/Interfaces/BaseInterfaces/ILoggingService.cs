@@ -14,7 +14,7 @@ namespace SystemReport.WebAPI.Interfaces
         LoggingService WithUserName(string userName);
         LoggingService WithContentLog(string contentLog);
         LoggingService WithActionResult(string actionResult);
-        
+
         Task<Logging> GetById(string id);
         Task<PagingModel<Logging>> GetPaging(LoggingParam param);
     }

@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -95,7 +95,7 @@ namespace SystemReport.WebAPI.Services
                     .WithCode(EResultResponse.NAME_EXIST.ToString())
                     .WithMessage("Code đã tồn tại.");
             }
-            
+
             entity.Code = model.Code;
             entity.Ten = model.Ten;
             entity.Color = model.Color;
@@ -147,7 +147,7 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage(DefaultMessage.DELETE_FAILURE);
             }
         }
-        
+
 
         public async Task<TrangThai> GetById(string id)
         {
@@ -167,7 +167,7 @@ namespace SystemReport.WebAPI.Services
                 filter = builder.And(filter,
                     builder.Where(x => x.Code.Trim().ToLower().Contains(param.Content.Trim().ToLower())));
             }
-            
+
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             result.Data = await _collection.Find(filter)
                 .SortBy(x => x.ThuTu)
@@ -181,10 +181,10 @@ namespace SystemReport.WebAPI.Services
         {
             return _context.TrangThai.Find(x => x.IsDeleted != true).ToList();
         }
-         
+
         public async Task<List<TrangThaiTreeVM>> GetTree()
         {
-            var listTrangThai = await _context.TrangThai.Find(x  => x.IsDeleted ==false).SortBy(x=> x.Ten).ToListAsync();
+            var listTrangThai = await _context.TrangThai.Find(x => x.IsDeleted == false).SortBy(x => x.Ten).ToListAsync();
             List<TrangThaiTreeVM> list = new List<TrangThaiTreeVM>();
             foreach (var item in listTrangThai)
             {
@@ -193,10 +193,10 @@ namespace SystemReport.WebAPI.Services
             }
             return list;
         }
-        
+
         public List<TrangThaiTreeVM> GetAllTree()
         {
-            var data =  _context.TrangThai.Find(x => x.IsDeleted != true)
+            var data = _context.TrangThai.Find(x => x.IsDeleted != true)
                 .ToList()
                 .Select(x => new TrangThaiTreeVM(x))
                 .ToList();
@@ -211,19 +211,19 @@ namespace SystemReport.WebAPI.Services
                 if (currentTrangThai != default)
                 {
                     var nextTrangThaiId = currentTrangThai.NextTrangThai.Select(x => x.Id);
-                    return  _context.TrangThai.AsQueryable().Where(x => nextTrangThaiId.Contains(x.Id)).OrderBy(x => x.ThuTu).Select(x => new TrangThaiShort()
+                    return _context.TrangThai.AsQueryable().Where(x => nextTrangThaiId.Contains(x.Id)).OrderBy(x => x.ThuTu).Select(x => new TrangThaiShort()
                     {
                         Id = x.Id,
                         Ten = x.Ten,
                         Code = x.Code,
                         Color = x.Code,
-                        BgColor = x.BgColor 
+                        BgColor = x.BgColor
                     }).ToList();
                 }
-      
+
             }
 
-            return  new List<TrangThaiShort>();
+            return new List<TrangThaiShort>();
         }
     }
 }

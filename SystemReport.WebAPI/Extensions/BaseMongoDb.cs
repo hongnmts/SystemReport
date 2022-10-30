@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Models;
 
 namespace SystemReport.WebAPI.Extensions
@@ -49,7 +49,7 @@ namespace SystemReport.WebAPI.Extensions
             var result = deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
             return new ResultBaseMongo<T>(result);
         }
-        
+
         public async Task<ResultBaseMongo<T>> DeleteByIdsync(TUEntity id)
         {
             FilterDefinition<T> filter = Builders<T>.Filter.Eq(p => p.Id, id);
@@ -59,11 +59,11 @@ namespace SystemReport.WebAPI.Extensions
             var result = deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
             return new ResultBaseMongo<T>(result);
         }
-        
-        
-        
-        
-        
+
+
+
+
+
     }
 
     public class ResultBaseMongo<T>

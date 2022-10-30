@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using SystemReport.WebAPI.Models;
-using SystemReport.WebAPI.Models;
 
 namespace SystemReport.WebAPI.Extensions
 {

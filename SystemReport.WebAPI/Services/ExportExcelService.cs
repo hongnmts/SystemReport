@@ -1,19 +1,14 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Data;
-using SystemReport.WebAPI.Extensions;
 using SystemReport.WebAPI.Interfaces;
-using SystemReport.WebAPI.Models;
-using SystemReport.WebAPI.ViewModels;
 
 namespace SystemReport.WebAPI.Services
 {
     public class ExportExcelService : BaseService, IExportExcelService
     {
-         private DataContext _context;
+        private DataContext _context;
         private IDbSettings _settings;
         private ILoggingService _logger;
         private IRowValueService _rowValueService;

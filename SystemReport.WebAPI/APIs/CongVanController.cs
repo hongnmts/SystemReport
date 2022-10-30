@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
@@ -5,8 +7,6 @@ using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.APIs
@@ -20,7 +20,7 @@ namespace SystemReport.WebAPI.APIs
         {
             _congVanService = congVanService;
         }
-        
+
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create([FromBody] CongVan model)
@@ -43,7 +43,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("update")]
         public async Task<IActionResult> Update([FromBody] CongVan model)
@@ -67,7 +67,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("delete/{id}")]
         public async Task<IActionResult> Delete(string id)
@@ -90,7 +90,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-by-id/{id}")]
         public async Task<IActionResult> GetById(string id)
@@ -161,7 +161,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("get-paging-params-luucvden")]
         public async Task<IActionResult> GetPagingParamLuuCVDen([FromBody] CongVanParam param)
@@ -185,7 +185,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("get-paging-params-luucvdi")]
         public async Task<IActionResult> GetPagingParamLuuCVDi([FromBody] CongVanParam param)
@@ -209,7 +209,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-by-id-luucvden/{id}")]
         public async Task<IActionResult> GetByIdLuuCVDen(string id)
@@ -233,7 +233,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-by-id-luucvdi/{id}")]
         public async Task<IActionResult> GetByIdLuuCVDi(string id)

@@ -1,4 +1,3 @@
-using System;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace SystemReport.WebAPI.Models
@@ -15,11 +14,11 @@ namespace SystemReport.WebAPI.Models
         public string UserName { get; set; }
         public string ContentLog { get; set; }
         public string ActionResult { get; set; } // EActionResultLog
-        
-                
-        public Logging(){}
-        
- 
+
+
+        public Logging() { }
+
+
     }
     public enum EActionLog
     {

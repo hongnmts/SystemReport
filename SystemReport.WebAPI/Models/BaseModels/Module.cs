@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace SystemReport.WebAPI.Models
 {
@@ -11,10 +11,10 @@ namespace SystemReport.WebAPI.Models
         public string Name { get; set; }
         public int Sort { get; set; }
         public List<Permission> Permissions { get; set; } = new List<Permission>();
-        
+
         [BsonIgnore]
         public bool Selected { get; set; } = false;
     }
-    
-    
+
+
 }

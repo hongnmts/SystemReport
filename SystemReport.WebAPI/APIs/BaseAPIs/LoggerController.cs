@@ -1,6 +1,6 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
@@ -19,8 +19,8 @@ namespace SystemReport.WebAPI.APIs.Identity
         {
             _logger = logger;
         }
-        
-                [HttpGet]
+
+        [HttpGet]
         [Route("get-by-id/{id}")]
         public async Task<IActionResult> GetById(string id)
         {

@@ -1,14 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.IO.Pipelines;
-using System.Text;
-using System.Xml;
-using SystemReport.WebAPI.Exceptions;
-using SystemReport.WebAPI.Helpers;
-using SystemReport.WebAPI.Models;
 using Org.BouncyCastle.Asn1.Pkcs;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
@@ -17,11 +6,18 @@ using Org.BouncyCastle.Pkcs;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.X509;
 using Spire.Doc;
-using Spire.Doc.Collections;
 using Spire.Doc.Documents;
 using Spire.Doc.Fields;
 using Spire.Doc.Formatting;
 using Spire.Pdf;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Text;
+using SystemReport.WebAPI.Exceptions;
+using SystemReport.WebAPI.Helpers;
+using SystemReport.WebAPI.Models;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 using FileFormat = Spire.Doc.FileFormat;
 
@@ -35,8 +31,8 @@ namespace SystemReport.WebAPI.Services
             rsaKey.Init(new Org.BouncyCastle.Crypto.KeyGenerationParameters(new SecureRandom(), 2048));
             AsymmetricCipherKeyPair keyPair = rsaKey.GenerateKeyPair();
 
-            RsaKeyParameters Private_Key = (RsaKeyParameters) keyPair.Private;
-            RsaKeyParameters Public_Key = (RsaKeyParameters) keyPair.Public;
+            RsaKeyParameters Private_Key = (RsaKeyParameters)keyPair.Private;
+            RsaKeyParameters Public_Key = (RsaKeyParameters)keyPair.Public;
 
             model.PrivateKey_string = PrivateKeytoString(Private_Key);
             model.PublicKey_string = PublicKeytoString(Public_Key);
@@ -52,7 +48,7 @@ namespace SystemReport.WebAPI.Services
         public static RsaKeyParameters StringtoPrivateKey(string keyString)
         {
             byte[] PrivateKeyDerRestored = Convert.FromBase64String(keyString);
-            RsaKeyParameters PrivateKeyRestored = (RsaKeyParameters) PrivateKeyFactory.CreateKey(PrivateKeyDerRestored);
+            RsaKeyParameters PrivateKeyRestored = (RsaKeyParameters)PrivateKeyFactory.CreateKey(PrivateKeyDerRestored);
             return PrivateKeyRestored;
         }
 
@@ -76,7 +72,7 @@ namespace SystemReport.WebAPI.Services
             string tempPath = Path.GetDirectoryName(filepath) + @"\toPDF.PDF";
             document.SaveToFile(tempPath, Spire.Doc.FileFormat.PDF);
             return ExtractPDF(tempPath);
-            
+
             //Initialzie StringBuilder Instance
             // StringBuilder sb = new StringBuilder();
             //
@@ -111,7 +107,7 @@ namespace SystemReport.WebAPI.Services
             {
                 content.Append(document.Pages[i].ExtractText());
             }
-    
+
             // content.Append(document.Pages[1].ExtractText());
 
             //String fileName = @"D:\TextFromPDF.txt";
@@ -191,14 +187,14 @@ namespace SystemReport.WebAPI.Services
                     Xacthuc(ContentPdf, UserDsign, user.PublicKey_string);
                     break;
                 }
-                
+
                 if (i == listDsign.Length)
                 {
                     Console.WriteLine();
                     Console.WriteLine("Khong tim thay Dsign cua: " + user.UserName);
-                  
+
                 }
-                
+
             }
 
             if (!checkExist)
@@ -208,7 +204,7 @@ namespace SystemReport.WebAPI.Services
                     .WithMessage("Xác thực thất bại với tài khoản: " + user.UserName + ": " + user.FullName);
             }
         }
-        
+
         public static void Xacthuc(string noidungvb, string _Dsign, string _publickey)
         {
             var tmpSourePdfValid = ASCIIEncoding.ASCII.GetBytes(noidungvb);
@@ -240,8 +236,8 @@ namespace SystemReport.WebAPI.Services
 
     public class KySoNoiBoService
     {
-        
-            
+
+
         public void TienTrinhKySo(string pathWord, string fileName, string pathPDF, List<User> users)
         {
             Console.WriteLine(".............................");
@@ -297,7 +293,7 @@ namespace SystemReport.WebAPI.Services
             Document doc = new Document();
             doc.LoadFromFile(pathWord);
             int i;
-    
+
             //Section sec = doc.AddSection();// them moi section
             Section sec = doc.LastSection; // khong them moi sextion
 
@@ -340,7 +336,7 @@ namespace SystemReport.WebAPI.Services
 
 
             Table table = sec.AddTable(true);
-             table.TableFormat.Borders.BorderType = Spire.Doc.Documents.BorderStyle.None;
+            table.TableFormat.Borders.BorderType = Spire.Doc.Documents.BorderStyle.None;
             table.ResetCells(num_row, 2); // set so dong/cot
 
             //table.ApplyHorizontalMerge(1,0, 1); //merge cell
@@ -349,7 +345,7 @@ namespace SystemReport.WebAPI.Services
             for (int r = 0; r < num_row; r++)
             {
                 TableRow DataRow = table.Rows[r];
-                
+
 
                 //C Represents Column 1.
                 //Cell Alignment
@@ -387,7 +383,7 @@ namespace SystemReport.WebAPI.Services
                 }
                 p2.AppendBreak(BreakType.LineBreak);
                 p2.AppendBreak(BreakType.LineBreak);
-   
+
                 p2.AppendText(listuser[i].FullName).ApplyCharacterFormat(formatHSignp2);
                 p2.AppendBreak(BreakType.LineBreak);
                 p2.AppendText("Ký số tại DThU").ApplyCharacterFormat(formatHSignp21);
@@ -399,7 +395,7 @@ namespace SystemReport.WebAPI.Services
                 // p2.AppendText(listuser[i].DonVi?.Ten).ApplyCharacterFormat(formatHSignp21);
                 // p2.AppendBreak(BreakType.LineBreak);
                 // p2.AppendText(listuser[i].NgayKy).ApplyCharacterFormat(formatHSignp21);
-            
+
                 // DataRow.Cells[0].CellFormat.VerticalAlignment = VerticalAlignment.Middle ;
 
                 i = i + 1;
@@ -431,15 +427,15 @@ namespace SystemReport.WebAPI.Services
                         DocPicture pic3 = null;
                         try
                         {
-                             image = Image.FromFile(listuser[i].FilePath);
-                             pic3 = p3.AppendPicture(image);
+                            image = Image.FromFile(listuser[i].FilePath);
+                            pic3 = p3.AppendPicture(image);
                         }
                         catch (Exception e)
                         {
-                             image = Image.FromFile(Constants.DEFAULT_LOGO);
-                             pic3 = p3.AppendPicture(image);
+                            image = Image.FromFile(Constants.DEFAULT_LOGO);
+                            pic3 = p3.AppendPicture(image);
                         }
-                      
+
 
                         pic3.Height = 80f;
                         pic3.Width = 150f;
@@ -457,11 +453,11 @@ namespace SystemReport.WebAPI.Services
                     // p3.AppendText(listuser[i].DonVi?.Ten).ApplyCharacterFormat(formatHSignp31);
                     // p3.AppendBreak(BreakType.LineBreak);
                     // p3.AppendText(listuser[i].NgayKy).ApplyCharacterFormat(formatHSignp31);
-                    
+
                     i = i + 1;
                 }
             }
-            
+
             // doc.SaveToFile(pathPDF, Spire.Doc.FileFormat.PDF);
             //
             try

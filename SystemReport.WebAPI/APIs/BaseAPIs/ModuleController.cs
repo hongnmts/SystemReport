@@ -1,10 +1,6 @@
-using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver.Core.WireProtocol.Messages;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces.Identity;
@@ -16,7 +12,7 @@ using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 namespace SystemReport.WebAPI.APIs.Identity
 {
     [Route("api/v1/[controller]")]
- public class ModuleController : ControllerBase
+    public class ModuleController : ControllerBase
     {
         private IModuleService _moduleService;
 
@@ -76,7 +72,7 @@ namespace SystemReport.WebAPI.APIs.Identity
         {
             try
             {
-               await _moduleService.DeletePermission(model);
+                await _moduleService.DeletePermission(model);
 
                 return Ok(
                     new ResultMessageResponse()
@@ -92,14 +88,14 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("GetPermissionById")]
         public async Task<IActionResult> GetPermissionById([FromBody] Permission model)
         {
             try
             {
-                var data =  await _moduleService.GetPermissionById(model);
+                var data = await _moduleService.GetPermissionById(model);
                 return Ok(
                     new ResultResponse<Permission>()
                         .WithData(data)
@@ -115,7 +111,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("update")]
         public async Task<IActionResult> Update([FromBody] Module model)
@@ -207,7 +203,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-tree-module")]
         public async Task<IActionResult> GetTreeModule()
@@ -231,7 +227,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-          
+
         [HttpPost]
         [Route("get-paging-params")]
         public async Task<IActionResult> GetPagingParam([FromBody] LinhVucParam param)

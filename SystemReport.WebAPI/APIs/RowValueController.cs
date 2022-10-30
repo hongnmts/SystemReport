@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
-using SystemReport.WebAPI.Params;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.APIs
@@ -45,7 +44,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create([FromBody] List<RowValue> model)
@@ -98,7 +97,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpPost]
         [Route("update")]
         public async Task<IActionResult> Update([FromBody] RowValue model)
@@ -169,7 +168,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-tree-row-value-by-bang-bieu-id/{id}")]
         public async Task<IActionResult> GetTreeThuocTinhByBangBieuId(string id)
@@ -193,7 +192,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("render-body-by-bang-bieu-id/{id}")]
         public async Task<IActionResult> RenderBodyByBangBieuId(string id)
@@ -217,7 +216,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("render-body-main-by-bang-bieu-id/{id}")]
         public async Task<IActionResult> RenderBodyMainByBangBieuId(string id)
@@ -242,7 +241,7 @@ namespace SystemReport.WebAPI.APIs
             }
         }
 
-        
+
         [HttpGet]
         [Route("get-parent-row-value-by-bang-bieu-id/{id}")]
         public async Task<IActionResult> GetParentRowValueByBangBieuId(string id)
@@ -266,7 +265,7 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("get-row-value-by-key-row/{id}")]
         public async Task<IActionResult> GetRowValueByKeyRow(string id)
@@ -290,14 +289,14 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        
+
         [HttpGet]
         [Route("add-row-tong/{id}")]
         public async Task<IActionResult> AddRowTong(string id)
         {
             try
             {
-                await _rowValueService.AddRowTong(id); 
+                await _rowValueService.AddRowTong(id);
 
                 return Ok(
                     new ResultResponse<dynamic>()

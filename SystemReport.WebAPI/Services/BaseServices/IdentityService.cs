@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -5,9 +8,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Authorization;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
@@ -219,7 +219,7 @@ namespace SystemReport.WebAPI.Services
                 throw new ResponseMessageException().WithCode(EResultResponse.FAIL.ToString())
                     .WithMessage("Mật khẩu không được để trống");
             }
-            
+
             var user = _context.Users.AsQueryable().Where(x =>
                 (x.UserName.ToLower() == model.UserName.Trim().ToLower()) &&
                 !x.IsAppAuthentication).FirstOrDefault();
@@ -339,7 +339,7 @@ namespace SystemReport.WebAPI.Services
                         var userLogin = new UserLogin(usertemp);
                         return new AuthResponsePaygov(userLogin, temp.Token, temp.JwtId, temp.ExpiryDate)
                         {
-                            expires_in = (int) (temp.ExpiryDate - DateTime.UtcNow).TotalSeconds
+                            expires_in = (int)(temp.ExpiryDate - DateTime.UtcNow).TotalSeconds
                         };
                     }
                 }
@@ -348,7 +348,7 @@ namespace SystemReport.WebAPI.Services
 
             return await GenerateAuthenticationResultForUserAsyncOrthers(user);
         }
-        
+
         public async Task<AuthResponsePaygov> GetTokenPaygov(AuthRequest model)
         {
 
@@ -377,7 +377,7 @@ namespace SystemReport.WebAPI.Services
                         var userLogin = new UserLogin(usertemp);
                         return new AuthResponsePaygov(userLogin, temp.Token, temp.JwtId, temp.ExpiryDate)
                         {
-                            expires_in = (int) (temp.ExpiryDate - DateTime.UtcNow).TotalSeconds
+                            expires_in = (int)(temp.ExpiryDate - DateTime.UtcNow).TotalSeconds
                         };
                     }
                 }
@@ -386,7 +386,7 @@ namespace SystemReport.WebAPI.Services
 
             return await GenerateAuthenticationResultForUserAsyncOrthers(user);
         }
-         
+
         private async Task<AuthResponsePaygov> GenerateAuthenticationResultForUserAsyncOrthers(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -422,7 +422,7 @@ namespace SystemReport.WebAPI.Services
             var createdRefreshToken = await _refreshTokenService.Create(refreshToken);
             // string strPageRole = _userManager.GetSringTotalPageRole(user);
             var userLogin = new UserLogin(user);
-            return new AuthResponsePaygov(userLogin, tokenHandler.WriteToken(token), createdRefreshToken.JwtId,  tokenDescriptor.Expires.HasValue ? tokenDescriptor.Expires.Value : refreshToken.ExpiryDate)
+            return new AuthResponsePaygov(userLogin, tokenHandler.WriteToken(token), createdRefreshToken.JwtId, tokenDescriptor.Expires.HasValue ? tokenDescriptor.Expires.Value : refreshToken.ExpiryDate)
             {
                 expires_in = (int)_jwtSettings.PaygovTokenLife.TotalSeconds
             };

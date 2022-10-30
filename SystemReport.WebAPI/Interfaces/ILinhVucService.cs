@@ -13,12 +13,12 @@ namespace SystemReport.WebAPI.Interfaces
         Task<List<LinhVuc>> Get();
         Task<LinhVuc> GetById(string id);
         Task<PagingModel<LinhVuc>> GetPaging(LinhVucParam param);
-        
-        
+
+
         Task<PagingModel<DonViShort>> GetByIdByFields(ChildPaging childPaging);
-        Task AddUnit(List<DonViShort> model);   
+        Task AddUnit(List<DonViShort> model);
         Task DeleteUnit(DonViShort model);
-        
-        
+
+
     }
 }

@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
-using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
 using EResultResponse = SystemReport.WebAPI.Exceptions.EResultResponse;
 
@@ -27,7 +25,7 @@ namespace SystemReport.WebAPI.APIs
         {
             try
             {
-                var response =  _homeService.GetHomeValue();
+                var response = _homeService.GetHomeValue();
                 return Ok(
                     new ResultResponse<dynamic>()
                         .WithData(response)

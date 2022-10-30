@@ -20,7 +20,7 @@ namespace SystemReport.WebAPI.Installers
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IMenuService, MenuService>();
-            services.AddScoped<IDefineStatusService,DefineStatusService>();
+            services.AddScoped<IDefineStatusService, DefineStatusService>();
             services.AddScoped<IModuleService, ModuleService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ILoggingService, LoggingService>();
@@ -49,7 +49,7 @@ namespace SystemReport.WebAPI.Installers
             services.AddScoped<ICongVanService, CongVanService>();
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<HistoryVanBanDiService>();
-            
+
             services.AddScoped<IKyBaoCaoService, KyBaoCaoService>();
             services.AddScoped<IDonViTinhService, DonViTinhService>();
             services.AddScoped<IMauBieuService, MauBieuService>();

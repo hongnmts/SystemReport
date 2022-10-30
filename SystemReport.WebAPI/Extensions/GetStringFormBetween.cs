@@ -13,7 +13,7 @@ namespace SystemReport.WebAPI.Extensions
             var SP = @string.IndexOf(sub1) + sub1.Length;
             var string1 = @string.Substring(0, SP);
             var string2 = @string.Substring(SP);
-            var TP =  string2.IndexOf(sub2);
+            var TP = string2.IndexOf(sub2);
             return @string.Substring(SP, TP);
         }
 

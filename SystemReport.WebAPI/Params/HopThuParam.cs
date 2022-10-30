@@ -2,6 +2,6 @@
 {
     public class HopThuParam : PagingParam
     {
-        
+
     }
 }

@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -84,7 +84,7 @@ namespace SystemReport.WebAPI.Services
                 .WithContentLog(DefaultMessage.CREATE_SUCCESS).SaveChanges();
             return entity;
         }
-        
+
         public async Task<DonVi> Update(DonVi model)
         {
             if (model == default)
@@ -212,7 +212,7 @@ namespace SystemReport.WebAPI.Services
 
         public async Task<List<DonViTreeVM>> GetTree()
         {
-            var listDonVi = await _context.DonVis.Find(x  => x.IsDeleted ==false).SortBy(donVi => donVi.CapDV).ToListAsync();
+            var listDonVi = await _context.DonVis.Find(x => x.IsDeleted == false).SortBy(donVi => donVi.CapDV).ToListAsync();
             var parents = listDonVi.Where(x => x.DonViCha == null).ToList();
             List<DonViTreeVM> list = new List<DonViTreeVM>();
             foreach (var item in parents)

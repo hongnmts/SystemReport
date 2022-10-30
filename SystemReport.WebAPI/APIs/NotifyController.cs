@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using SystemReport.WebAPI.Exceptions;
@@ -5,8 +7,6 @@ using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
 using SystemReport.WebAPI.Models;
 using SystemReport.WebAPI.Params;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using EResultResponse = SystemReport.WebAPI.Helpers.EResultResponse;
 
 namespace SystemReport.WebAPI.Controllers
@@ -21,7 +21,7 @@ namespace SystemReport.WebAPI.Controllers
         {
             this._notifyService = notifyService;
         }
-        
+
         // [HttpPost]
         // [Route("get-paging-params")]
         // public async Task<IActionResult> GetPagingParam([FromBody] NotifyParam param)
@@ -105,7 +105,7 @@ namespace SystemReport.WebAPI.Controllers
                 return Ok(resultResponse);
             }
         }
-        
+
         [HttpPost]
         [Route("change-status")]
         public async Task<IActionResult> ChangeStatus([FromBody] NotifyParam model)
@@ -125,11 +125,11 @@ namespace SystemReport.WebAPI.Controllers
                         Data = $"{ex.Message}"
                     }
                 );
-                
+
             }
         }
-        
-        
+
+
         [HttpGet]
         [Route("luu-cong-van-noi-bo/{id}")]
         public async Task<IActionResult> LuuCVNoiBo(string id)

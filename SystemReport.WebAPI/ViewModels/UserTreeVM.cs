@@ -19,12 +19,12 @@ namespace SystemReport.WebAPI.ViewModels
         }
         public string Id { get; set; }
         public string Label { get; set; }
-        
+
 
         public bool Selected { get; set; } = false;
         public bool Opened { get; set; } = false;
     }
-    
+
     public class DonViTreeMail
     {
         public DonViTreeMail(DonVi model)
@@ -36,16 +36,16 @@ namespace SystemReport.WebAPI.ViewModels
         }
         public string Id { get; set; }
         public string Label { get; set; }
-        
+
 
         public bool Selected { get; set; } = false;
         public bool Opened { get; set; } = false;
-        
+
         public List<UserTreeChilVM> Children { get; set; }
     }
     public class UserTreeChilVM
     {
-        public UserTreeChilVM(){}
+        public UserTreeChilVM() { }
         public UserTreeChilVM(User model)
         {
             this.Id = model.Id;
@@ -53,7 +53,7 @@ namespace SystemReport.WebAPI.ViewModels
             this.UserName = model.UserName;
             this.DonVi = model.DonVi;
             this.ChucVu = model.ChucVu;
-            this.Label = model.UserName +" - "+ model.FullName;
+            this.Label = model.UserName + " - " + model.FullName;
             this.Selected = false;
             this.Opened = false;
         }

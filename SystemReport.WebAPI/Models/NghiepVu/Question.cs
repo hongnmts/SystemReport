@@ -1,6 +1,6 @@
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 using SystemReport.WebAPI.Extensions;
 
 namespace SystemReport.WebAPI.Models
@@ -23,45 +23,45 @@ namespace SystemReport.WebAPI.Models
         [BsonIgnore]
         public string UserNameShow
         {
-            get { return UserName;  }
+            get { return UserName; }
             // get { return UserName.HideString(); }
         }
         //for guess information
         [BsonIgnore] public bool IsGuess { get; set; }
         [BsonIgnore] public string PhoneNumber { get; set; }
-        
+
         public List<AnswerModel> Answers { get; set; }
-        
+
         // public string HuyenId { get; set; }
         // public string HuyenName { get; set; }
-        public HuyenShort Huyen { get; set;  }
-        
-        public string IdOwner { get; set;  }
-        
+        public HuyenShort Huyen { get; set; }
+
+        public string IdOwner { get; set; }
+
         [BsonIgnore]
         public bool isShow { get; set; } = false;
-        
-        public  XaShort Xa { get; set;  }
+
+        public XaShort Xa { get; set; }
         // public string XaId { get; set; }
         // public string XaName { get; set; }
-        
-        public  LinhVucShort LinhVuc { get; set;  }
+
+        public LinhVucShort LinhVuc { get; set; }
         // public string LinhVucId { get; set; }  
         // public string LinhVucName { get; set; }
         public string Address { get; set; }
         public List<FileShort> FileManagers { get; set; } = new List<FileShort>();
-        
+
 
         public List<FileShort> FileImage { get; set; } = new List<FileShort>();
-        
+
         public List<FileShort> FilSystemReport { get; set; } = new List<FileShort>();
 
         [BsonIgnore]
         public List<FileShort> UploadFiles { get; set; } = new List<FileShort>();
-        
-        public DonViShort DonVi { get; set;  } 
-        
-        public  string Note { get; set;  }
+
+        public DonViShort DonVi { get; set; }
+
+        public string Note { get; set; }
 
         // [BsonIgnore] 
         // public BrowsingStatus  browsingStatus { get; set; }  
@@ -159,10 +159,10 @@ namespace SystemReport.WebAPI.Models
     {
         public int Id { get; set; }
         public string Ten { get; set; }
-        
-        public  string idTo { get; set;  }
-        public string tenTo { get; set;  }
+
+        public string idTo { get; set; }
+        public string tenTo { get; set; }
     }
-    
-    
+
+
 }

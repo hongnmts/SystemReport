@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace SystemReport.WebAPI.Models
 {
@@ -20,20 +19,20 @@ namespace SystemReport.WebAPI.Models
         public string TenCapDonVi { get; set; }
     }
 
-    public class DonViShort 
+    public class DonViShort
     {
         public string Id { get; set; }
-        public string Ten { get; set; } 
+        public string Ten { get; set; }
         public string TenKhongDau { get; set; }
 
         [BsonIgnore]
         public string linhVucId { get; set; }
-        
+
     }
 
-    
 
-    
+
+
     public class DonViQuanLy : DonViShort
     {
         public bool IsParent { get; set; }
@@ -51,12 +50,12 @@ namespace SystemReport.WebAPI.Models
             get;
             set;
         }
-        public List<DonViTree>children { get; set; }
+        public List<DonViTree> children { get; set; }
     }
 
     public class DonViParams
     {
-        public  string DuAnId { get; set; }
-        public  List<DonViTree> DonViTree { get; set; }
+        public string DuAnId { get; set; }
+        public List<DonViTree> DonViTree { get; set; }
     }
 }

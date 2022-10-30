@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Driver;
 using SystemReport.WebAPI.Data;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Extensions;
@@ -200,7 +200,7 @@ namespace SystemReport.WebAPI.Services
                 result.TotalRows = model.DonVis.Count();
                 if (result != null)
                 {
-                    result.Data =  model.DonVis.Skip(childPaging.Skip).Take(childPaging.Limit).ToList();
+                    result.Data = model.DonVis.Skip(childPaging.Skip).Take(childPaging.Limit).ToList();
                     return result;
                 }
             }
@@ -211,38 +211,38 @@ namespace SystemReport.WebAPI.Services
             }
             return result;
         }
-        public async  Task  AddUnit(List<DonViShort> list)
+        public async Task AddUnit(List<DonViShort> list)
         {
             var entity = _collection.Find(x => x.Id == list[0].linhVucId).FirstOrDefault();
-                if (entity == default)
+            if (entity == default)
+            {
+                throw new ResponseMessageException()
+                    .WithCode(EResultResponse.FAIL.ToString())
+                    .WithMessage(DefaultMessage.DATA_NOT_EMPTY);
+            }
+            var filter = Builders<LinhVuc>.Filter.Where(x => x.Id == entity.Id);
+            foreach (var item in list)
+            {
+                var model = entity.DonVis.Where(x => x.Id == item.Id).FirstOrDefault();
+                if (model != null)
                 {
                     throw new ResponseMessageException()
                         .WithCode(EResultResponse.FAIL.ToString())
-                        .WithMessage(DefaultMessage.DATA_NOT_EMPTY);
+                        .WithMessage(DefaultMessage.NAME_EXISTED);
                 }
-                var filter = Builders<LinhVuc>.Filter.Where(x => x.Id == entity.Id);
-                foreach (var item in list)
+                var update = Builders<LinhVuc>.Update.Push(y => y.DonVis, item);
+                var result = _collection.UpdateOneAsync(filter, update);
+                if (result == default)
                 {
-                    var model = entity.DonVis.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (model != null)
-                    {
-                        throw new ResponseMessageException()
-                            .WithCode(EResultResponse.FAIL.ToString())
-                            .WithMessage(DefaultMessage.NAME_EXISTED);
-                    }
-                    var update = Builders<LinhVuc>.Update.Push(y => y.DonVis, item);
-                    var result = _collection.UpdateOneAsync(filter, update);
-                    if (result== default)
-                    {
-                        throw new ResponseMessageException()
-                            .WithCode(EResultResponse.FAIL.ToString())
-                            .WithMessage(DefaultMessage.CREATE_FAILURE);
-                    }
+                    throw new ResponseMessageException()
+                        .WithCode(EResultResponse.FAIL.ToString())
+                        .WithMessage(DefaultMessage.CREATE_FAILURE);
                 }
-            
+            }
+
         }
 
-        public async  Task DeleteUnit(DonViShort model)
+        public async Task DeleteUnit(DonViShort model)
         {
             var entity = _collection.Find(x => x.Id == model.linhVucId).FirstOrDefault();
             if (entity == default)
@@ -255,7 +255,7 @@ namespace SystemReport.WebAPI.Services
             var update = Builders<LinhVuc>.Update.PullFilter(y => y.DonVis,
                 Builders<DonViShort>.Filter.Where(n => n.Id == model.Id));
             var result = _collection.UpdateOneAsync(filter, update);
-            if (result== default)
+            if (result == default)
             {
                 throw new ResponseMessageException()
                     .WithCode(EResultResponse.FAIL.ToString())

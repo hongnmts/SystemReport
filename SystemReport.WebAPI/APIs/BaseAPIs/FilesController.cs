@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -5,10 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using SystemReport.WebAPI.Exceptions;
 using SystemReport.WebAPI.Helpers;
 using SystemReport.WebAPI.Interfaces;
@@ -27,7 +26,7 @@ namespace SystemReport.WebAPI.APIs.Identity
             _fileService = fileService;
             _hostingEnvironment = hostingEnvironment;
         }
-        
+
         [HttpPost]
         [Route("~/api/v1/files/upload")]
         public async Task<IActionResult> UploadFile()
@@ -189,7 +188,7 @@ namespace SystemReport.WebAPI.APIs.Identity
                             await stream.CopyToAsync(memory);
                         }
                         memory.Position = 0;
-                        return File(memory, "application/octet-stream",filename);
+                        return File(memory, "application/octet-stream", filename);
                     }
                 }
                 return File(memory, "application/octet-stream", Path.GetFileName(pathFile));
@@ -198,7 +197,7 @@ namespace SystemReport.WebAPI.APIs.Identity
             {
                 return Ok(new HttpResponseMessage(HttpStatusCode.BadRequest));
             }
-        }   
+        }
 
         [HttpGet]
         [Route("~/api/v1/files/download/{id}")]
