@@ -1,4 +1,0 @@
-namespace SystemReport.WebAPI.Installers
-{
-
-}
