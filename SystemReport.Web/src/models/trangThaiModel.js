@@ -1,4 +1,3 @@
-import moment from "moment";
 const toJson = (item) => {
     return {
         id: item.id,

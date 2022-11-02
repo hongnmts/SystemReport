@@ -24,26 +24,6 @@ import "@/design/index.scss";
 import Sparkline from 'vue-sparklines'
 import VueCropper from "vue-cropper";
 
-import LetterCube from "@/components/LetterCube";
-
-const firebaseConfig = {
-  apiKey: process.env.VUE_APP_apiKey,
-  authDomain: process.env.VUE_APP_authDomain,
-  databaseURL: process.env.VUE_APP_databaseURL,
-  projectId: process.env.VUE_APP_projectId,
-  storageBucket: process.env.VUE_APP_storageBucket,
-  messagingSenderId: process.env.VUE_APP_messagingSenderId,
-  appId: process.env.VUE_APP_appId,
-  measurementId: process.env.VUE_APP_measurementId
-};
-
-// if (process.env.VUE_APP_DEFAULT_AUTH === "firebase") {
-//   initFirebaseBackend(firebaseConfig);
-// } else {
-//   configureFakeBackend();
-// }
-
-
 Vue.config.productionTip = false
 const options = {
   // You can set your default options here

@@ -3,19 +3,13 @@ import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 import {pagingModel} from "@/models/pagingModel";
-import Sidepanel from "./sidepanel";
 import {userModel} from "@/models/userModel";
 import {thongBaoModel} from "@/models/thongBaoModel";
 import {CONSTANTS} from "@/helpers/constants";
-import {vanBanDenModel} from "@/models/vanBanDenModel";
 import Multiselect from "vue-multiselect";
 import CKEditor from "@ckeditor/ckeditor5-vue";
-import Switches from "vue-switches";
 import DatePicker from "vue2-datepicker";
-import vue2Dropzone from "vue2-dropzone";
-import Treeselect from "@riophae/vue-treeselect";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import {vanBanDiModel} from "@/models/vanBanDiModel";
 import {notifyModel} from "@/models/notifyModel";
 
 export default {
