@@ -84,12 +84,15 @@ namespace SystemReport.WebAPI.Services
             // Tính tổng chi tiêu con
             var dsThuocTinh = _context.ThuocTinh
                 .Find(x => x.BangBieuId == firstModel.BangBieuId && x.TinhChiTieuCon == true).ToList();
+            //Lấy danh sách các dòng chỉ tiêu
             var chiTieus = _context.RowValue.Find(x => x.KeyRow == keyRow).ToList();
             var rowValues = _context.RowValue.Find(x => x.BangBieuId == firstModel.BangBieuId && x.IsDeleted != true)
                 .ToList();
+            //Duyệt qua từng dòng chỉ tiêu
             foreach (var ct in chiTieus)
             {
                 var tt = dsThuocTinh.Where(x => x.Id == ct.ThuocTinhId).FirstOrDefault();
+                //kiểm tra mỗi ô trong cột thuộc tính tương ứng với mỗi chỉ tiêu
                 if (tt != default)
                 {
                     ct.TinhTongChiTieuCon = false;
@@ -688,34 +691,43 @@ namespace SystemReport.WebAPI.Services
 
         public async Task LoopTinhToanChiTieu(RowValue rowValue, List<RowValue> rowValues)
         {
+            // lấy giá trị của từng ô của một chỉ tiêu, thuộc tính cụ thể
             var value = rowValues.Where(x => x.ThuocTinhId == rowValue.ThuocTinhId && x.KeyRow == rowValue.KeyRow)
                 .FirstOrDefault();
+            // Nếu giá trị khác null
             if (value != default)
             {
+                //Kiểm tra ô đang xét có ô chỉ tiêu cha không
                 var checkParentId = string.IsNullOrEmpty(value.ParentId);
+                //Nếu có chỉ tiêu cha
                 if (!checkParentId)
                 {
+                    //Duyệt danh sách các dòng để xác định ô chỉ tiêu cha của ô đang xét
                     var parent = rowValues
                         .FirstOrDefault(x => x.ThuocTinhId == rowValue.ThuocTinhId && x.KeyRow == value.ParentId);
-
+                    // Nếu tìm được ô chỉ tiêu cha
                     if (parent != default)
                     {
                         // if (parent.TinhTongChiTieuCon)
                         // {
                         //     
                         // }
+                        //Gán trạng thái TinhTongChiTieuCon của ô chỉ tiêu cha bằng true
                         parent.TinhTongChiTieuCon = true;
+                        //Nếu thuộc tính StyleInput của ô chỉ tiêu cha khác null và không phải là công thức
                         if (parent.StyleInput != default && parent.StyleInput.Id != "formula")
                         {
+                            //Tạo đối tượng công thức và gán cho thuộc tính StyleInput của ô chỉ tiêu cha
                             parent.StyleInput = new StyleInput() { Id = "formula", Name = "Công thức" };
                         }
-
+                        //Nếu thuộc tính StringCongThuc của ô chỉ tiêu cha là null 
                         if (string.IsNullOrEmpty(parent.StringCongThuc))
                         {
                             parent.StringCongThuc += $"<{rowValue.Code}>";
                         }
                         else
                         {
+                        // Kiểm tra thuộc tính StringCongThuc của ô chỉ tiêu cha có chứa Code của ô hiện tại không
                             var check = parent.StringCongThuc.Contains(rowValue.Code);
                             if (!check)
                             {
