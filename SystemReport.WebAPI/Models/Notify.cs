@@ -20,5 +20,6 @@ namespace SystemReport.WebAPI.Models
         public ELoaiCongVan LoaiCongVan { get; set; }
         [BsonIgnore]
         public List<FileShort> Files { get; set; }
+        public int Type { get; set; }
     }
 }
