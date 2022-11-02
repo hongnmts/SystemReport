@@ -29,26 +29,14 @@ namespace SystemReport.WebAPI.Installers
             services.AddScoped<IChucVuService, ChucVuService>();
             services.AddScoped<ILinhVucService, LinhVucService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
-            services.AddScoped<IDMHanhChinhService, DMHanhChinhService>();
-
-            services.AddScoped<HistoryVanBanDiService>();
-            services.AddScoped<IWarningService, WarningService>();
             services.AddScoped<ITrangThaiService, TrangThaiService>();
             services.AddScoped<IModuleTrangThaiService, ModuleTrangThaiService>();
-            services.AddScoped<ILoaiVanBanService, LoaiVanBanService>();
-            services.AddScoped<IHoSoDonViService, HoSoDonViService>();
-            services.AddScoped<ILichCongTacService, LichCongTacService>();
-            services.AddScoped<IHinhThucGuiService, HinhThucGuiService>();
-            services.AddScoped<IHinhThucGuiService, HinhThucGuiService>();
             services.AddScoped<IKhoiCoQuanService, KhoiCoQuanService>();
             services.AddScoped<ICoQuanService, CoQuanService>();
             services.AddScoped<INotifyService, NotifyService>();
             services.AddScoped<IEnumService, EnumService>();
             services.AddScoped<ILoaiTrangThaiService, LoaiTrangThaiService>();
-            services.AddScoped<IHopThuService, HopThuService>();
-            services.AddScoped<ICongVanService, CongVanService>();
             services.AddScoped<IDashboardService, DashboardService>();
-            services.AddScoped<HistoryVanBanDiService>();
 
             services.AddScoped<IKyBaoCaoService, KyBaoCaoService>();
             services.AddScoped<IDonViTinhService, DonViTinhService>();

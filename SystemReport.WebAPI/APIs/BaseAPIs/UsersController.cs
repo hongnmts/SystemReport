@@ -283,59 +283,5 @@ namespace SystemReport.WebAPI.APIs.Identity
                 );
             }
         }
-
-        [HttpPost]
-        [Route("update-signature")]
-        public async Task<IActionResult> UpdateSignature([FromBody] SignatureSaveVM model)
-        {
-            try
-            {
-                await _userService.UpdateSignature(model);
-
-                if (model.Action == "DELETE")
-                {
-                    return Ok(
-                        new ResultMessageResponse()
-                            .WithCode(EResultResponse.SUCCESS.ToString())
-                            .WithMessage("Xóa chữ ký thành công!")
-                    );
-                }
-                return Ok(
-                    new ResultMessageResponse()
-                        .WithCode(EResultResponse.SUCCESS.ToString())
-                        .WithMessage("Thêm chữ ký mới thành công!")
-                );
-            }
-            catch (ResponseMessageException ex)
-            {
-                return Ok(
-                    new ResultMessageResponse().WithCode(ex.ResultCode)
-                        .WithMessage(ex.ResultString)
-                );
-            }
-        }
-        [HttpGet]
-        [Route("get-signature/{id}")]
-        public async Task<IActionResult> GetSignature(string id)
-        {
-            try
-            {
-                var data = await _userService.GetSignature(id);
-
-
-                return Ok(
-                    new ResultResponse<List<SignatureSave>>().WithData(data)
-                        .WithCode(EResultResponse.SUCCESS.ToString())
-                        .WithMessage("Lấy dữ liệu thành công")
-                );
-            }
-            catch (ResponseMessageException ex)
-            {
-                return Ok(
-                    new ResultMessageResponse().WithCode(ex.ResultCode)
-                        .WithMessage(ex.ResultString)
-                );
-            }
-        }
     }
 }

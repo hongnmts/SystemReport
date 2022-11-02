@@ -18,6 +18,5 @@ namespace SystemReport.WebAPI.Interfaces
         Task<Notify> GetById(string id);
         Task<ResultResponse<NotifyVM>> GetListNotify();
         Task<ResultResponse<Notify>> ChangeStatus(string id);
-        Task LuuCVNoiBo(string idNotify);
     }
 }

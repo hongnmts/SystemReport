@@ -22,16 +22,12 @@ namespace SystemReport.WebAPI.Services
         private DataContext _context;
         private IMongoCollection<Notify> _collection;
         private BaseMongoDb<Notify, string> BaseMongoDb;
-        private BaseMongoDb<LuuCVDi, string> BaseMongoVanBanDi;
-        private BaseMongoDb<LuuCVDen, string> BaseMongoVanBanDen;
         public NotifyService(DataContext context, IHttpContextAccessor contextAccessor)
             : base(context, contextAccessor)
         {
             _context = context;
             _collection = _context.Notify;
             BaseMongoDb = new BaseMongoDb<Notify, string>(context.Notify);
-            BaseMongoVanBanDi = new BaseMongoDb<LuuCVDi, string>(context.LuuCVDi);
-            BaseMongoVanBanDen = new BaseMongoDb<LuuCVDen, string>(context.LuuCVDen);
         }
 
         private List<string> _recipientIds { get; set; }
@@ -120,36 +116,6 @@ namespace SystemReport.WebAPI.Services
             var data = await _context.Notify.Find(x => x.Id == id).FirstOrDefaultAsync();
             if (data != default)
             {
-                var files = new List<FileShort>();
-                if (data.LoaiCongVan == ELoaiCongVan.CONG_VAN_DI)
-                {
-                    var vanBan = _context.VanBanDi.Find(x => x.Id == data.CongVanId).FirstOrDefault();
-                    if (vanBan != default)
-                    {
-                        if (vanBan.File != default)
-                        {
-                            files.AddRange(vanBan.File);
-                        }
-
-                        if (vanBan.FilePDF != default)
-                        {
-                            files.Add(vanBan.FilePDF.LastOrDefault());
-                        }
-                    }
-                }
-                else if (data.LoaiCongVan == ELoaiCongVan.CONG_VAN_DEN)
-                {
-                    var vanBan = _context.VanBanDen.Find(x => x.Id == data.CongVanId).FirstOrDefault();
-                    if (vanBan != default)
-                    {
-                        if (vanBan.File != default)
-                        {
-                            files.AddRange(vanBan.File);
-                        }
-                    }
-                }
-
-                data.Files = files;
                 return data;
             }
 
@@ -228,142 +194,6 @@ namespace SystemReport.WebAPI.Services
                 resultResponse.ResultString = "Lỗi" + ex.Message;
             }
             return resultResponse;
-        }
-
-        public async Task LuuCVNoiBo(string idNotify)
-        {
-            var notify = _context.Notify.Find(x => x.Id == idNotify).FirstOrDefault();
-            if (notify == default)
-            {
-                throw new ResponseMessageException()
-                    .WithCode(EResultResponse.FAIL.ToString())
-                    .WithMessage("Không tìm thấy thông báo!");
-            }
-
-            if (notify.LoaiCongVan == 0 && string.IsNullOrEmpty(notify.CongVanId))
-            {
-                throw new ResponseMessageException()
-                    .WithCode(EResultResponse.FAIL.ToString())
-                    .WithMessage("Không tìm thấy công văn");
-            }
-
-            if (notify.LoaiCongVan == ELoaiCongVan.CONG_VAN_DI)
-            {
-                var congVanDi = _context.VanBanDi.Find(x => x.Id == notify.CongVanId && x.IsDeleted != true).FirstOrDefault();
-                if (congVanDi != default)
-                {
-                    var checkSoLuu = _context.LuuCVDi.Find(x => x.SoLuuCV == congVanDi.SoLuuCV && x.IsDeleted != true)
-                        .FirstOrDefault();
-                    if (checkSoLuu != default)
-                    {
-                        throw new ResponseMessageException()
-                            .WithCode(EResultResponse.FAIL.ToString())
-                            .WithMessage("Số lưu công văn đã tồn tại: " + congVanDi.SoLuuCV);
-                    }
-                    var entity = new LuuCVDi();
-                    entity.Id = BsonObjectId.GenerateNewId().ToString();
-                    entity.LoaiVanBan = congVanDi.LoaiVanBan;
-                    entity.VanBanId = congVanDi.Id;
-                    entity.TrangThai = congVanDi.TrangThai;
-                    entity.SoLuuCV = congVanDi.SoLuuCV;
-                    entity.SoVBDi = congVanDi.SoVBDi;
-                    entity.NgayNhap = congVanDi.NgayNhap;
-                    entity.NgayBanHanh = congVanDi.NgayBanHanh;
-                    entity.NgayTraLoi = congVanDi.NgayTraLoi;
-                    entity.TraLoiCVSo = congVanDi.TraLoiCVSo;
-                    entity.SoBan = congVanDi.SoBan;
-                    entity.TrichYeu = congVanDi.TrichYeu;
-                    entity.DonViSoan = congVanDi.DonViSoan;
-                    entity.HinhThucGui = congVanDi.HinhThucGui;
-                    entity.CanBoSoan = congVanDi.CanBoSoan;
-                    entity.LinhVuc = congVanDi.LinhVuc;
-                    entity.NoiLuuTru = congVanDi.NoiLuuTru;
-                    entity.KhoiCoQuanNhan = congVanDi.KhoiCoQuanNhan;
-                    entity.CoQuanNhan = congVanDi.CoQuanNhan;
-                    entity.NguoiKy = congVanDi.NguoiKy;
-                    entity.NgayKy = congVanDi.NgayKy;
-                    entity.File = congVanDi.File;
-                    entity.FilePDF = congVanDi.FilePDF;
-                    entity.PhanCongKySo = congVanDi.PhanCongKySo;
-                    entity.NguoiPhanCong = congVanDi.NguoiPhanCong;
-                    entity.MucDoBaoMat = congVanDi.MucDoBaoMat;
-                    entity.MucDoTinhChat = congVanDi.MucDoTinhChat;
-                    entity.HoSoDonVi = congVanDi.HoSoDonVi;
-
-                    entity.CreatedBy = CurrentUserName;
-                    entity.ModifiedBy = CurrentUserName;
-                    entity.CreatedAt = DateTime.Now;
-                    entity.ModifiedAt = DateTime.Now;
-
-                    var result = await BaseMongoVanBanDi.CreateAsync(entity);
-                    if (result.Entity.Id == default || !result.Success)
-                    {
-                        throw new ResponseMessageException()
-                            .WithCode(EResultResponse.FAIL.ToString())
-                            .WithMessage(DefaultMessage.CREATE_FAILURE);
-                    }
-                }
-            }
-            else if (notify.LoaiCongVan == ELoaiCongVan.CONG_VAN_DEN)
-            {
-                var congVanDen = _context.VanBanDen.Find(x => x.Id == notify.CongVanId && x.IsDeleted != true).FirstOrDefault();
-                if (congVanDen != default)
-                {
-                    var checkSoLuu = _context.LuuCVDen.Find(x => x.SoLuuCV == congVanDen.SoLuuCV && x.IsDeleted != true)
-                        .FirstOrDefault();
-                    if (checkSoLuu != default)
-                    {
-                        throw new ResponseMessageException()
-                            .WithCode(EResultResponse.FAIL.ToString())
-                            .WithMessage("Số lưu công văn đã tồn tại: " + congVanDen.SoLuuCV);
-                    }
-                    var entity = new LuuCVDen();
-                    entity.Id = BsonObjectId.GenerateNewId().ToString();
-                    entity.VanBanId = congVanDen.Id;
-                    entity.LoaiVanBan = congVanDen.LoaiVanBan;
-                    entity.TrangThai = congVanDen.TrangThai;
-                    entity.SoLuuCV = congVanDen.SoLuuCV;
-                    entity.SoVBDen = congVanDen.SoVBDen;
-                    entity.NgayNhap = congVanDen.NgayNhap;
-                    entity.NgayBanHanh = congVanDen.NgayBanHanh;
-                    entity.NgayTraLoi = congVanDen.NgayTraLoi;
-                    entity.TraLoiCVSo = congVanDen.TraLoiCVSo;
-                    entity.SoBan = congVanDen.SoBan;
-                    entity.TrichYeu = congVanDen.TrichYeu;
-                    entity.DonViSoan = congVanDen.DonViSoan;
-                    entity.HinhThucNhan = congVanDen.HinhThucNhan;
-                    entity.CanBoSoan = congVanDen.CanBoSoan;
-                    entity.LinhVuc = congVanDen.LinhVuc;
-                    entity.NoiLuuTru = congVanDen.NoiLuuTru;
-                    entity.KhoiCoQuanNhan = congVanDen.KhoiCoQuanNhan;
-                    entity.CoQuanNhan = congVanDen.CoQuanNhan;
-                    entity.NguoiKy = congVanDen.NguoiKy;
-                    entity.NgayKy = congVanDen.NgayKy;
-                    entity.File = congVanDen.File;
-                    entity.MucDoBaoMat = congVanDen.MucDoBaoMat;
-                    entity.MucDoTinhChat = congVanDen.MucDoTinhChat;
-                    entity.HoSoDonVi = congVanDen.HoSoDonVi;
-
-                    entity.CreatedBy = CurrentUserName;
-                    entity.ModifiedBy = CurrentUserName;
-                    entity.CreatedAt = DateTime.Now;
-                    entity.ModifiedAt = DateTime.Now;
-
-                    var result = await BaseMongoVanBanDen.CreateAsync(entity);
-                    if (result.Entity.Id == default || !result.Success)
-                    {
-                        throw new ResponseMessageException()
-                            .WithCode(EResultResponse.FAIL.ToString())
-                            .WithMessage(DefaultMessage.CREATE_FAILURE);
-                    }
-                }
-            }
-            else
-            {
-                throw new ResponseMessageException()
-                    .WithCode(EResultResponse.FAIL.ToString())
-                    .WithMessage("Không tìm thấy công văn");
-            }
         }
     }
 }

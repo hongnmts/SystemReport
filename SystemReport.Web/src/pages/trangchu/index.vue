@@ -5,9 +5,7 @@ import Header from "@/components/header";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import RightBar from "@/components/right-bar";
-import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-// optional style for arrows & dots
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import {menuItems} from "@/components/menu-items";
 import {CONSTANTS} from "@/helpers/constants";

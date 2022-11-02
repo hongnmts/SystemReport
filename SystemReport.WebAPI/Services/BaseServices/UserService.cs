@@ -193,9 +193,6 @@ namespace SystemReport.WebAPI.Services
                 DenNgay = model.DenNgay
             };
 
-            // Tao5 khoa
-            SignDigitalService.GeneratSignKey(ref entity);
-
             if (model.DonVi != default)
             {
                 entity.DonVi = model.DonVi;
@@ -480,33 +477,6 @@ namespace SystemReport.WebAPI.Services
             }
 
             return data;
-        }
-
-        public async Task UpdateSignature(SignatureSaveVM model)
-        {
-            var user = await _context.Users.Find(x => x.UserName.ToLower() == model.UserName.ToLower()).FirstOrDefaultAsync();
-            if (user == default)
-                throw new ResponseMessageException().WithCode(EResultResponse.FAIL.ToString())
-                    .WithMessage("Không tìm thấy người dùng!");
-
-            user.SignatureSaves = model.SignatureSaves;
-
-            var result = await BaseMongoDb.UpdateAsync(user);
-            if (!result.Success)
-            {
-                throw new ResponseMessageException().WithCode(EResultResponse.FAIL.ToString())
-                    .WithMessage(DefaultMessage.UPDATE_FAILURE);
-            }
-        }
-
-        public async Task<List<SignatureSave>> GetSignature(string userName)
-        {
-            var user = await _context.Users.Find(x => x.UserName == userName).FirstOrDefaultAsync();
-            if (user == default)
-                throw new ResponseMessageException().WithCode(EResultResponse.FAIL.ToString())
-                    .WithMessage("Không tìm thấy người dùng!");
-
-            return user.SignatureSaves;
         }
     }
 }

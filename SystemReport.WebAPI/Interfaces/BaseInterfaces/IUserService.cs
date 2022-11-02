@@ -21,8 +21,5 @@ namespace SystemReport.WebAPI.Interfaces
         Task<User> FindUserWithUserNameOrPhoneNumber(string input);
         Task ReadDataUser(string filePath);
         Task<List<DonViTreeMail>> UserTreeForDonVi();
-
-        Task UpdateSignature(SignatureSaveVM model);
-        Task<List<SignatureSave>> GetSignature(string userName);
     }
 }

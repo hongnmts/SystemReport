@@ -1,12 +1,8 @@
 <script>
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
-import {required} from "vuelidate/lib/validators";
 import appConfig from "@/app.config";
 import {notifyModel} from "@/models/notifyModel";
-import {pagingModel} from "@/models/pagingModel";
-import Multiselect from "vue-multiselect";
-import {roleModel} from "@/models/roleModel";
 import {moduleModel} from "@/models/moduleModel";
 
 export default {

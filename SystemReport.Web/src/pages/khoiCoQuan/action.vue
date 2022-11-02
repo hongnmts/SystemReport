@@ -6,6 +6,7 @@ import appConfig from "@/app.config";
 import {notifyModel} from "@/models/notifyModel";
 import {quyenModel} from "@/models/quyenModel";
 import {moduleModel} from "@/models/moduleModel";
+
 export default {
   props: ['name'],
   page: {

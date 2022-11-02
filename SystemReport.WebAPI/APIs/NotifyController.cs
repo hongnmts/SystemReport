@@ -128,36 +128,5 @@ namespace SystemReport.WebAPI.Controllers
 
             }
         }
-
-
-        [HttpGet]
-        [Route("luu-cong-van-noi-bo/{id}")]
-        public async Task<IActionResult> LuuCVNoiBo(string id)
-        {
-            ResultResponse<CoQuan> resultResponse = new ResultResponse<CoQuan>();
-            try
-            {
-                if (id == default)
-                {
-                    resultResponse.ResultCode = EResultResponse.FAIL.ToString();
-                    resultResponse.ResultString = "Dữ liệu không được trống.";
-                    return Ok(resultResponse);
-                }
-
-                await _notifyService.LuuCVNoiBo(id);
-                return Ok(
-                    new ResultMessageResponse().WithCode(EResultResponse.SUCCESS.ToString())
-                        .WithMessage("Lưu công văn thành công!")
-                );
-            }
-            catch (ResponseMessageException ex)
-            {
-                return Ok(
-                    new ResultMessageResponse().WithCode(ex.ResultCode)
-                        .WithMessage(ex.ResultString)
-                );
-            }
-        }
-
     }
 }

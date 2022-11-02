@@ -19,29 +19,13 @@ namespace SystemReport.WebAPI.Data
 
         public string LinhVucCollectionName { get; set; }
         public string ChucVuCollectionName { get; set; }
-        public string XaCollectionName { get; set; }
-        public string HuyenCollectionName { get; set; }
-        public string QuestionCollectionName { get; set; }
-        public string AnswerCollectionName { get; set; }
-        public string HistoryVanBanDiCollectionName { get; set; }
-        public string HistoryVanBanDenCollectionName { get; set; }
         public string WarningCollectionName { get; set; }
         public string TrangThaiCollectionName { get; set; }
         public string ModuleTrangThaiCollectionName { get; set; }
         public string NotifyCollectionName { get; set; }
-        public string VanBanDiCollectionName { get; set; }
-        public string VanBanDenCollectionName { get; set; }
-        public string LichCongTacCollectionName { get; set; }
-        public string LoaiVanBanCollectionName { get; set; }
-        public string HoSoDonViCollectionName { get; set; }
-        public string HinhThucGuiCollectionName { get; set; }
         public string CoQuanCollectionName { get; set; }
         public string KhoiCoQuanCollectionName { get; set; }
         public string LoaiTrangThaiCollectionName { get; set; }
-        public string HopThuCollectionName { get; set; }
-        public string CongVanCollectionName { get; set; }
-        public string LuuCVDenCollectionName { get; set; }
-        public string LuuCVDiCollectionName { get; set; }
         public string Environment { get; set; }
 
 
@@ -72,32 +56,15 @@ namespace SystemReport.WebAPI.Data
         string DonViCollectionName { get; set; }
         string LinhVucCollectionName { get; set; }
         string ChucVuCollectionName { get; set; }
-        string XaCollectionName { get; set; }
-        string HuyenCollectionName { get; set; }
-        string QuestionCollectionName { get; set; }
-        string AnswerCollectionName { get; set; }
-        string HistoryVanBanDiCollectionName { get; set; }
-        string HistoryVanBanDenCollectionName { get; set; }
         string WarningCollectionName { get; set; }
         string TrangThaiCollectionName { get; set; }
         string ModuleTrangThaiCollectionName { get; set; }
         string NotifyCollectionName { get; set; }
-        string VanBanDiCollectionName { get; set; }
-        string VanBanDenCollectionName { get; set; }
-        string LichCongTacCollectionName { get; set; }
-        string LoaiVanBanCollectionName { get; set; }
-        string HoSoDonViCollectionName { get; set; }
-        string HinhThucGuiCollectionName { get; set; }
         string CoQuanCollectionName { get; set; }
         string KhoiCoQuanCollectionName { get; set; }
         string LoaiTrangThaiCollectionName { get; set; }
-        string HopThuCollectionName { get; set; }
-        string CongVanCollectionName { get; set; }
-        string LuuCVDenCollectionName { get; set; }
-        string LuuCVDiCollectionName { get; set; }
 
         // System Report
-
         string KyBaoCaoCollectionName { get; set; }
         string DonViTinhCollectionName { get; set; }
         string MauBieuCollectionName { get; set; }

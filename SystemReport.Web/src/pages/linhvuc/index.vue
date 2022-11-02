@@ -1,6 +1,5 @@
 <script>
 import Layout from "../../layouts/main";
-
 import PageHeader from "@/components/page-header";
 import {required} from "vuelidate/lib/validators";
 import appConfig from "@/app.config";
@@ -8,6 +7,7 @@ import {notifyModel} from "@/models/notifyModel";
 import {pagingModel} from "@/models/pagingModel";
 import {linhVucModel} from "@/models/linhVucModel";
 import {CONSTANTS} from "@/helpers/constants";
+
 export default {
   page: {
     title: "Lĩnh vực",
