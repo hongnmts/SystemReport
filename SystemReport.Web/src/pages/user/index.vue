@@ -1,7 +1,7 @@
 <script>
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
-import {numeric, required} from "vuelidate/lib/validators";
+import {required} from "vuelidate/lib/validators";
 import appConfig from "@/app.config";
 import {notifyModel} from "@/models/notifyModel";
 import {pagingModel} from "@/models/pagingModel";
