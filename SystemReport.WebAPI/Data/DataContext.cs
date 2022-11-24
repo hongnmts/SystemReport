@@ -38,6 +38,8 @@ namespace SystemReport.WebAPI.Data
         private readonly IMongoCollection<RowValue> _rowValue;
         private readonly IMongoCollection<LoaiMauBieu> _loaiMauBieu;
         private readonly IMongoCollection<HistoryMauBieu> _historyMauBieu;
+        private readonly IMongoCollection<CommonItem> _commonItem;
+        private readonly IMongoCollection<HoTroDN> _hoTroDN;
 
         private readonly IDbSettings _settings;
         public DataContext(IDbSettings settings)
@@ -96,6 +98,8 @@ namespace SystemReport.WebAPI.Data
             _loaiMauBieu = _context.GetCollection<LoaiMauBieu>(_settings.LoaiMauBieuCollectionName);
             // History
             _historyMauBieu = _context.GetCollection<HistoryMauBieu>(_settings.HistoryMauBieuCollectionName);
+            _commonItem = _context.GetCollection<CommonItem>(_settings.CommonItemCollectionName);
+            _hoTroDN = _context.GetCollection<HoTroDN>(_settings.HoTroDNCollectionName);
         }
 
         public IMongoDatabase Database
@@ -117,6 +121,7 @@ namespace SystemReport.WebAPI.Data
         // Nghiệp vụ
         public IMongoCollection<DonVi> DonVis { get => _donVi; }
         public IMongoCollection<LinhVuc> LinhVuc { get => _linhVuc; }
+        public IMongoCollection<CommonItem> CommonItem { get => _commonItem; }
         public IMongoCollection<ChucVu> ChucVu { get => _chucVu; }
         public IMongoCollection<HistoryMauBieu> HistoryMauBieu { get => _historyMauBieu; }
         public IMongoCollection<TrangThai> TrangThai { get => _trangThai; }
@@ -125,6 +130,7 @@ namespace SystemReport.WebAPI.Data
         public IMongoCollection<CoQuan> CoQuan { get => _coQuan; }
         public IMongoCollection<KhoiCoQuan> KhoiCoQuan { get => _khoiCoQuan; }
         public IMongoCollection<LoaiTrangThai> LoaiTrangThai { get => _loaiTrangThai; }
+        public IMongoCollection<HoTroDN> HoTroDN { get => _hoTroDN; }
 
         //
         public IMongoCollection<KyBaoCao> KyBaoCao

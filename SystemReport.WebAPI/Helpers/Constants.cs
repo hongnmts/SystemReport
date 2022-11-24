@@ -56,4 +56,27 @@ namespace SystemReport.WebAPI.Helpers
         public const string LUU_HANH_NOI_BO = "LHNB";
         public const string THU_HOI = "THO";
     }
+
+    public class HoTroDoanhNghiep
+    {
+        public const string LOAIHINH = "LOAIHINH";
+        public const string TOCHUC = "TOCHUC";
+        public const string HUYEN = "HUYEN";
+        public const string QUYETDINH = "QUYETDINH";
+        public const string NOIDUNGHOTRO = "NOIDUNGHOTRO";
+    }
+
+    public class ECommonItem
+    {
+        public ECommonItem(string id, string name, string colName)
+        {
+            Id = id;
+            Name = name;
+            ColName = colName;
+        }
+
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string ColName { get; set; }
+    }
 }

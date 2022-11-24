@@ -221,6 +221,7 @@ namespace SystemReport.WebAPI.Services
         {
             if (history == default)
                 return false;
+           
             Hash();
             history.Id = BsonObjectId.GenerateNewId().ToString();
             var result = await BaseMongoDb.CreateAsync(history);

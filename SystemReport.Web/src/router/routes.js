@@ -231,4 +231,19 @@ export default [
         name: "/huong-dan-su-dung",
         component: () => import("../pages/huongDanSuDung"),
     },
+    {
+        path: "/ho-tro-doanh-nghiep",
+        name: "/ho-tro-doanh-nghiep",
+        component: () => import("../pages/hoTroDoanhNghiep"),
+    },
+    {
+        path: "/ho-tro-doanh-nghiep/create/:id?",
+        name: "/ho-tro-doanh-nghiep - craete",
+        component: () => import("../pages/hoTroDoanhNghiep/create"),
+    },
+    {
+        path: "/ho-tro-doanh-nghiep/thong-ke",
+        name: "/ho-tro-doanh-nghiep - thong-ke",
+        component: () => import("../pages/hoTroDoanhNghiep/thongke"),
+    },
 ]

@@ -58,8 +58,8 @@ export default {
       numberOfElement: 1,
       totalRows: 1,
       model: thongBaoModel.baseJson(),
-      modelVBDen: vanBanDenModel.baseJson(),
-      modelVBDi: vanBanDiModel.baseJson(),
+      modelVBDen: null,
+      modelVBDi: null,
       modelUser: userModel.baseJson(),
       pagination: pagingModel.baseJson(),
       fields: [
@@ -324,8 +324,8 @@ export default {
         if (res.resultCode == "SUCCESS") {
           this.showModalVBDi = false;
           this.showModalVBDen = false;
-          this.modelVBDi = vanBanDiModel;
-          this.modelVBDen = vanBanDenModel;
+          this.modelVBDi = null;
+          this.modelVBDen = null;
         }
         this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res));
       });
