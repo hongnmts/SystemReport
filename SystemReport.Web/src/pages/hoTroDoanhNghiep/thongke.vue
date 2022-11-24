@@ -11,7 +11,7 @@ import {CONSTANTS} from "@/helpers/constants";
 import {hoTroDoanhNghiepModel} from "@/models/hoTroDoanhNghiepModel";
 import Multiselect from "vue-multiselect";
 import DatePicker from "vue2-datepicker";
-
+import Treeselect from '@riophae/vue-treeselect'
 export default {
   page: {
     title: "Hỗ trợ doanh nghiệp",
@@ -20,7 +20,8 @@ export default {
   components: {
     Layout, PageHeader,
     Multiselect,
-    DatePicker
+    DatePicker,
+    Treeselect
   },
   data() {
     return {
@@ -142,7 +143,10 @@ export default {
       optionQuyetDinh: [],
       opened: [],
       tongSoTien: 0,
-      soHoSo: 0
+      soHoSo: 0,
+      hidenFilter:[],
+      selectHindenFilter: [],
+      valueFilter: []
     };
   },
   validations: {
@@ -158,13 +162,41 @@ export default {
     this.getNoiDungHoTro();
     this.getQuyetDinh();
     this.$refs.tblList?.refresh()
-
+    this.assignField();
   },
   watch: {
     filterModel: {
       deep: true,
       handler(val) {
         this.$refs.tblList?.refresh()
+      }
+    },
+    selectHindenFilter: {
+      deep: true,
+      handler(val) {
+        this.valueFilter.map((e)=>{
+          let check = false;
+          this.selectHindenFilter.map((value) =>{
+            if(e.id == value){
+              check = true;
+              return;
+            }
+          })
+          e.selected = check;
+        })
+        this.fields.map((e) =>{
+          let item = this.valueFilter.find(x => x.id == e.key);
+          e.class = e.class.replace("d-none", "")
+          e.thClass = e.thClass.replace("d-none", "")
+          if(item && !item.selected){
+            e.class += " d-none";
+            e.thClass += " d-none";
+          }else if(item && item.selected){
+            console.log(e)
+            e.class = e.class.replace("d-none", "")
+            e.thClass = e.thClass.replace("d-none", "")
+          }
+        })
       }
     },
     showModal(status) {
@@ -177,6 +209,13 @@ export default {
     },
   },
   methods: {
+    assignField(){
+      this.fields.map((e) =>{
+        this.hidenFilter = [...this.hidenFilter, {id: e.key, label: e.label}]
+        this.selectHindenFilter = [...this.selectHindenFilter,  e.key]
+        this.valueFilter = [...this.valueFilter,  {id: e.key, selected: true}]
+      })
+    },
     async getQuyetDinh() {
       try {
         await this.$store.dispatch("commonItemStore/getByType", "QUYETDINH").then(resp => {
@@ -317,7 +356,56 @@ export default {
       } else {
         this.opened.push(id)
       }
-    }
+    },
+    exportTableToExcel(tableId, filename) {
+      this.perPage = 1000;
+      this.$refs.tblList?.refresh()
+      setTimeout(() => {
+        if(filename == ''){
+          filename = Date.now();
+        }
+        let dataType = 'application/vnd.ms-excel';
+        let extension = '.xls';
+
+        let base64 = function(s) {
+          return window.btoa(unescape(encodeURIComponent(s)))
+        };
+
+        let template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><?xml version="1.0" encoding="UTF-8" standalone="yes"?><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
+        let render = function(template, content) {
+          return template.replace(/{(\w+)}/g, function(m, p) { return content[p]; });
+        };
+        let tableElement = document.getElementById(tableId);
+tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
+        let tableExcel = render(template, {
+          worksheet: filename,
+          table: tableElement.innerHTML
+        });
+
+        filename = filename + extension;
+        if (navigator.msSaveOrOpenBlob)
+        {
+          let blob = new Blob(
+              [ '\ufeff', tableExcel ],
+              { type: dataType }
+          );
+
+          navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+          let downloadLink = document.createElement("a");
+
+          document.body.appendChild(downloadLink);
+
+          downloadLink.href = 'data:' + dataType + ';base64,' + base64(tableExcel);
+
+          downloadLink.download = filename;
+
+          downloadLink.click();
+        }
+
+      }, "1000")
+
+    },
   }
 }
 </script>
@@ -513,7 +601,7 @@ export default {
             </div>
             <div role="tablist">
               <b-card no-body class="mb-1">
-                <b-card-header header-tag="header" role="tab">
+                <b-card-header header-tag="header" role="tab" style="display: flex; justify-content: space-between">
                   <h6 class="m-0 font-14">
                     <a
                         v-b-toggle.accordion-1
@@ -521,14 +609,15 @@ export default {
                         href="javascript: void(0);"
                     >Thống kê</a>
                   </h6>
+                  <button   @click="exportTableToExcel('dynamic-table2', '')" type="button" class="btn btn w-md btn-primary btn-info btn-sm" style="margin-bottom: 10px;"><i class="mdi mdi-plus me-1"></i> Export </button>
                 </b-card-header>
                 <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
-                  <div class="row">
+                  <div class="row" >
                     <div class="col-12">
                       <div class="table-responsive-sm">
                         <div class="datatables custom-table table-responsive-sm">
                           <table role="table"
-                                 class="table b-table table-striped table-bordered" id="__BVID__92">
+                                 class="table b-table table-striped table-bordered" id="dynamic-table2">
                             <thead role="rowgroup" class=""><!---->
                             <tr>
                               <td style="width: 50px; text-align: center; font-weight: bold">STT</td>
@@ -572,7 +661,7 @@ export default {
               </b-card>
 
               <b-card no-body class="mb-1">
-                <b-card-header header-tag="header" role="tab">
+                <b-card-header header-tag="header" role="tab" style="display: flex; justify-content: space-between">
                   <h6 class="m-0 font-14">
                     <a
                         v-b-toggle.accordion-2
@@ -580,13 +669,28 @@ export default {
                         href="javascript: void(0);"
                     >Dữ liệu</a>
                   </h6>
+                  <div style="display: flex; justify-content: space-between; align-items: center">
+                    <div style="max-width: 300px">
+                      <treeselect
+                          :multiple="true"
+                          :options="hidenFilter"
+                          placeholder="Hãy chọn trường dữ liệu"
+                          v-model="selectHindenFilter"
+                          :limit="1"
+                      />
+                      <treeselect-value :value="selectHindenFilter" />
+                    </div>
+                    <button   @click="exportTableToExcel('dynamic-table3', '')" type="button"  class="btn btn w-md btn-primary btn-info btn-sm" style="margin-left: 10px;"><i class="mdi mdi-plus me-1"></i> Export </button>
+                  </div>
+
                 </b-card-header>
                 <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
                   <div class="row">
                     <div class="col-12">
 
-                      <div class="table-responsive-sm">
+                      <div class="table-responsive-sm" >
                         <b-table
+                            id="dynamic-table3"
                             class="datatables custom-table"
                             :items="myProvider"
                             :fields="fields"
@@ -603,6 +707,9 @@ export default {
                             primary-key="id"
                             :busy.sync="isBusy"
                             tbody-tr-class="b-table-linhvuc"
+                            label-sort-asc=""
+                            label-sort-desc=""
+                            label-sort-clear=""
                         >
                           <template v-slot:cell(STT)="data">
                             {{ data.index + ((currentPage - 1) * perPage) + 1 }}
