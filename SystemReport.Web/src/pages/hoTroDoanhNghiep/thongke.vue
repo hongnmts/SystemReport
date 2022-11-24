@@ -12,6 +12,7 @@ import {hoTroDoanhNghiepModel} from "@/models/hoTroDoanhNghiepModel";
 import Multiselect from "vue-multiselect";
 import DatePicker from "vue2-datepicker";
 import Treeselect from '@riophae/vue-treeselect'
+
 export default {
   page: {
     title: "Hỗ trợ doanh nghiệp",
@@ -144,7 +145,7 @@ export default {
       opened: [],
       tongSoTien: 0,
       soHoSo: 0,
-      hidenFilter:[],
+      hidenFilter: [],
       selectHindenFilter: [],
       valueFilter: []
     };
@@ -174,25 +175,24 @@ export default {
     selectHindenFilter: {
       deep: true,
       handler(val) {
-        this.valueFilter.map((e)=>{
+        this.valueFilter.map((e) => {
           let check = false;
-          this.selectHindenFilter.map((value) =>{
-            if(e.id == value){
+          this.selectHindenFilter.map((value) => {
+            if (e.id == value) {
               check = true;
               return;
             }
           })
           e.selected = check;
         })
-        this.fields.map((e) =>{
+        this.fields.map((e) => {
           let item = this.valueFilter.find(x => x.id == e.key);
           e.class = e.class.replace("d-none", "")
           e.thClass = e.thClass.replace("d-none", "")
-          if(item && !item.selected){
+          if (item && !item.selected) {
             e.class += " d-none";
             e.thClass += " d-none";
-          }else if(item && item.selected){
-            console.log(e)
+          } else if (item && item.selected) {
             e.class = e.class.replace("d-none", "")
             e.thClass = e.thClass.replace("d-none", "")
           }
@@ -209,11 +209,11 @@ export default {
     },
   },
   methods: {
-    assignField(){
-      this.fields.map((e) =>{
+    assignField() {
+      this.fields.map((e) => {
         this.hidenFilter = [...this.hidenFilter, {id: e.key, label: e.label}]
-        this.selectHindenFilter = [...this.selectHindenFilter,  e.key]
-        this.valueFilter = [...this.valueFilter,  {id: e.key, selected: true}]
+        this.selectHindenFilter = [...this.selectHindenFilter, e.key]
+        this.valueFilter = [...this.valueFilter, {id: e.key, selected: true}]
       })
     },
     async getQuyetDinh() {
@@ -361,33 +361,41 @@ export default {
       this.perPage = 1000;
       this.$refs.tblList?.refresh()
       setTimeout(() => {
-        if(filename == ''){
+        if (filename == '') {
           filename = Date.now();
         }
         let dataType = 'application/vnd.ms-excel';
         let extension = '.xls';
 
-        let base64 = function(s) {
+        let base64 = function (s) {
           return window.btoa(unescape(encodeURIComponent(s)))
         };
 
         let template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><?xml version="1.0" encoding="UTF-8" standalone="yes"?><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
-        let render = function(template, content) {
-          return template.replace(/{(\w+)}/g, function(m, p) { return content[p]; });
+        let render = function (template, content) {
+          return template.replace(/{(\w+)}/g, function (m, p) {
+            return content[p];
+          });
         };
-        let tableElement = document.getElementById(tableId);
-tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
+        let tableElement;
+
+        if ("dynamic-table3" == tableId) {
+          tableElement = document.getElementById(tableId).cloneNode(true);
+          tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
+        } else {
+          tableElement = document.getElementById(tableId);
+        }
+
         let tableExcel = render(template, {
           worksheet: filename,
           table: tableElement.innerHTML
         });
 
         filename = filename + extension;
-        if (navigator.msSaveOrOpenBlob)
-        {
+        if (navigator.msSaveOrOpenBlob) {
           let blob = new Blob(
-              [ '\ufeff', tableExcel ],
-              { type: dataType }
+              ['\ufeff', tableExcel],
+              {type: dataType}
           );
 
           navigator.msSaveOrOpenBlob(blob, filename);
@@ -609,10 +617,13 @@ tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
                         href="javascript: void(0);"
                     >Thống kê</a>
                   </h6>
-                  <button   @click="exportTableToExcel('dynamic-table2', '')" type="button" class="btn btn w-md btn-primary btn-info btn-sm" style="margin-bottom: 10px;"><i class="mdi mdi-plus me-1"></i> Export </button>
+                  <button @click="exportTableToExcel('dynamic-table2', '')" type="button"
+                          class="btn btn w-md btn-primary btn-info btn-sm" style="margin-bottom: 10px;"><i
+                      class="mdi mdi-plus me-1"></i> Export
+                  </button>
                 </b-card-header>
                 <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
-                  <div class="row" >
+                  <div class="row">
                     <div class="col-12">
                       <div class="table-responsive-sm">
                         <div class="datatables custom-table table-responsive-sm">
@@ -629,18 +640,20 @@ tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
                             <tbody role="rowgroup"><!---->
                             <tr>
                               <td></td>
-                              <td colspan="3" style="font-size: 16px; text-align: right">Tổng cộng: <strong> {{soHoSo}}</strong> hồ sơ với tổng kinh phí<strong> {{tongSoTien}}</strong>  đồng</td>
+                              <td colspan="3" style="font-size: 16px; text-align: right">Tổng cộng: <strong>
+                                {{ soHoSo }}</strong> hồ sơ với tổng kinh phí<strong> {{ tongSoTien }}</strong> đồng
+                              </td>
                             </tr>
                             <template v-for="(item, index) in dataThongKe">
                               <tr :key="index" @click="toggle(item.id)" style="cursor: pointer">
-                                <td style="text-align: center; font-weight: bold" >{{index + 1}}</td>
-                                <td style="font-weight: bold">{{item.name}}</td>
-                                <td style="text-align: center;font-weight: bold ">{{item.count}}</td>
+                                <td style="text-align: center; font-weight: bold">{{ index + 1 }}</td>
+                                <td style="font-weight: bold">{{ item.name }}</td>
+                                <td style="text-align: center;font-weight: bold ">{{ item.count }}</td>
                               </tr>
-                              <template   v-if="opened.includes(item.id) && item.items && item.items.length > 0">
-                                <template   v-for="(value, index1) in item.items">
-                                  <tr v-if="value.count > 0"  :key="index + '_'+ index1 + '_1'">
-                                    <td style="width: 50px; text-align: center">{{index + 1}}.{{index1 + 1}}</td>
+                              <template v-if="opened.includes(item.id) && item.items && item.items.length > 0">
+                                <template v-for="(value, index1) in item.items">
+                                  <tr v-if="value.count > 0" :key="index + '_'+ index1 + '_1'">
+                                    <td style="width: 50px; text-align: center">{{ index + 1 }}.{{ index1 + 1 }}</td>
                                     <td>{{ value.name }}</td>
                                     <td style="width: 100px; text-align: center">{{ value.count }}</td>
                                   </tr>
@@ -648,7 +661,6 @@ tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
 
                               </template>
                             </template>
-
 
 
                             </tbody><!---->
@@ -678,9 +690,12 @@ tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
                           v-model="selectHindenFilter"
                           :limit="1"
                       />
-                      <treeselect-value :value="selectHindenFilter" />
+                      <treeselect-value :value="selectHindenFilter"/>
                     </div>
-                    <button   @click="exportTableToExcel('dynamic-table3', '')" type="button"  class="btn btn w-md btn-primary btn-info btn-sm" style="margin-left: 10px;"><i class="mdi mdi-plus me-1"></i> Export </button>
+                    <button @click="exportTableToExcel('dynamic-table3', '')" type="button"
+                            class="btn btn w-md btn-primary btn-info btn-sm" style="margin-left: 10px;"><i
+                        class="mdi mdi-plus me-1"></i> Export
+                    </button>
                   </div>
 
                 </b-card-header>
@@ -688,7 +703,7 @@ tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
                   <div class="row">
                     <div class="col-12">
 
-                      <div class="table-responsive-sm" >
+                      <div class="table-responsive-sm">
                         <b-table
                             id="dynamic-table3"
                             class="datatables custom-table"
@@ -781,7 +796,7 @@ tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
                       </div>
                       <div class="row">
                         <b-col>
-                          <div>Hiển thị {{numberOfElement}} trên tổng số {{totalRows}} dòng</div>
+                          <div>Hiển thị {{ numberOfElement }} trên tổng số {{ totalRows }} dòng</div>
                         </b-col>
                         <div class="col">
                           <div
@@ -803,7 +818,6 @@ tableElement.querySelectorAll(".d-none").forEach(el => el.remove());
               </b-card>
 
             </div>
-
 
 
           </div>
