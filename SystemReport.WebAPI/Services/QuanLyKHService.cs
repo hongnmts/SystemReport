@@ -400,20 +400,24 @@ namespace SystemReport.WebAPI.Services
             result.Data = await _collection.Find(filter).SortByDescending(x => x.ModifiedAt).Skip(param.Skip)
                 .Limit(param.Limit)
                 .ToListAsync();
-            //result.SoHoSo = data.Count();
+            result.SoHoSo = data.Count();
             //result.Money = data.Sum(x => x.SoTien);
 
-            //result.ThongKeHTDNVMs = new List<ThongKeHTDNVM>();
-            //result.ThongKeHTDNVMs.Add(GetThongKe(HoTroDoanhNghiep.TOCHUC, "Tổ chức", data));
-            //result.ThongKeHTDNVMs.Add(GetThongKe(HoTroDoanhNghiep.LOAIHINH, "Loại hình", data));
-            //result.ThongKeHTDNVMs.Add(GetThongKe(HoTroDoanhNghiep.HUYEN, "Huyện/TP", data));
-            //result.ThongKeHTDNVMs.Add(GetThongKe(HoTroDoanhNghiep.NOIDUNGHOTRO, "Nội dung hỗ trợ", data));
-            //result.ThongKeHTDNVMs.Add(GetThongKe(HoTroDoanhNghiep.QUYETDINH, "Quyết định", data));
+            result.ThongKeHTDNVMs = new List<ThongKeHTDNVM>();
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.DETAI, "Đề tài", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.CHUTRI, "Chủ trì", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.CHUNHIEM, "Chủ nhiệm", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.LINHVUC, "Lĩnh vực", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.QUYETDINHPHEQUYET, "Quyết định phê duyệt", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.DANGTHUCHIEN, "Đang thực hiện", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.XEPLOAI, "Xếp loại", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.QUYETDINHCHUYENGIAO, "Quyết định chuyển giao", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.DONVITIEPNHAN, "Đơn vị tiếp nhận", data));
 
             return result;
         }
 
-        private ThongKeHTDNVM GetThongKe(string type, string name, IEnumerable<HoTroDN> data)
+        private ThongKeHTDNVM GetThongKe(string type, string name, IEnumerable<QuanLyKH> data)
         {
             var commonItems = _context.CommonItem.Find(x => x.Type == type && x.IsDeleted != true).ToList();
 
@@ -429,33 +433,53 @@ namespace SystemReport.WebAPI.Services
 
                 cItem.Id = item.Id;
                 cItem.Name = item.Name;
-                if (type == HoTroDoanhNghiep.LOAIHINH)
+                if (type == QuanLyDeTai.DETAI)
                 {
-                    cItem.Count = data.Where(x => x.LoaiHinh != default && x.LoaiHinh.Id == item.Id).Count();
+                    cItem.Count = data.Where(x => x.TenDeTai != default && x.TenDeTai.Id == item.Id).Count();
                     result.Count += cItem.Count;
                 }
 
-                if (type == HoTroDoanhNghiep.TOCHUC)
+                if (type == QuanLyDeTai.CHUTRI)
                 {
-                    cItem.Count = data.Where(x => x.ToChuc != default && x.ToChuc.Id == item.Id).Count();
+                    cItem.Count = data.Where(x => x.ChuTri != default && x.ChuTri.Id == item.Id).Count();
                     result.Count += cItem.Count;
                 }
 
-                if (type == HoTroDoanhNghiep.QUYETDINH)
+                if (type == QuanLyDeTai.CHUNHIEM)
                 {
-                    cItem.Count = data.Where(x => x.QuyetDinh != default && x.QuyetDinh.Id == item.Id).Count();
+                    cItem.Count = data.Where(x => x.ChuNhiem != default && x.ChuNhiem.Id == item.Id).Count();
                     result.Count += cItem.Count;
                 }
 
-                if (type == HoTroDoanhNghiep.HUYEN)
+                if (type == QuanLyDeTai.LINHVUC)
                 {
-                    cItem.Count = data.Where(x => x.DonViHanhChinh != default && x.DonViHanhChinh.Id == item.Id).Count();
+                    cItem.Count = data.Where(x => x.LinhVuc != default && x.LinhVuc.Id == item.Id).Count();
                     result.Count += cItem.Count;
                 }
 
-                if (type == HoTroDoanhNghiep.NOIDUNGHOTRO)
+                if (type == QuanLyDeTai.QUYETDINHPHEQUYET)
                 {
-                    cItem.Count = data.Where(x => x.NoiDungHoTro != default && x.NoiDungHoTro.Any(a => a.Id == item.Id)).Count();
+                    cItem.Count = data.Where(x => x.QuyetDinhPDKQ != default && x.QuyetDinhPDKQ.Id == item.Id).Count();
+                    result.Count += cItem.Count;
+                }
+                if (type == QuanLyDeTai.DANGTHUCHIEN)
+                {
+                    cItem.Count = data.Where(x => x.DangThucHien != default && x.DangThucHien.Id == item.Id).Count();
+                    result.Count += cItem.Count;
+                }
+                if (type == QuanLyDeTai.XEPLOAI)
+                {
+                    cItem.Count = data.Where(x => x.XepLoai != default && x.XepLoai.Id == item.Id).Count();
+                    result.Count += cItem.Count;
+                }
+                if (type == QuanLyDeTai.QUYETDINHCHUYENGIAO)
+                {
+                    cItem.Count = data.Where(x => x.QuyetDinhCQ != default && x.QuyetDinhCQ.Id == item.Id).Count();
+                    result.Count += cItem.Count;
+                }
+                if (type == QuanLyDeTai.DONVITIEPNHAN)
+                {
+                    cItem.Count = data.Where(x => x.DonViTiepNhan != default && x.DonViTiepNhan.Any(a => a.Id == item.Id)).Count();
                     result.Count += cItem.Count;
                 }
 
@@ -467,33 +491,53 @@ namespace SystemReport.WebAPI.Services
 
             cItemKhac.Id = "";
             cItemKhac.Name = "Khác";
-            if (type == HoTroDoanhNghiep.LOAIHINH)
+            if (type == QuanLyDeTai.DETAI)
             {
-                cItemKhac.Count = data.Where(x => x.LoaiHinh == default).Count();
+                cItemKhac.Count = data.Where(x => x.TenDeTai == default).Count();
                 result.Count += cItemKhac.Count;
             }
 
-            if (type == HoTroDoanhNghiep.TOCHUC)
+            if (type == QuanLyDeTai.CHUTRI)
             {
-                cItemKhac.Count = data.Where(x => x.ToChuc == default).Count();
+                cItemKhac.Count = data.Where(x => x.ChuTri == default).Count();
                 result.Count += cItemKhac.Count;
             }
 
-            if (type == HoTroDoanhNghiep.QUYETDINH)
+            if (type == QuanLyDeTai.CHUNHIEM)
             {
-                cItemKhac.Count = data.Where(x => x.QuyetDinh == default).Count();
+                cItemKhac.Count = data.Where(x => x.ChuNhiem == default).Count();
                 result.Count += cItemKhac.Count;
             }
 
-            if (type == HoTroDoanhNghiep.HUYEN)
+            if (type == QuanLyDeTai.LINHVUC)
             {
-                cItemKhac.Count = data.Where(x => x.DonViHanhChinh == default).Count();
+                cItemKhac.Count = data.Where(x => x.LinhVuc == default).Count();
                 result.Count += cItemKhac.Count;
             }
 
-            if (type == HoTroDoanhNghiep.NOIDUNGHOTRO)
+            if (type == QuanLyDeTai.QUYETDINHPHEQUYET)
             {
-                cItemKhac.Count = data.Where(x => x.NoiDungHoTro == default).Count();
+                cItemKhac.Count = data.Where(x => x.QuyetDinhPDKQ == default).Count();
+                result.Count += cItemKhac.Count;
+            }
+            if (type == QuanLyDeTai.DANGTHUCHIEN)
+            {
+                cItemKhac.Count = data.Where(x => x.DangThucHien == default).Count();
+                result.Count += cItemKhac.Count;
+            }
+            if (type == QuanLyDeTai.XEPLOAI)
+            {
+                cItemKhac.Count = data.Where(x => x.XepLoai == default).Count();
+                result.Count += cItemKhac.Count;
+            }
+            if (type == QuanLyDeTai.QUYETDINHCHUYENGIAO)
+            {
+                cItemKhac.Count = data.Where(x => x.QuyetDinhCQ == default).Count();
+                result.Count += cItemKhac.Count;
+            }
+            if (type == QuanLyDeTai.DONVITIEPNHAN)
+            {
+                cItemKhac.Count = data.Where(x => x.DonViTiepNhan == default).Count();
                 result.Count += cItemKhac.Count;
             }
 

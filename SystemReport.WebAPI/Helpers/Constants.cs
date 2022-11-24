@@ -64,6 +64,18 @@ namespace SystemReport.WebAPI.Helpers
         public const string HUYEN = "HUYEN";
         public const string QUYETDINH = "QUYETDINH";
         public const string NOIDUNGHOTRO = "NOIDUNGHOTRO";
+    }    
+    public class QuanLyDeTai
+    {
+        public const string DETAI = "DETAI";
+        public const string CHUTRI = "CHUTRI";
+        public const string CHUNHIEM = "CHUNHIEM";
+        public const string LINHVUC = "LINHVUC";
+        public const string QUYETDINHPHEQUYET = "QUYETDINHPHEQUYET";
+        public const string DANGTHUCHIEN = "DANGTHUCHIEN";
+        public const string XEPLOAI = "XEPLOAI";
+        public const string QUYETDINHCHUYENGIAO = "QUYETDINHCHUYENGIAO";
+        public const string DONVITIEPNHAN = "QUYETDINHCHUYENGIAO";
     }
 
     public class ECommonItem
