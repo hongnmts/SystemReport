@@ -1,10 +1,13 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 
 namespace SystemReport.WebAPI.Models
 {
     public class QuanLyKH: Audit, TEntity<string>
     {
+        [BsonId]
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
         public CommonItem TenDeTai { get; set; }
         public CommonItem ChuTri { get; set; }

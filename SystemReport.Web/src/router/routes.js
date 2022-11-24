@@ -262,4 +262,19 @@ export default [
         name: "/ho-tro-doanh-nghiep - thong-ke",
         component: () => import("../pages/hoTroDoanhNghiep/thongke"),
     },
+    {
+        path: "/quan-ly-de-tai",
+        name: "/quan-ly-khoa-hoc",
+        component: () => import("../pages/quanLyKhoaHoc"),
+    },
+    {
+        path: "/quan-ly-de-tai/create/:id?",
+        name: "/ho-tro-doanh-nghiep - craete",
+        component: () => import("../pages/quanLyKhoaHoc/create"),
+    },
+    {
+        path: "/quan-ly-de-tai/thong-ke",
+        name: "/ho-tro-doanh-nghiep - thong-ke",
+        component: () => import("../pages/quanLyKhoaHoc/thongKe"),
+    },
 ]

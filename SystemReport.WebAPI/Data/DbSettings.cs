@@ -39,6 +39,7 @@ namespace SystemReport.WebAPI.Data
         public string HistoryMauBieuCollectionName { get; set; }
         public string CommonItemCollectionName { get; set; }
         public string HoTroDNCollectionName { get; set; }
+        public string QuanLyKhoaHocCollectionName { get; set; }
     }
 
     public interface IDbSettings
@@ -79,5 +80,6 @@ namespace SystemReport.WebAPI.Data
         string HistoryMauBieuCollectionName { get; set; }
         string CommonItemCollectionName { get; set; }
         string HoTroDNCollectionName { get; set; }
+        string QuanLyKhoaHocCollectionName { get; set; }
     }
 }

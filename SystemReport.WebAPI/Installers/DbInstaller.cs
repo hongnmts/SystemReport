@@ -51,6 +51,7 @@ namespace SystemReport.WebAPI.Installers
             services.AddScoped<ICommonItemService, CommonItemService>();
             services.AddScoped<IHoTroDoanhNghiepService, HoTroDoanhNghiepService>();
             services.AddScoped<IThongKeService, ThongKeService>();
+            services.AddScoped<IQuanLyKHService, QuanLyKHService>();
         }
     }
 }

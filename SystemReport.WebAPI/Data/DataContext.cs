@@ -40,6 +40,7 @@ namespace SystemReport.WebAPI.Data
         private readonly IMongoCollection<HistoryMauBieu> _historyMauBieu;
         private readonly IMongoCollection<CommonItem> _commonItem;
         private readonly IMongoCollection<HoTroDN> _hoTroDN;
+        private readonly IMongoCollection<QuanLyKH> _quanLyKhoaHoc;
 
         private readonly IDbSettings _settings;
         public DataContext(IDbSettings settings)
@@ -100,6 +101,7 @@ namespace SystemReport.WebAPI.Data
             _historyMauBieu = _context.GetCollection<HistoryMauBieu>(_settings.HistoryMauBieuCollectionName);
             _commonItem = _context.GetCollection<CommonItem>(_settings.CommonItemCollectionName);
             _hoTroDN = _context.GetCollection<HoTroDN>(_settings.HoTroDNCollectionName);
+            _quanLyKhoaHoc = _context.GetCollection<QuanLyKH>(_settings.QuanLyKhoaHocCollectionName);
         }
 
         public IMongoDatabase Database
@@ -131,6 +133,7 @@ namespace SystemReport.WebAPI.Data
         public IMongoCollection<KhoiCoQuan> KhoiCoQuan { get => _khoiCoQuan; }
         public IMongoCollection<LoaiTrangThai> LoaiTrangThai { get => _loaiTrangThai; }
         public IMongoCollection<HoTroDN> HoTroDN { get => _hoTroDN; }
+        public IMongoCollection<QuanLyKH> QuanLyKH { get => _quanLyKhoaHoc; }
 
         //
         public IMongoCollection<KyBaoCao> KyBaoCao
