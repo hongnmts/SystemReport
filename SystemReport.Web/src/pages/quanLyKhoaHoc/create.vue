@@ -7,7 +7,8 @@ import {hoTroDoanhNghiepModel} from "@/models/hoTroDoanhNghiepModel";
 import {notifyModel} from "@/models/notifyModel";
 import DatePicker from "vue2-datepicker";
 import {quanLyKhoaHocModel} from "@/models/quanLyKHModel";
-
+import CKEditor from "@ckeditor/ckeditor5-vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 /**
  * Advanced table component
  */
@@ -20,7 +21,8 @@ export default {
     Layout,
     PageHeader,
     Multiselect,
-    DatePicker
+    DatePicker,
+    ckeditor: CKEditor.component,
   },
   data() {
     return {
@@ -48,6 +50,7 @@ export default {
           ]
         },
       },
+      editor: ClassicEditor,
       apiUrl: process.env.VUE_APP_API_URL,
       url: `${process.env.VUE_APP_API_URL}files/upload`,
       dropzoneOptions: {
@@ -715,6 +718,40 @@ export default {
                       :taggable="true" @tag="addTagDonViTiepNhan"
                       :multiple="true"
                   ></multiselect>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="mb-2">
+                  <label class="form-label" for="validationCustom01">Mục tiêu</label>
+                  <span class="text-danger">*</span>
+                  <ckeditor
+                      v-model="model.mucTieu"
+                      :editor="editor"
+                      :config="editorConfig"
+                  ></ckeditor>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="mb-2">
+                  <label class="form-label" for="validationCustom01">Nội dung</label>
+                  <span class="text-danger">*</span>
+                  <ckeditor
+                      v-model="model.noiDung"
+                      :editor="editor"
+                      :config="editorConfig"
+                  ></ckeditor>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="mb-2">
+                  <label class="form-label" for="validationCustom01">Sản phẩm</label>
+                  <span class="text-danger">*</span>
+                  <ckeditor
+                      v-model="model.sanPham"
+                      :editor="editor"
+                      :config="editorConfig"
+                  ></ckeditor>
                 </div>
               </div>
             </div>
