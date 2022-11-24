@@ -216,7 +216,10 @@ namespace SystemReport.WebAPI.Services
                 var ids = param.QuyetDinh.Select(x => x.Id).ToList();
                 filter &= builder.Where(x => x.QuyetDinh != default && ids.Contains(x.QuyetDinh.Id));
             }
-
+            if (!string.IsNullOrEmpty(param.DiaChi))
+            {
+                filter &= builder.Where(x => x.DiaChi != default && x.DiaChi.ToLower().Contains(param.DiaChi.ToLower()));
+            }
             if(param.NgayKyStart != default && param.NgayKyEnd != default)
             {
                 var start = DateTime.SpecifyKind((DateTime)param.NgayKyStart, DateTimeKind.Utc);

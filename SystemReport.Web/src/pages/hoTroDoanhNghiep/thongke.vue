@@ -390,7 +390,7 @@ export default {
                       <label class="form-label" for="validationCustom01">Số nhà, đường</label>
                       <input
                           id="validationCustom01"
-                          v-model="model.diaChi"
+                          v-model="filterModel.diaChi"
                           type="text"
                           class="form-control"
                           placeholder=""

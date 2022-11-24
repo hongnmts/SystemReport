@@ -26,6 +26,22 @@ export default [
         component: () => import('../pages/baocao/xuatBan'),
     },
     {
+        path: '/thong-ke',
+        meta: {
+            authRequired: true
+        },
+        name: 'thongke',
+        component: () => import('../pages/thongKe'),
+    },
+    {
+        path: '/bang-bieu-thong-ke/:id?',
+        meta: {
+            authRequired: true
+        },
+        name: 'bangBieuThongKe',
+        component: () => import('../pages/thongKe/detailThongKe'),
+    },
+    {
         path: '/dang-nhap',
         name: 'login',
         component: () => import('../pages/auth/auth'),

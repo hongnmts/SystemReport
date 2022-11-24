@@ -16,5 +16,6 @@ namespace SystemReport.WebAPI.ViewModels
         public DateTime? NgayNhapEnd { get; set; }
         public DateTime? NgayKyStart { get; set; }
         public DateTime? NgayKyEnd { get; set; }
+        public string DiaChi { get; set; }
     }
 }
