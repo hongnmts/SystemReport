@@ -81,7 +81,7 @@ export default {
           label: "Loại hình",
           class: "content-capso",
           thStyle: {width: '100px', minWidth: '100px'},
-          thClass: "text-primary hidden-sortable",
+          thClass: "text-primary hidden-sortable text-center",
         },
         {
           key: "diaChi",
@@ -690,7 +690,6 @@ export default {
                           v-model="selectHindenFilter"
                           :limit="1"
                       />
-                      <treeselect-value :value="selectHindenFilter"/>
                     </div>
                     <button @click="exportTableToExcel('dynamic-table3', '')" type="button"
                             class="btn btn w-md btn-primary btn-info btn-sm" style="margin-left: 10px;"><i
