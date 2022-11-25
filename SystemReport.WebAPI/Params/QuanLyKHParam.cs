@@ -6,6 +6,8 @@ namespace SystemReport.WebAPI.Params
 {
     public class QuanLyKHParam : PagingParam
     {
+        public List<CommonItem> CapQuanLy { get; set; }
+        public List<CommonItem> PheDuyetNV { get; set; }
         public List<CommonItem> TenDeTai { get; set; }
         public List<CommonItem> ChuTri { get; set; }
         public List<CommonItem> ChuNhiem { get; set; }

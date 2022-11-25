@@ -76,6 +76,8 @@ namespace SystemReport.WebAPI.Helpers
         public const string XEPLOAI = "XEPLOAI";
         public const string QUYETDINHCHUYENGIAO = "QUYETDINHCHUYENGIAO";
         public const string DONVITIEPNHAN = "QUYETDINHCHUYENGIAO";
+        public const string CAPQUANLY = "CAPQUANLY";
+        public const string PHEDUYETNV = "PHEDUYETNV";
     }
 
     public class ECommonItem

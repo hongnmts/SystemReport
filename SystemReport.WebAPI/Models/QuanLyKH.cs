@@ -15,6 +15,9 @@ namespace SystemReport.WebAPI.Models
         public CommonItem LinhVuc { get; set; }
         public CommonItem QuyetDinhPDKQ { get; set; }
         public DateTime? NgayPDKQ { get; set; }
+        public CommonItem PheDuyetNhiemVu { get; set; }
+        public DateTime? NgayPheDuyetNhiemVu { get; set; }
+        public DateTime? NgayDungNghiemThu { get; set; }
         public decimal NguonNSNN { get; set; }
         public decimal NguonKhac { get; set; }
         public DateTime? NgayBatDau { get; set; }
@@ -27,6 +30,7 @@ namespace SystemReport.WebAPI.Models
         public DateTime? NgayNghiemThu { get; set; }
         public CommonItem XepLoai { get; set; }
         public CommonItem QuyetDinhCQ { get; set; }
+        public CommonItem CapQuanLy { get; set; }
         public DateTime? NgayChuyenGiao { get; set; }
         public List<CommonItem> DonViTiepNhan { get; set; }
         /// <summary>

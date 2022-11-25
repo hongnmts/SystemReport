@@ -68,6 +68,8 @@ export default {
       optionsChuNhiem: [],
       optionsLinhVuc: [],
       optionsQDPheDuyetKP: [],
+      optionsPheDuyetNV: [],
+      optionsCapQuanLy: [],
       optionsDangThucHien: [],
       optionsXepLoai: [],
       optionsQuyetDinhCG: [],
@@ -89,6 +91,8 @@ export default {
     this.getLinhVuc();
     this.getQDChuyenGiao();
     this.getQDPheDuyet();
+    this.getCapQuanLy();
+    this.getPheDuyetNV();
     if (this.$route.params.id) {
       this.handleDetail();
     } else {
@@ -327,6 +331,62 @@ export default {
         this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res))
       });
     },
+    async getPheDuyetNV() {
+      try {
+        await this.$store.dispatch("commonItemStore/getByType", "PHEDUYETNV").then(resp => {
+          if (resp.resultCode == "SUCCESS") {
+            let items = resp.data
+            this.loading = false
+            this.optionsPheDuyetNV = items;
+          }
+          return [];
+        });
+      } finally {
+        this.loading = false
+      }
+    },
+    async addTagPheDuyetNV(newTag) {
+      const parts = newTag.split(', ');
+      const tag = {
+        name: parts.pop(),
+        type: "PHEDUYETNV"
+      }
+      await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
+        if (res.resultCode === 'SUCCESS') {
+          this.optionsPheDuyetNV = [res.data, ...this.optionsPheDuyetNV];
+          this.model.pheDuyetNhiemVu = res.data;
+        }
+        this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res))
+      });
+    },
+    async getCapQuanLy() {
+      try {
+        await this.$store.dispatch("commonItemStore/getByType", "CAPQUANLY").then(resp => {
+          if (resp.resultCode == "SUCCESS") {
+            let items = resp.data
+            this.loading = false
+            this.optionsCapQuanLy = items;
+          }
+          return [];
+        });
+      } finally {
+        this.loading = false
+      }
+    },
+    async addTagCapQuanLy(newTag) {
+      const parts = newTag.split(', ');
+      const tag = {
+        name: parts.pop(),
+        type: "CAPQUANLY"
+      }
+      await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
+        if (res.resultCode === 'SUCCESS') {
+          this.optionsCapQuanLy = [res.data, ...this.optionsCapQuanLy];
+          this.model.capQuanLy = res.data;
+        }
+        this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res))
+      });
+    },
     async getDonViTiepNhan() {
       try {
         await this.$store.dispatch("commonItemStore/getByType", "DONVITIEPNHAN").then(resp => {
@@ -438,6 +498,23 @@ export default {
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-2">
+                  <label class="form-label" for="validationCustom01">Cấp quản lý</label> <span
+                    class="text-danger">*</span>
+                  <multiselect
+                      v-model="model.capQuanLy"
+                      :options="optionsCapQuanLy"
+                      track-by="id"
+                      label="name"
+                      placeholder="Chọn"
+                      deselect-label="Nhấn để xoá"
+                      selectLabel="Nhấn enter để chọn"
+                      selectedLabel="Đã chọn"
+                      :taggable="true" @tag="addTagCapQuanLy"
+                  ></multiselect>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-2">
                   <label class="form-label" for="validationCustom01">Tên đề tài</label> <span
                     class="text-danger">*</span>
                   <multiselect
@@ -453,6 +530,7 @@ export default {
                   ></multiselect>
                 </div>
               </div>
+
               <div class="col-md-6">
                 <div class="mb-2">
                   <label class="form-label" for="validationCustom01">Tổ chức chủ trì</label> <span
@@ -506,7 +584,39 @@ export default {
                   ></multiselect>
                 </div>
               </div>
-
+              <div class="col-md-6">
+                <div class="mb-2">
+                  <label class="form-label" for="validationCustom01">Phê duyệt NV</label> <span
+                    class="text-danger">*</span>
+                  <multiselect
+                      v-model="model.pheDuyetNhiemVu"
+                      :options="optionsPheDuyetNV"
+                      track-by="id"
+                      label="name"
+                      placeholder="Chọn"
+                      deselect-label="Nhấn để xoá"
+                      selectLabel="Nhấn enter để chọn"
+                      selectedLabel="Đã chọn"
+                      :taggable="true" @tag="addTagPheDuyetNV"
+                  ></multiselect>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-2">
+                  <label class="form-label" for="validationCustom01">Ngày Phê duyệt NV</label>
+                  <date-picker v-model="model.ngayPheDuyetNhiemVu"
+                               format="DD/MM/YYYY"
+                               value-type="format"
+                  >
+                    <div slot="input">
+                      <input v-model="model.ngayPheDuyetNhiemVu"
+                             v-mask="'##/##/####'" type="text" class="form-control"
+                             placeholder=""
+                      />
+                    </div>
+                  </date-picker>
+                </div>
+              </div>
               <div class="col-md-6">
                 <div class="mb-2">
                   <label class="form-label" for="validationCustom01">QĐ phê duyệt KP</label> <span
@@ -526,7 +636,7 @@ export default {
               </div>
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Ngày phê duyệt</label>
+                  <label class="form-label" for="validationCustom01">Ngày phê duyệt KP</label>
                   <date-picker v-model="model.ngayPDKQ"
                                format="DD/MM/YYYY"
                                value-type="format"
@@ -619,7 +729,7 @@ export default {
 
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Đang thực hiện</label> <span
+                  <label class="form-label" for="validationCustom01">Trạng thái</label> <span
                     class="text-danger">*</span>
                   <multiselect
                       v-model="model.dangThucHien"
@@ -688,13 +798,13 @@ export default {
 
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Ngày chuyển giao</label>
-                  <date-picker v-model="model.ngayChuyenGiao"
+                  <label class="form-label" for="validationCustom01">Ngày dừng nghiệm thu</label>
+                  <date-picker v-model="model.ngayDungNghiemThu"
                                format="DD/MM/YYYY"
                                value-type="format"
                   >
                     <div slot="input">
-                      <input v-model="model.ngayChuyenGiao"
+                      <input v-model="model.ngayDungNghiemThu"
                              v-mask="'##/##/####'" type="text" class="form-control"
                              placeholder=""
                       />

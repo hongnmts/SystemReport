@@ -68,6 +68,10 @@ namespace SystemReport.WebAPI.Services
                 MucTieu = model.MucTieu,
                 NoiDung = model.NoiDung,
                 SanPham = model.SanPham,
+                CapQuanLy = model.CapQuanLy,
+                NgayDungNghiemThu = model.NgayDungNghiemThu,
+                PheDuyetNhiemVu = model.PheDuyetNhiemVu,
+                NgayPheDuyetNhiemVu = model.NgayPheDuyetNhiemVu,
                 CreatedBy = CurrentUserName,
                 ModifiedBy = CurrentUserName,
                 CreatedAt = DateTime.Now,
@@ -121,6 +125,10 @@ namespace SystemReport.WebAPI.Services
             entity.MucTieu = model.MucTieu;
             entity.NoiDung = model.NoiDung;
             entity.SanPham = model.SanPham;
+            entity.CapQuanLy = model.CapQuanLy;
+            entity.NgayDungNghiemThu = model.NgayDungNghiemThu;
+            entity.PheDuyetNhiemVu = model.PheDuyetNhiemVu;
+            entity.NgayPheDuyetNhiemVu = model.NgayPheDuyetNhiemVu;
             entity.ModifiedAt = DateTime.Now;
             entity.ModifiedBy = CurrentUserName;
 
@@ -209,6 +217,16 @@ namespace SystemReport.WebAPI.Services
             var builder = Builders<QuanLyKH>.Filter;
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.IsDeleted == false));
+            if (param.CapQuanLy != default && param.CapQuanLy.Count > 0)
+            {
+                var ids = param.CapQuanLy.Select(x => x.Id).ToList();
+                filter &= builder.Where(x => x.CapQuanLy != default && ids.Contains(x.CapQuanLy.Id));
+            }
+            if (param.PheDuyetNV != default && param.PheDuyetNV.Count > 0)
+            {
+                var ids = param.PheDuyetNV.Select(x => x.Id).ToList();
+                filter &= builder.Where(x => x.PheDuyetNhiemVu != default && ids.Contains(x.PheDuyetNhiemVu.Id));
+            }
             if (param.TenDeTai != default && param.TenDeTai.Count > 0)
             {
                 var ids = param.TenDeTai.Select(x => x.Id).ToList();
@@ -413,6 +431,8 @@ namespace SystemReport.WebAPI.Services
             result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.XEPLOAI, "Xếp loại", data));
             result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.QUYETDINHCHUYENGIAO, "Quyết định chuyển giao", data));
             result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.DONVITIEPNHAN, "Đơn vị tiếp nhận", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.CAPQUANLY, "Cấp quản lý", data));
+            result.ThongKeHTDNVMs.Add(GetThongKe(QuanLyDeTai.PHEDUYETNV, "Phê duyệt nhiệm vụ", data));
 
             return result;
         }
@@ -476,12 +496,23 @@ namespace SystemReport.WebAPI.Services
                 {
                     cItem.Count = data.Where(x => x.QuyetDinhCQ != default && x.QuyetDinhCQ.Id == item.Id).Count();
                     result.Count += cItem.Count;
+                }                
+                if (type == QuanLyDeTai.CAPQUANLY)
+                {
+                    cItem.Count = data.Where(x => x.CapQuanLy != default && x.CapQuanLy.Id == item.Id).Count();
+                    result.Count += cItem.Count;
+                }
+                if (type == QuanLyDeTai.PHEDUYETNV)
+                {
+                    cItem.Count = data.Where(x => x.PheDuyetNhiemVu != default && x.PheDuyetNhiemVu.Id == item.Id).Count();
+                    result.Count += cItem.Count;
                 }
                 if (type == QuanLyDeTai.DONVITIEPNHAN)
                 {
                     cItem.Count = data.Where(x => x.DonViTiepNhan != default && x.DonViTiepNhan.Any(a => a.Id == item.Id)).Count();
                     result.Count += cItem.Count;
-                }
+                }                
+   
 
                 result.Items.Add(cItem);
             }
@@ -533,6 +564,16 @@ namespace SystemReport.WebAPI.Services
             if (type == QuanLyDeTai.QUYETDINHCHUYENGIAO)
             {
                 cItemKhac.Count = data.Where(x => x.QuyetDinhCQ == default).Count();
+                result.Count += cItemKhac.Count;
+            }            
+            if (type == QuanLyDeTai.CAPQUANLY)
+            {
+                cItemKhac.Count = data.Where(x => x.CapQuanLy == default).Count();
+                result.Count += cItemKhac.Count;
+            }
+            if (type == QuanLyDeTai.PHEDUYETNV)
+            {
+                cItemKhac.Count = data.Where(x => x.PheDuyetNhiemVu == default).Count();
                 result.Count += cItemKhac.Count;
             }
             if (type == QuanLyDeTai.DONVITIEPNHAN)

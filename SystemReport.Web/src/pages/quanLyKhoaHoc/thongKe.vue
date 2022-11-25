@@ -70,6 +70,14 @@ export default {
           thClass: "text-primary hidden-sortable text-center",
         },
         {
+          key: "capQuanLy",
+          label: "Cấp quản lý",
+          class: "content-capso",
+          thStyle: {width: '100px', minWidth: '100px'},
+          thClass: "text-primary hidden-sortable text-center",
+          sortable: true,
+        },
+        {
           key: "tenDeTai",
           label: "Tên đề tài",
           class: "content-capso",
@@ -97,6 +105,22 @@ export default {
           thStyle: {width: '100px', minWidth: '80px'},
           class: "content-capso",
           thClass: "text-primary hidden-sortable text-center",
+        },
+        {
+          key: 'pheDuyetNhiemVu',
+          label: 'Phê duyệt NV',
+          thStyle: {width: '110px', minWidth: '110px'},
+          class: " content-capso",
+          sortable: false,
+          thClass: 'hidden-sortable title-capso text-primary',
+        },
+        {
+          key: 'ngayPheDuyetNhiemVu',
+          label: 'Ngày phê duyệt NV',
+          thStyle: {width: '110px', minWidth: '110px'},
+          class: " content-capso",
+          sortable: false,
+          thClass: 'hidden-sortable title-capso text-primary',
         },
         {
           key: 'quyetDinhPDKQ',
@@ -187,8 +211,8 @@ export default {
           thClass: 'hidden-sortable title-capso text-primary',
         },
         {
-          key: 'ngayChuyenGiao',
-          label: 'Ngày chuyển giao',
+          key: 'ngayDungNghiemThu',
+          label: 'Ngày dừng nghiệm thu',
           thStyle: {width: '110px', minWidth: '110px'},
           class: "text-center content-capso",
           sortable: false,
@@ -202,13 +226,6 @@ export default {
           sortable: false,
           thClass: 'hidden-sortable title-capso text-primary',
         },
-        // {
-        //   key: 'process',
-        //   label: 'Xử lý',
-        //   thStyle: {width: '120px', minWidth: '120px'},
-        //   thClass: "text-primary hidden-sortable text-center",
-        //   class: "btn-process"
-        // },
       ],
       optionsDeTai: [],
       optionsChuTri: [],
@@ -219,6 +236,8 @@ export default {
       optionsXepLoai: [],
       optionsQuyetDinhCG: [],
       optionsDonViTiepNhan: [],
+      optionsCapQuanLy: [],
+      optionsPheDuyetNV: [],
       opened: [],
       tongSoTien: 0,
       soHoSo: 0,
@@ -243,6 +262,8 @@ export default {
     this.getLinhVuc();
     this.getQDChuyenGiao();
     this.getQDPheDuyet();
+    this.getCapQuanLy();
+    this.getPheDuyetNV();
 
     this.assignField();
     this.$refs.tblList?.refresh()
@@ -297,6 +318,34 @@ export default {
         this.selectHindenFilter = [...this.selectHindenFilter, e.key]
         this.valueFilter = [...this.valueFilter, {id: e.key, selected: true}]
       })
+    },
+    async getCapQuanLy() {
+      try {
+        await this.$store.dispatch("commonItemStore/getByType", "CAPQUANLY").then(resp => {
+          if (resp.resultCode == "SUCCESS") {
+            let items = resp.data
+            this.loading = false
+            this.optionsCapQuanLy = items;
+          }
+          return [];
+        });
+      } finally {
+        this.loading = false
+      }
+    },
+    async getPheDuyetNV() {
+      try {
+        await this.$store.dispatch("commonItemStore/getByType", "PHEDUYETNV").then(resp => {
+          if (resp.resultCode == "SUCCESS") {
+            let items = resp.data
+            this.loading = false
+            this.optionsPheDuyetNV = items;
+          }
+          return [];
+        });
+      } finally {
+        this.loading = false
+      }
     },
     async getDeTai() {
       try {
@@ -581,6 +630,23 @@ export default {
                 <div class="row">
                   <div class="col-md-4">
                     <div class="mb-2">
+                      <label class="form-label" for="validationCustom01">Cấp quản lý</label> <span
+                        class="text-danger">*</span>
+                      <multiselect
+                          v-model="filterModel.capQuanLy"
+                          :options="optionsCapQuanLy"
+                          track-by="id"
+                          label="name"
+                          placeholder="Chọn"
+                          deselect-label="Nhấn để xoá"
+                          selectLabel="Nhấn enter để chọn"
+                          selectedLabel="Đã chọn"
+                          :multiple="true"
+                      ></multiselect>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="mb-2">
                       <label class="form-label" for="validationCustom01">Tên đề tài</label> <span
                         class="text-danger">*</span>
                       <multiselect
@@ -649,7 +715,23 @@ export default {
                       ></multiselect>
                     </div>
                   </div>
-
+                  <div class="col-md-4">
+                    <div class="mb-2">
+                      <label class="form-label" for="validationCustom01">Phê duyệt NV</label> <span
+                        class="text-danger">*</span>
+                      <multiselect
+                          v-model="filterModel.pheDuyetNV"
+                          :options="optionsPheDuyetNV"
+                          track-by="id"
+                          label="name"
+                          placeholder="Chọn"
+                          deselect-label="Nhấn để xoá"
+                          selectLabel="Nhấn enter để chọn"
+                          selectedLabel="Đã chọn"
+                          :multiple="true"
+                      ></multiselect>
+                    </div>
+                  </div>
                   <div class="col-md-4">
                     <div class="mb-2">
                       <label class="form-label" for="validationCustom01">QĐ phê duyệt KP</label> <span
@@ -1090,6 +1172,14 @@ export default {
                               <i class="fas fa-trash-alt"></i>
                             </button>
                           </template>
+                          <template v-slot:cell(capQuanLy)="data">
+                            <template v-if="data.item.capQuanLy">
+                              <div style="font-weight: bold">
+                                {{data.item.capQuanLy.name}}
+                              </div>
+                            </template>
+
+                          </template>
                           <template v-slot:cell(tenDeTai)="data">
                             <template v-if="data.item.tenDeTai">
                               <div style="font-weight: bold">
@@ -1111,6 +1201,11 @@ export default {
                           <template v-slot:cell(linhVuc)="data">
                             <template v-if="data.item.linhVuc">
                               {{data.item.linhVuc.name}}
+                            </template>
+                          </template>
+                          <template v-slot:cell(pheDuyetNhiemVu)="data">
+                            <template v-if="data.item.pheDuyetNhiemVu">
+                              {{data.item.pheDuyetNhiemVu.name}}
                             </template>
                           </template>
                           <template v-slot:cell(quyetDinhPDKQ)="data">

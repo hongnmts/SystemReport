@@ -59,6 +59,14 @@ export default {
           thClass: "text-primary hidden-sortable text-center",
         },
         {
+          key: "capQuanLy",
+          label: "Cấp quản lý",
+          class: "content-capso",
+          thStyle: {width: '100px', minWidth: '100px'},
+          thClass: "text-primary hidden-sortable text-center",
+          sortable: true,
+        },
+        {
           key: "tenDeTai",
           label: "Tên đề tài",
           class: "content-capso",
@@ -86,6 +94,22 @@ export default {
           thStyle: {width: '100px', minWidth: '80px'},
           class: "content-capso",
           thClass: "text-primary hidden-sortable text-center",
+        },
+        {
+          key: 'pheDuyetNhiemVu',
+          label: 'Phê duyệt NV',
+          thStyle: {width: '110px', minWidth: '110px'},
+          class: " content-capso",
+          sortable: false,
+          thClass: 'hidden-sortable title-capso text-primary',
+        },
+        {
+          key: 'ngayPheDuyetNhiemVu',
+          label: 'Ngày phê duyệt NV',
+          thStyle: {width: '110px', minWidth: '110px'},
+          class: " content-capso",
+          sortable: false,
+          thClass: 'hidden-sortable title-capso text-primary',
         },
         {
           key: 'quyetDinhPDKQ',
@@ -176,8 +200,8 @@ export default {
           thClass: 'hidden-sortable title-capso text-primary',
         },
         {
-          key: 'ngayChuyenGiao',
-          label: 'Ngày chuyển giao',
+          key: 'ngayDungNghiemThu',
+          label: 'Ngày dừng nghiệm thu',
           thStyle: {width: '110px', minWidth: '110px'},
           class: "text-center content-capso",
           sortable: false,
@@ -441,6 +465,14 @@ export default {
                         <i class="fas fa-trash-alt"></i>
                       </button>
                     </template>
+                    <template v-slot:cell(capQuanLy)="data">
+                      <template v-if="data.item.capQuanLy">
+                        <div style="font-weight: bold">
+                          {{data.item.capQuanLy.name}}
+                        </div>
+                      </template>
+
+                    </template>
                     <template v-slot:cell(tenDeTai)="data">
                       <template v-if="data.item.tenDeTai">
                         <div style="font-weight: bold">
@@ -462,6 +494,11 @@ export default {
                     <template v-slot:cell(linhVuc)="data">
                       <template v-if="data.item.linhVuc">
                         {{data.item.linhVuc.name}}
+                      </template>
+                    </template>
+                    <template v-slot:cell(pheDuyetNhiemVu)="data">
+                      <template v-if="data.item.pheDuyetNhiemVu">
+                        {{data.item.pheDuyetNhiemVu.name}}
                       </template>
                     </template>
                     <template v-slot:cell(quyetDinhPDKQ)="data">
