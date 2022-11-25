@@ -393,7 +393,7 @@ namespace SystemReport.WebAPI.Services
                 }
             }
 
-            string sortBy = nameof(HoTroDN.NgayKy);
+            string sortBy = nameof(QuanLyKH.ModifiedAt);
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             var data = await _collection.Find(filter).SortByDescending(x => x.ModifiedAt)
                 .ToListAsync();
