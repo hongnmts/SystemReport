@@ -312,6 +312,7 @@ export default {
     },
   },
   methods: {
+
     assignField() {
       this.fields.map((e) => {
         this.hidenFilter = [...this.hidenFilter, {id: e.key, label: e.label}]
@@ -636,10 +637,9 @@ export default {
             <div class="row mb-2">
               <div class="col-lg-12 col-md-12">
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Cấp quản lý</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Cấp quản lý</label>
                       <multiselect
                           v-model="filterModel.capQuanLy"
                           :options="optionsCapQuanLy"
@@ -653,10 +653,9 @@ export default {
                       ></multiselect>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Tên đề tài</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Tên đề tài</label>
                       <multiselect
                           v-model="filterModel.tenDeTai"
                           :options="optionsDeTai"
@@ -670,10 +669,26 @@ export default {
                       ></multiselect>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Tổ chức chủ trì</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Lĩnh vực</label>
+                      <multiselect
+                          v-model="filterModel.linhVuc"
+                          :options="optionsLinhVuc"
+                          track-by="id"
+                          label="name"
+                          placeholder="Chọn"
+                          deselect-label="Nhấn để xoá"
+                          selectLabel="Nhấn enter để chọn"
+                          selectedLabel="Đã chọn"
+                          :multiple="true"
+                      ></multiselect>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="mb-2">
+                      <label class="form-label" for="validationCustom01">Tổ chức chủ trì</label>
+
                       <multiselect
                           v-model="filterModel.chuTri"
                           :options="optionsChuTri"
@@ -688,10 +703,9 @@ export default {
                     </div>
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Chủ nhiệm</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Chủ nhiệm</label>
                       <multiselect
                           v-model="filterModel.chuNhiem"
                           :options="optionsChuNhiem"
@@ -706,27 +720,9 @@ export default {
                     </div>
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Lĩnh vực</label> <span
-                        class="text-danger">*</span>
-                      <multiselect
-                          v-model="filterModel.linhVuc"
-                          :options="optionsLinhVuc"
-                          track-by="id"
-                          label="name"
-                          placeholder="Chọn"
-                          deselect-label="Nhấn để xoá"
-                          selectLabel="Nhấn enter để chọn"
-                          selectedLabel="Đã chọn"
-                          :multiple="true"
-                      ></multiselect>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Phê duyệt NV</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">QĐ Phê duyệt NV</label>
                       <multiselect
                           v-model="filterModel.pheDuyetNV"
                           :options="optionsPheDuyetNV"
@@ -740,10 +736,9 @@ export default {
                       ></multiselect>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">QĐ phê duyệt KP</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Ngày QĐ Phê duyệt NV</label>
                       <multiselect
                           v-model="filterModel.quyetDinhPDKQ"
                           :options="optionsQDPheDuyetKP"
@@ -758,10 +753,9 @@ export default {
                     </div>
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Đang thực hiện</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Trạng thái</label>
                       <multiselect
                           v-model="filterModel.dangThucHien"
                           :options="optionsDangThucHien"
@@ -775,10 +769,9 @@ export default {
                       ></multiselect>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Xếp loại</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Xếp loại</label>
                       <multiselect
                           v-model="filterModel.xepLoai"
                           :options="optionsXepLoai"
@@ -793,10 +786,9 @@ export default {
                     </div>
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">QĐ chuyển giao</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">QĐ chuyển giao</label>
                       <multiselect
                           v-model="filterModel.quyetDinhCQ"
                           :options="optionsQuyetDinhCG"
@@ -810,10 +802,9 @@ export default {
                       ></multiselect>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Đơn vị tiếp nhận</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Đơn vị tiếp nhận</label>
                       <multiselect
                           v-model="filterModel.donViTiepNhan"
                           :options="optionsDonViTiepNhan"
@@ -1154,31 +1145,15 @@ export default {
                           <template v-slot:cell(STT)="data">
                             {{ data.index + ((currentPage-1)*perPage) + 1  }}
                           </template>
-                          <template v-slot:cell(process)="data">
-                            <!--                      <button-->
-                            <!--                          type="button"-->
-                            <!--                          size="sm"-->
-                            <!--                          class="btn btn-detail btn-sm"-->
-                            <!--                          data-toggle="tooltip" data-placement="bottom" title="Chi tiết"-->
-                            <!--                          v-on:click="handleDetail(data.item.id)">-->
-                            <!--                        <i class="fas fa-eye "></i>-->
-                            <!--                      </button>-->
-                            <button
-                                type="button"
-                                size="sm"
-                                class="btn btn-edit btn-sm"
-                                data-toggle="tooltip" data-placement="bottom" title="Cập nhật"
-                                v-on:click="handleUpdate(data.item.id)">
-                              <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button
-                                type="button"
-                                size="sm"
-                                class="btn btn-delete btn-sm"
-                                data-toggle="tooltip" data-placement="bottom" title="Xóa"
-                                v-on:click="handleShowDeleteModal(data.item.id)">
-                              <i class="fas fa-trash-alt"></i>
-                            </button>
+                          <template v-slot:cell(nguonNSNN)="data">
+                            <template v-if="data.item.nguonNSNN">
+                              {{ formatNumber( data.item.nguonNSNN) }}
+                            </template>
+                          </template>
+                          <template v-slot:cell(nguonKhac)="data">
+                            <template v-if="data.item.nguonKhac">
+                              {{ formatNumber( data.item.nguonNSNN) }}
+                            </template>
                           </template>
                           <template v-slot:cell(capQuanLy)="data">
                             <template v-if="data.item.capQuanLy">
