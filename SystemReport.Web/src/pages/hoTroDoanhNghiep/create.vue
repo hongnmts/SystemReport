@@ -6,7 +6,8 @@ import Multiselect from "vue-multiselect";
 import {hoTroDoanhNghiepModel} from "@/models/hoTroDoanhNghiepModel";
 import {notifyModel} from "@/models/notifyModel";
 import DatePicker from "vue2-datepicker";
-
+import {Money} from "v-money"
+import {quanLyKhoaHocModel} from "@/models/quanLyKHModel";
 /**
  * Advanced table component
  */
@@ -19,7 +20,8 @@ export default {
     Layout,
     PageHeader,
     Multiselect,
-    DatePicker
+    DatePicker,
+    Money
   },
   data() {
     return {
@@ -64,7 +66,15 @@ export default {
       optionDonViHanhChinh: [],
       optionNoiDungHoTro: [],
       optionQuyetDinh: [],
-      action: null
+      action: null,
+      money: {
+        decimal: '.',
+        thousands: ',',
+        prefix: '',
+        suffix: '',
+        precision: 0,
+        masked: false,
+      },
     };
   },
   validations: {},
@@ -84,6 +94,9 @@ export default {
     }
   },
   methods: {
+    resetForm(){
+      this.model = quanLyKhoaHocModel.baseJson();
+    },
     async getQuyetDinh() {
       try {
         await this.$store.dispatch("commonItemStore/getByType", "QUYETDINH").then(resp => {
@@ -179,7 +192,7 @@ export default {
         await this.$store.dispatch("hoTroDoanhNghiepStore/update", this.model).then((res) => {
           if (res.resultCode === 'SUCCESS') {
             this.showModal = false;
-            this.model = hoTroDoanhNghiepModel.baseJson();
+            this.model = res.data;
           }
           this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res));
         })
@@ -188,7 +201,7 @@ export default {
         await this.$store.dispatch("hoTroDoanhNghiepStore/create", this.model).then((res) => {
           if (res.resultCode === 'SUCCESS') {
             this.showModal = false;
-            this.model = hoTroDoanhNghiepModel.baseJson();
+            this.model = res.data;
           }
           this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res));
         });
@@ -214,7 +227,7 @@ export default {
     async addTagToChuc(newTag) {
       const parts = newTag;
       const tag = {
-        name: parts.pop(),
+        name: parts,
         type: "TOCHUC"
       }
       await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
@@ -228,7 +241,7 @@ export default {
     async addTagQuyetDinh(newTag) {
       const parts = newTag;
       const tag = {
-        name: parts.pop(),
+        name: parts,
         type: "QUYETDINH"
       }
       await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
@@ -242,7 +255,7 @@ export default {
     async addTagLoaiHinh(newTag) {
       const parts = newTag;
       const tag = {
-        name: parts.pop(),
+        name: parts,
         type: "LOAIHINH"
       }
       await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
@@ -255,7 +268,7 @@ export default {
     async addTagDonViHanhChinh(newTag) {
       const parts = newTag;
       const tag = {
-        name: parts.pop(),
+        name: parts,
         type: "HUYEN"
       }
       await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
@@ -269,13 +282,15 @@ export default {
     async addTagNoiDung(newTag) {
       const parts = newTag;
       const tag = {
-        name: parts.pop(),
+        name: parts,
         type: "NOIDUNGHOTRO"
       }
       await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
         if (res.resultCode === 'SUCCESS') {
           this.optionNoiDungHoTro = [res.data, ...this.optionNoiDungHoTro];
-          this.model.noiDungHoTro = [ this.model.noiDungHoTro, res.data];
+          if(this.model.noiDungHoTro == null)
+            this.model.noiDungHoTro = []
+          this.model.noiDungHoTro = [ ...this.model.noiDungHoTro, res.data];
         }
         this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res))
       });
@@ -296,6 +311,9 @@ export default {
           <!--          </b-button>-->
           <b-button type="submit" variant="primary" size="sm" class="ms-1 w-md">
             Lưu
+          </b-button>
+          <b-button type="button" variant="warning" size="sm" class="ms-1 w-md" @click="resetForm">
+            Thêm mới
           </b-button>
           <b-button type="submit" variant="danger" size="sm" class="ms-1 w-md" @click="$router.push('/ho-tro-doanh-nghiep')">
             Trở về
@@ -384,18 +402,18 @@ export default {
                       selectLabel="Nhấn enter để chọn"
                       selectedLabel="Đã chọn"
                       :taggable="true" @tag="addTagNoiDung"
-                      multiple="true"
+                      :multiple="true"
                   ></multiselect>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-2">
                   <label class="form-label" for="validationCustom01">Số tiền</label>
-                  <input
-                      id="validationCustom01"
+
+                  <money
                       v-model="model.soTien"
-                      type="text"
-                      class="form-control"
+                      v-bind="money"
+                      class="form-control text-right"
                       placeholder=""
                   />
                 </div>

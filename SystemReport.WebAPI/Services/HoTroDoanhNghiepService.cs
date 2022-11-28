@@ -167,11 +167,17 @@ namespace SystemReport.WebAPI.Services
             var builder = Builders<HoTroDN>.Filter;
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.IsDeleted == false));
-            //if (!String.IsNullOrEmpty(param.Content))
-            //{
-            //    filter = builder.And(filter,
-            //        builder.Where(x => x.Name.Trim().ToLower().Contains(param.Content.Trim().ToLower())));
-            //}
+            if (!String.IsNullOrEmpty(param.Content))
+            {
+                param.Content = param.Content.ToLower();
+                filter = builder.And(filter,
+                    builder.Where(x => (x.ToChuc != default && x.ToChuc.Name.ToLower().Contains(param.Content))
+                    || (x.LoaiHinh != default && x.LoaiHinh.Name.ToLower().Contains(param.Content))
+                    || (x.DonViHanhChinh != default && x.DonViHanhChinh.Name.ToLower().Contains(param.Content))
+                    || (x.DiaChi != default && x.DiaChi.ToLower().Contains(param.Content))
+                    || (x.QuyetDinh != default && x.QuyetDinh.Name.ToLower().Contains(param.Content))
+                    ));
+            }
             string sortBy = nameof(HoTroDN.NgayKy);
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             result.Data = await _collection.Find(filter)

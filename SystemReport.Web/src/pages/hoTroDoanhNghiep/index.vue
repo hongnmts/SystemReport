@@ -350,14 +350,14 @@ export default {
                       {{ data.index + ((currentPage-1)*perPage) + 1  }}
                     </template>
                     <template v-slot:cell(process)="data">
-                      <button
-                          type="button"
-                          size="sm"
-                          class="btn btn-detail btn-sm"
-                          data-toggle="tooltip" data-placement="bottom" title="Chi tiết"
-                          v-on:click="handleDetail(data.item.id)">
-                        <i class="fas fa-eye "></i>
-                      </button>
+<!--                      <button-->
+<!--                          type="button"-->
+<!--                          size="sm"-->
+<!--                          class="btn btn-detail btn-sm"-->
+<!--                          data-toggle="tooltip" data-placement="bottom" title="Chi tiết"-->
+<!--                          v-on:click="handleDetail(data.item.id)">-->
+<!--                        <i class="fas fa-eye "></i>-->
+<!--                      </button>-->
                       <button
                           type="button"
                           size="sm"
