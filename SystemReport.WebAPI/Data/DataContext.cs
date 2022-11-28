@@ -38,6 +38,8 @@ namespace SystemReport.WebAPI.Data
         private readonly IMongoCollection<RowValue> _rowValue;
         private readonly IMongoCollection<LoaiMauBieu> _loaiMauBieu;
         private readonly IMongoCollection<HistoryMauBieu> _historyMauBieu;
+        private readonly IMongoCollection<LoaiDanhMuc> _loaiDanhMuc;
+        private readonly IMongoCollection<DanhMuc> _danhMuc;
 
         private readonly IDbSettings _settings;
         public DataContext(IDbSettings settings)
@@ -96,6 +98,8 @@ namespace SystemReport.WebAPI.Data
             _loaiMauBieu = _context.GetCollection<LoaiMauBieu>(_settings.LoaiMauBieuCollectionName);
             // History
             _historyMauBieu = _context.GetCollection<HistoryMauBieu>(_settings.HistoryMauBieuCollectionName);
+            _loaiDanhMuc = _context.GetCollection<LoaiDanhMuc>(_settings.LoaiDanhMucCollectionName);
+            _danhMuc = _context.GetCollection<DanhMuc>(_settings.DanhMucCollectionName);
         }
 
         public IMongoDatabase Database
@@ -160,6 +164,16 @@ namespace SystemReport.WebAPI.Data
         public IMongoCollection<LoaiMauBieu> LoaiMauBieu
         {
             get => _loaiMauBieu;
+        }
+        
+        public IMongoCollection<LoaiDanhMuc> LoaiDanhMuc
+        {
+            get => _loaiDanhMuc;
+        }
+        
+        public IMongoCollection<DanhMuc> DanhMuc
+        {
+            get => _danhMuc;
         }
     }
 }

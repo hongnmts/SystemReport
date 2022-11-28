@@ -37,6 +37,8 @@ namespace SystemReport.WebAPI.Data
         public string RowValueCollectionName { get; set; }
         public string LoaiMauBieuCollectionName { get; set; }
         public string HistoryMauBieuCollectionName { get; set; }
+        public string LoaiDanhMucCollectionName { get; set; }
+        public string DanhMucCollectionName { get; set; }
     }
 
     public interface IDbSettings
@@ -72,6 +74,8 @@ namespace SystemReport.WebAPI.Data
         string ThuocTinhCollectionName { get; set; }
         string RowValueCollectionName { get; set; }
         string LoaiMauBieuCollectionName { get; set; }
+        string LoaiDanhMucCollectionName { get; set; }
+        string DanhMucCollectionName { get; set; }
 
         // History
         string HistoryMauBieuCollectionName { get; set; }
