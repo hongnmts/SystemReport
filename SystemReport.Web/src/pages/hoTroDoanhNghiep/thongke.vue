@@ -439,8 +439,8 @@ export default {
                   <!--                            Loại văn bản-->
                   <div class="col-md-6">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Tổ chức</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Tổ chức</label>
+
                       <multiselect
                           v-model="filterModel.toChuc"
                           :options="optionsToChuc"
@@ -456,8 +456,8 @@ export default {
                   </div>
                   <div class="col-md-6">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Loại hình</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Loại hình</label>
+
                       <multiselect
                           v-model="filterModel.loaiHinh"
                           :options="optionsLoaiHinh"
@@ -474,8 +474,8 @@ export default {
 
                   <div class="col-md-6">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Huyện/TP</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Huyện/TP</label>
+
                       <multiselect
                           v-model="filterModel.donViHanhChinh"
                           :options="optionDonViHanhChinh"
@@ -503,8 +503,7 @@ export default {
                   </div>
                   <div class="col-md-6">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Nội dung hỗ trợ</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Nội dung hỗ trợ</label>
                       <multiselect
                           v-model="filterModel.noiDungHoTro"
                           :options="optionNoiDungHoTro"
@@ -532,8 +531,7 @@ export default {
                   <!--                  </div>-->
                   <div class="col-md-6">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Quyết định</label> <span
-                        class="text-danger">*</span>
+                      <label class="form-label" for="validationCustom01">Quyết định</label>
                       <multiselect
                           v-model="filterModel.quyetDinh"
                           :options="optionQuyetDinh"
