@@ -48,6 +48,10 @@ namespace SystemReport.WebAPI.Installers
             services.AddScoped<IExportExcelService, ExportExcelService>();
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IHistoryMauBieuService, HistoryMauBieuService>();
+            services.AddScoped<ICommonItemService, CommonItemService>();
+            services.AddScoped<IHoTroDoanhNghiepService, HoTroDoanhNghiepService>();
+            services.AddScoped<IThongKeService, ThongKeService>();
+            services.AddScoped<IQuanLyKHService, QuanLyKHService>();
         }
     }
 }

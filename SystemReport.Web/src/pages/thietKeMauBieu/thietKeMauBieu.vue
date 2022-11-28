@@ -490,7 +490,7 @@
                                               variant="primary"
                                               type="button"
                                               class="btn w-md btn-danger mx-2"
-                                              @click="handleDeleteBangBieu"
+                                              @click="handleShowDeleteModal($route.params.id)"
                                               size="sm"
                                           >
                                            Xóa bảng biểu
@@ -668,7 +668,33 @@
         </b-button>
       </template>
     </b-modal>
-
+    <b-modal
+        v-model="showDeleteModal"
+        centered
+        title="Xóa dữ liệu"
+        title-class="font-18"
+        no-close-on-backdrop
+    >
+      <p>
+        Dữ liệu xóa sẽ không được phục hồi!
+      </p>
+      <template #modal-footer>
+        <b-button v-b-modal.modal-close_visit
+                  size="sm"
+                  class="btn btn-outline-info w-md"
+                  v-on:click="showDeleteModal = false">
+          Đóng
+        </b-button>
+        <b-button v-b-modal.modal-close_visit
+                  size="sm"
+                  variant="danger"
+                  type="button"
+                  class="w-md"
+                  v-on:click="handleDelete">
+          Xóa
+        </b-button>
+      </template>
+    </b-modal>
     <!--    Bảng biểu-->
     <b-modal
         v-model="showModalBangBieu"
@@ -836,7 +862,9 @@ export default {
       defaultThuocTinhIsChiTieu: [],
       modelBangBieu: bangBieuModel.baseJson(),
       showModalBangBieu: false,
-      submittedBangBieu: false
+      submittedBangBieu: false,
+      showDeleteModal: false,
+      model: bangBieuModel.baseJson()
     }
   },
   validations: {
@@ -895,8 +923,21 @@ export default {
     },
   },
   methods: {
-    handleDeleteBangBieu(){
-
+    async handleDelete() {
+      if (this.model.id != 0 && this.model.id != null && this.model.id) {
+        await this.$store.dispatch("bangBieuStore/delete", this.model.id).then((res) => {
+          if (res.resultCode === 'SUCCESS') {
+            this.showDeleteModal = false;
+            this.$router.push("/thiet-ke-mau-bieu")
+          }
+          this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res));
+          // });
+        });
+      }
+    },
+    handleShowDeleteModal(id) {
+      this.model.id = id;
+      this.showDeleteModal = true;
     },
     async handleUpdateBangBieu() {
       await this.$store.dispatch("bangBieuStore/getById", this.$route.params.id).then((res) => {

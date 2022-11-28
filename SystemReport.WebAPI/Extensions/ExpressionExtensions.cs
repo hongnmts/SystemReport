@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using SystemReport.WebAPI.Models;
 
 namespace SystemReport.WebAPI.Extensions
 {
     public static class ExpressionExtensions
     {
+        public static IEnumerable<HoTroDN> WhereQuery(this IEnumerable<HoTroDN> source, string columnName, string propertyValue)
+        {
+            return (IEnumerable<HoTroDN>)source.Where(m => { return m.GetType().GetProperty(columnName).GetValue(m, null).ToString().StartsWith(propertyValue); });
+        }
+
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>
     (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {

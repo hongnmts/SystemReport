@@ -56,4 +56,41 @@ namespace SystemReport.WebAPI.Helpers
         public const string LUU_HANH_NOI_BO = "LHNB";
         public const string THU_HOI = "THO";
     }
+
+    public class HoTroDoanhNghiep
+    {
+        public const string LOAIHINH = "LOAIHINH";
+        public const string TOCHUC = "TOCHUC";
+        public const string HUYEN = "HUYEN";
+        public const string QUYETDINH = "QUYETDINH";
+        public const string NOIDUNGHOTRO = "NOIDUNGHOTRO";
+    }    
+    public class QuanLyDeTai
+    {
+        public const string DETAI = "DETAI";
+        public const string CHUTRI = "CHUTRI";
+        public const string CHUNHIEM = "CHUNHIEM";
+        public const string LINHVUC = "LINHVUC";
+        public const string QUYETDINHPHEQUYET = "QUYETDINHPHEQUYET";
+        public const string DANGTHUCHIEN = "DANGTHUCHIEN";
+        public const string XEPLOAI = "XEPLOAI";
+        public const string QUYETDINHCHUYENGIAO = "QUYETDINHCHUYENGIAO";
+        public const string DONVITIEPNHAN = "QUYETDINHCHUYENGIAO";
+        public const string CAPQUANLY = "CAPQUANLY";
+        public const string PHEDUYETNV = "PHEDUYETNV";
+    }
+
+    public class ECommonItem
+    {
+        public ECommonItem(string id, string name, string colName)
+        {
+            Id = id;
+            Name = name;
+            ColName = colName;
+        }
+
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string ColName { get; set; }
+    }
 }

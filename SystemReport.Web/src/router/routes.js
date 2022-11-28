@@ -26,6 +26,22 @@ export default [
         component: () => import('../pages/baocao/xuatBan'),
     },
     {
+        path: '/thong-ke',
+        meta: {
+            authRequired: true
+        },
+        name: 'thongke',
+        component: () => import('../pages/thongKe'),
+    },
+    {
+        path: '/bang-bieu-thong-ke/:id?',
+        meta: {
+            authRequired: true
+        },
+        name: 'bangBieuThongKe',
+        component: () => import('../pages/thongKe/detailThongKe'),
+    },
+    {
         path: '/dang-nhap',
         name: 'login',
         component: () => import('../pages/auth/auth'),
@@ -230,5 +246,35 @@ export default [
         path: "/huong-dan-su-dung",
         name: "/huong-dan-su-dung",
         component: () => import("../pages/huongDanSuDung"),
+    },
+    {
+        path: "/ho-tro-doanh-nghiep",
+        name: "/ho-tro-doanh-nghiep",
+        component: () => import("../pages/hoTroDoanhNghiep"),
+    },
+    {
+        path: "/ho-tro-doanh-nghiep/create/:id?",
+        name: "/ho-tro-doanh-nghiep - craete",
+        component: () => import("../pages/hoTroDoanhNghiep/create"),
+    },
+    {
+        path: "/ho-tro-doanh-nghiep/thong-ke",
+        name: "/ho-tro-doanh-nghiep - thong-ke",
+        component: () => import("../pages/hoTroDoanhNghiep/thongke"),
+    },
+    {
+        path: "/quan-ly-de-tai",
+        name: "/quan-ly-khoa-hoc",
+        component: () => import("../pages/quanLyKhoaHoc"),
+    },
+    {
+        path: "/quan-ly-de-tai/create/:id?",
+        name: "/ho-tro-doanh-nghiep - craete",
+        component: () => import("../pages/quanLyKhoaHoc/create"),
+    },
+    {
+        path: "/quan-ly-de-tai/thong-ke",
+        name: "/ho-tro-doanh-nghiep - thong-ke",
+        component: () => import("../pages/quanLyKhoaHoc/thongKe"),
     },
 ]

@@ -473,7 +473,7 @@ namespace SystemReport.WebAPI.Services
                 RenderGetLoopItem(ref list, rowValues, item);
             }
 
-            var data = list.GroupBy(x => x.KeyRow).Select(x => new BodyTableVM()
+            var data = list.OrderBy(x => x.Order).GroupBy(x => x.KeyRow).Select(x => new BodyTableVM()
             {
                 KeyRow = x.Key,
                 RowValues = x.OrderBy(x => x.Order).ToList()
@@ -790,7 +790,12 @@ namespace SystemReport.WebAPI.Services
         public async Task AddRowTong(string bangBieuId)
         {
             var thuocTinhs = _thuocTinhService.GetNodeLeftChiTieu(bangBieuId);
-
+            int maxOrder = 0;
+            var rowValue = _context.RowValue.Find(x => x.BangBieuId == bangBieuId).ToList();
+            if(rowValue != default)
+            {
+                maxOrder = rowValue.Max(x => x.Order);
+            }
             if (thuocTinhs.Count > 0)
             {
                 var keyRow = BsonObjectId.GenerateNewId().ToString();
@@ -819,7 +824,8 @@ namespace SystemReport.WebAPI.Services
                         ModifiedBy = CurrentUserName,
                         IsTong = true,
                         RowParent = null,
-                        StringCongThuc = FormulaWithRootRow(item.Id)
+                        StringCongThuc = FormulaWithRootRow(item.Id),
+                        Order = maxOrder + 1
                     };
                     if (checkFirstTime)
                     {

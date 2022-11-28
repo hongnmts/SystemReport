@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SystemReport.WebAPI.ViewModels;
 
 namespace SystemReport.WebAPI.Params
 {
@@ -33,6 +34,10 @@ namespace SystemReport.WebAPI.Params
 
         // public long TotalRows { get; set; }
         public IEnumerable<T> Data { get; set; }
+
+        public List<ThongKeHTDNVM> ThongKeHTDNVMs { get; set; }
+        public decimal Money { get; set; }
+        public int SoHoSo { get; set; }
     }
 
 

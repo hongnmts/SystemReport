@@ -41,6 +41,8 @@ namespace SystemReport.WebAPI.Models
         public bool IsTong { get; set; }
         public string RowParent { get; set; }
         public int Order { get; set; }
+        [BsonIgnore]
+        public string ValueTemp { get; set; }
 
         public object Clone()
         {

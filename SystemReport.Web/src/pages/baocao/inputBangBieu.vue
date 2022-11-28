@@ -129,7 +129,7 @@
                      'text-align': item.fontHorizontalAlign?item.fontHorizontalAlign.id: '',
                      'font-weight': item.fontWeight?item.fontWeight.id: '',
                      'font-style': item.fontStyle?item.fontStyle.id: '',
-                     }" style="width: 100%; height: 100%; margin: 0px"/>
+                     }" style="width: 100%; height: 100%; margin: 0px; text-align: center"/>
                     <input :id="item.code" :ref="item.code" class="form-control" type="number" readonly
                            inputmode="decimal" v-else-if="item.styleInput && item.styleInput.id == 'formula'"
                            v-model="item.value"
@@ -137,7 +137,7 @@
                      'text-align': item.fontHorizontalAlign?item.fontHorizontalAlign.id: '',
                      'font-weight': item.fontWeight?item.fontWeight.id: '',
                      'font-style': item.fontStyle?item.fontStyle.id: '',
-                     }" style="width: 100%; height: 100%; margin: 0px"/>
+                     }" style="width: 100%; height: 100%; margin: 0px;  text-align: center"/>
                   </template>
                   <!--                  <input  :style="{ 'width': item.width == 0?'auto':  item.width + 'px !important',-->
                   <!--                     'text-align': item.fontHorizontalAlign?item.fontHorizontalAlign.id: '',-->
