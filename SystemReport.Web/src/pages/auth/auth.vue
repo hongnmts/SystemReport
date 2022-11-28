@@ -118,25 +118,20 @@ export default {
         <div class="cs-login-right">
           <div class="py-0 py-md-2 py-lg-5 px-0 py-md-3 px-lg-5">
             <div class="text-center">
-              <div class="text-center py-5">
+              <div class="text-center login-img">
                 <a href="/" class="">
                   <img
                       src="@/assets/images/DTHU.png"
-                      height="100"
                       alt="logo"
                   />
                 </a>
               </div>
               <h5
-                  class="text-uppercase fs-2 fw-bold"
-                  style="background: linear-gradient(90deg, #111961, #01b0c9);
-                  -webkit-background-clip: text;
-                  -webkit-text-fill-color: transparent;"
+                  class="login-title"
               > Hệ thống thông tin <br /> Khoa học và Công nghệ </h5>
-              <p class="text-primary fs-5" style="color: #111961">Sở Khoa học và Công nghệ tỉnh Đồng Tháp</p>
-
+              <p class="text-primary mb-0" style="color: #111961">Sở Khoa học và Công nghệ tỉnh Đồng Tháp</p>
             </div>
-            <div class="p-3">
+            <div class="p-2">
               <b-alert
                   v-model="modelAuth.isAuthError"
                   variant="danger"
@@ -242,6 +237,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.login-img img{
+  padding: 10px;
+  height: 150px;
+}
 .cs-login-left{
   height: 100vh;
   display: flex;
@@ -254,6 +253,24 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.login-title{
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #111961, #01b0c9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media only screen and (max-width: 1024px){
+  .login-title{
+    font-size: 20px;
+  }
+  .login-img img{
+    height: 100px;
+  }
 }
 @media only screen and (max-width: 425px){
   .cs-dnone{
