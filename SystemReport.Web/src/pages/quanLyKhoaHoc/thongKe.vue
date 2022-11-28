@@ -72,16 +72,16 @@ export default {
         {
           key: "capQuanLy",
           label: "Cấp quản lý",
-          class: "content-capso",
+          class: "content-capso text-center",
           thStyle: {width: '100px', minWidth: '100px'},
           thClass: "text-primary hidden-sortable text-center",
           sortable: true,
         },
         {
           key: "tenDeTai",
-          label: "Tên đề tài",
+          label: "Tên đề tài/ dự án",
           class: "content-capso",
-          thStyle: {width: '100px', minWidth: '100px'},
+          thStyle: {width: '250px', minWidth: '200px'},
           thClass: "text-primary hidden-sortable text-center",
           sortable: true,
         },
@@ -120,7 +120,7 @@ export default {
           thStyle: {width: '110px', minWidth: '110px'},
           class: " content-capso",
           sortable: false,
-          thClass: 'hidden-sortable title-capso text-primary',
+          thClass: 'hidden-sortable title-capso text-primary text-center',
         },
         {
           key: 'quyetDinhPDKQ',
@@ -128,11 +128,11 @@ export default {
           thStyle: {width: '110px', minWidth: '110px'},
           class: " content-capso",
           sortable: false,
-          thClass: 'hidden-sortable title-capso text-primary',
+          thClass: 'hidden-sortable title-capso text-primary  text-center',
         },
         {
           key: 'ngayPDKQ',
-          label: 'Ngày PQ quyết định',
+          label: 'Ngày QĐ phê duyệt KP',
           thStyle: {width: '110px', minWidth: '110px'},
           class: "text-center content-capso",
           sortable: false,
@@ -156,7 +156,7 @@ export default {
         },
         {
           key: 'ngayBatDau',
-          label: 'Bắt đầu (ngày tháng năm)',
+          label: 'Ngày bắt đầu hợp đồng',
           thStyle: {width: '110px', minWidth: '110px'},
           class: "text-center content-capso",
           sortable: false,
@@ -164,7 +164,7 @@ export default {
         },
         {
           key: 'ngayKetThuc',
-          label: 'Kết thúc (ngày tháng năm)',
+          label: 'Ngày kết thúc hợp đồng',
           thStyle: {width: '110px', minWidth: '110px'},
           class: "text-center content-capso",
           sortable: false,
@@ -172,7 +172,7 @@ export default {
         },
         {
           key: 'ngayGiaHan',
-          label: 'Gia hạn (ngày tháng năm)',
+          label: 'Ngày gia hạn',
           thStyle: {width: '110px', minWidth: '110px'},
           class: "text-center content-capso",
           sortable: false,
@@ -180,7 +180,7 @@ export default {
         },
         {
           key: 'dangThucHien',
-          label: 'Đang thực hiện',
+          label: 'Trạng thái',
           thStyle: {width: '110px', minWidth: '110px'},
           class: "text-center content-capso",
           sortable: false,
@@ -211,21 +211,22 @@ export default {
           thClass: 'hidden-sortable title-capso text-primary',
         },
         {
-          key: 'ngayDungNghiemThu',
-          label: 'Ngày dừng nghiệm thu',
-          thStyle: {width: '110px', minWidth: '110px'},
-          class: "text-center content-capso",
+          key: 'donViTiepNhan',
+          label: 'Đơn vị tiếp nhận',
+          thStyle: {width: '210px', minWidth: '210px'},
+          class: " content-capso",
           sortable: false,
           thClass: 'hidden-sortable title-capso text-primary',
         },
         {
-          key: 'donViTiepNhan',
-          label: 'Đơn vị tiếp nhận',
-          thStyle: {width: '110px', minWidth: '110px'},
+          key: 'ngayDungNghiemThu',
+          label: 'Ngày dừng thực hiện',
+
           class: "text-center content-capso",
           sortable: false,
           thClass: 'hidden-sortable title-capso text-primary',
         },
+
       ],
       optionsDeTai: [],
       optionsChuTri: [],
@@ -818,43 +819,9 @@ export default {
                       ></multiselect>
                     </div>
                   </div>
-
                   <div class="col-md-2">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01"> Từ ngày (Ngày PDKQ)</label>
-                      <date-picker v-model="filterModel.ngayPDKQStart"
-                                   format="DD/MM/YYYY"
-                                   value-type="format"
-                      >
-                        <div slot="input">
-                          <input v-model="filterModel.ngayPDKQStart"
-                                 v-mask="'##/##/####'" type="text" class="form-control"
-                                 placeholder=""
-                          />
-                        </div>
-                      </date-picker>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Đến ngày (Ngày PDKQ)</label>
-                      <date-picker v-model="filterModel.ngayPDKQEnd"
-                                   format="DD/MM/YYYY"
-                                   value-type="format"
-                      >
-                        <div slot="input">
-                          <input v-model="filterModel.ngayPDKQEnd"
-                                 v-mask="'##/##/####'" type="text" class="form-control"
-                                 placeholder=""
-                          />
-                        </div>
-                      </date-picker>
-                    </div>
-                  </div>
-
-                  <div class="col-md-2">
-                    <div class="mb-2">
-                      <label class="form-label" for="validationCustom01"> Từ ngày (Ngày bắt đầu)</label>
+                      <label class="form-label" for="validationCustom01">Ngày bắt đầu hợp đồng</label>
                       <date-picker v-model="filterModel.ngayBatDauStart"
                                    format="DD/MM/YYYY"
                                    value-type="format"
@@ -870,7 +837,7 @@ export default {
                   </div>
                   <div class="col-md-2">
                     <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Đến ngày (Ngày bắt đầu)</label>
+                      <label class="form-label" for="validationCustom01">Ngày kết thúc hợp đồng</label>
                       <date-picker v-model="filterModel.ngayBatDauEnd"
                                    format="DD/MM/YYYY"
                                    value-type="format"
@@ -884,39 +851,73 @@ export default {
                       </date-picker>
                     </div>
                   </div>
+                  <div class="col-md-2">
+                    <div class="mb-2">
+                      <label class="form-label" for="validationCustom01"> Từ ngày (Ngày PDKP)</label>
+                      <date-picker v-model="filterModel.ngayPDKQStart"
+                                   format="DD/MM/YYYY"
+                                   value-type="format"
+                      >
+                        <div slot="input">
+                          <input v-model="filterModel.ngayPDKQStart"
+                                 v-mask="'##/##/####'" type="text" class="form-control"
+                                 placeholder=""
+                          />
+                        </div>
+                      </date-picker>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="mb-2">
+                      <label class="form-label" for="validationCustom01">Đến ngày (Ngày PDKP)</label>
+                      <date-picker v-model="filterModel.ngayPDKQEnd"
+                                   format="DD/MM/YYYY"
+                                   value-type="format"
+                      >
+                        <div slot="input">
+                          <input v-model="filterModel.ngayPDKQEnd"
+                                 v-mask="'##/##/####'" type="text" class="form-control"
+                                 placeholder=""
+                          />
+                        </div>
+                      </date-picker>
+                    </div>
+                  </div>
 
-                  <div class="col-md-2">
-                    <div class="mb-2">
-                      <label class="form-label" for="validationCustom01"> Từ ngày (Ngày Kết thúc)</label>
-                      <date-picker v-model="filterModel.ngayKetThucStart"
-                                   format="DD/MM/YYYY"
-                                   value-type="format"
-                      >
-                        <div slot="input">
-                          <input v-model="filterModel.ngayKetThucStart"
-                                 v-mask="'##/##/####'" type="text" class="form-control"
-                                 placeholder=""
-                          />
-                        </div>
-                      </date-picker>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Đến ngày (Ngày Kết thúc)</label>
-                      <date-picker v-model="filterModel.ngayKetThucEnd"
-                                   format="DD/MM/YYYY"
-                                   value-type="format"
-                      >
-                        <div slot="input">
-                          <input v-model="filterModel.ngayKetThucEnd"
-                                 v-mask="'##/##/####'" type="text" class="form-control"
-                                 placeholder=""
-                          />
-                        </div>
-                      </date-picker>
-                    </div>
-                  </div>
+
+
+<!--                  <div class="col-md-2">-->
+<!--                    <div class="mb-2">-->
+<!--                      <label class="form-label" for="validationCustom01"> Từ ngày (Ngày Kết thúc)</label>-->
+<!--                      <date-picker v-model="filterModel.ngayKetThucStart"-->
+<!--                                   format="DD/MM/YYYY"-->
+<!--                                   value-type="format"-->
+<!--                      >-->
+<!--                        <div slot="input">-->
+<!--                          <input v-model="filterModel.ngayKetThucStart"-->
+<!--                                 v-mask="'##/##/####'" type="text" class="form-control"-->
+<!--                                 placeholder=""-->
+<!--                          />-->
+<!--                        </div>-->
+<!--                      </date-picker>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="col-md-2">-->
+<!--                    <div class="mb-2">-->
+<!--                      <label class="form-label" for="validationCustom01">Đến ngày (Ngày Kết thúc)</label>-->
+<!--                      <date-picker v-model="filterModel.ngayKetThucEnd"-->
+<!--                                   format="DD/MM/YYYY"-->
+<!--                                   value-type="format"-->
+<!--                      >-->
+<!--                        <div slot="input">-->
+<!--                          <input v-model="filterModel.ngayKetThucEnd"-->
+<!--                                 v-mask="'##/##/####'" type="text" class="form-control"-->
+<!--                                 placeholder=""-->
+<!--                          />-->
+<!--                        </div>-->
+<!--                      </date-picker>-->
+<!--                    </div>-->
+<!--                  </div>-->
 
 
                   <div class="col-md-2">

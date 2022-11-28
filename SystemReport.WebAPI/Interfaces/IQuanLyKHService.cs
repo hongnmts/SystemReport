@@ -13,7 +13,7 @@ namespace SystemReport.WebAPI.Interfaces
         Task Delete(string id);
         Task<List<QuanLyKH>> Get();
         Task<QuanLyKH> GetById(string id);
-        Task<PagingModel<QuanLyKH>> GetPaging(PagingParam param);
         Task<PagingModel<QuanLyKH>> GetPaging(QuanLyKHParam param);
+        Task<PagingModel<QuanLyKH>> GetPagingThongKe(QuanLyKHParam param);
     }
 }

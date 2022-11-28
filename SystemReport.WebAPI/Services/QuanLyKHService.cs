@@ -186,7 +186,7 @@ namespace SystemReport.WebAPI.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<PagingModel<QuanLyKH>> GetPaging(PagingParam param)
+        public async Task<PagingModel<QuanLyKH>> GetPaging(QuanLyKHParam param)
         {
             var result = new PagingModel<QuanLyKH>();
             var builder = Builders<QuanLyKH>.Filter;
@@ -203,6 +203,18 @@ namespace SystemReport.WebAPI.Services
                     || (x.CapQuanLy != default && x.CapQuanLy.Name.ToLower().Contains(param.Content))
                     ));
             }
+
+            if (param.Year != default)
+            {
+                var start = DateTime.SpecifyKind((DateTime)param.Year.Value.ToLocalTime(), DateTimeKind.Utc);
+
+                var dateStart = new DateTime(start.Year, 1, 1);
+                var end = dateStart.AddYears(1).AddTicks(-1);
+
+                filter &= builder.Where(x => x.NgayBatDau >= start && x.NgayBatDau <= end);
+            }
+ 
+
             string sortBy = nameof(HoTroDN.NgayKy);
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             result.Data = await _collection.Find(filter)
@@ -213,7 +225,7 @@ namespace SystemReport.WebAPI.Services
             return result;
         }
 
-        public async Task<PagingModel<QuanLyKH>> GetPaging(QuanLyKHParam param)
+        public async Task<PagingModel<QuanLyKH>> GetPagingThongKe(QuanLyKHParam param)
         {
             var result = new PagingModel<QuanLyKH>();
             var builder = Builders<QuanLyKH>.Filter;
@@ -303,7 +315,7 @@ namespace SystemReport.WebAPI.Services
                 var start = DateTime.SpecifyKind((DateTime)param.NgayBatDauStart, DateTimeKind.Utc);
                 var end = DateTime.SpecifyKind((DateTime)param.NgayBatDauEnd, DateTimeKind.Utc);
 
-                filter &= builder.Where(x => x.NgayBatDau >= start && x.NgayBatDau <= end);
+                filter &= builder.Where(x => x.NgayBatDau >= start && x.NgayKetThuc <= end);
             }
             else
             {
@@ -317,32 +329,32 @@ namespace SystemReport.WebAPI.Services
                 {
                     var end = DateTime.SpecifyKind((DateTime)param.NgayBatDauEnd, DateTimeKind.Utc);
 
-                    filter &= builder.Where(x => x.NgayBatDau <= end);
-                }
-            }
-
-            if (param.NgayKetThucStart != default && param.NgayKetThucEnd != default)
-            {
-                var start = DateTime.SpecifyKind((DateTime)param.NgayKetThucStart, DateTimeKind.Utc);
-                var end = DateTime.SpecifyKind((DateTime)param.NgayKetThucEnd, DateTimeKind.Utc);
-
-                filter &= builder.Where(x => x.NgayKetThuc >= start && x.NgayKetThuc <= end);
-            }
-            else
-            {
-                if (param.NgayKetThucStart != default)
-                {
-                    var start = DateTime.SpecifyKind((DateTime)param.NgayKetThucStart, DateTimeKind.Utc);
-
-                    filter &= builder.Where(x => x.NgayKetThuc >= start);
-                }
-                if (param.NgayKetThucEnd != default)
-                {
-                    var end = DateTime.SpecifyKind((DateTime)param.NgayKetThucEnd, DateTimeKind.Utc);
-
                     filter &= builder.Where(x => x.NgayKetThuc <= end);
                 }
             }
+
+            //if (param.NgayKetThucStart != default && param.NgayKetThucEnd != default)
+            //{
+            //    var start = DateTime.SpecifyKind((DateTime)param.NgayKetThucStart, DateTimeKind.Utc);
+            //    var end = DateTime.SpecifyKind((DateTime)param.NgayKetThucEnd, DateTimeKind.Utc);
+
+            //    filter &= builder.Where(x => x.NgayKetThuc >= start && x.NgayKetThuc <= end);
+            //}
+            //else
+            //{
+            //    if (param.NgayKetThucStart != default)
+            //    {
+            //        var start = DateTime.SpecifyKind((DateTime)param.NgayKetThucStart, DateTimeKind.Utc);
+
+            //        filter &= builder.Where(x => x.NgayKetThuc >= start);
+            //    }
+            //    if (param.NgayKetThucEnd != default)
+            //    {
+            //        var end = DateTime.SpecifyKind((DateTime)param.NgayKetThucEnd, DateTimeKind.Utc);
+
+            //        filter &= builder.Where(x => x.NgayKetThuc <= end);
+            //    }
+            //}
 
             if (param.NgayGiaHanStart != default && param.NgayGiaHanEnd != default)
             {

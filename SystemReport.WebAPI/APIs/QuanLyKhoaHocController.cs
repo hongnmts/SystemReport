@@ -141,7 +141,7 @@ namespace SystemReport.WebAPI.APIs
 
         [HttpPost]
         [Route("get-paging-params")]
-        public async Task<IActionResult> GetPagingParam([FromBody] PagingParam param)
+        public async Task<IActionResult> GetPagingParam([FromBody] QuanLyKHParam param)
         {
             try
             {
@@ -169,7 +169,7 @@ namespace SystemReport.WebAPI.APIs
         {
             try
             {
-                var response = await _quanLyKHService.GetPaging(param);
+                var response = await _quanLyKHService.GetPagingThongKe(param);
 
                 return Ok(
                     new ResultResponse<dynamic>()

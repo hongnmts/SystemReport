@@ -35,6 +35,7 @@ namespace SystemReport.WebAPI.Params
         
         public DateTime? NgayChuyenGiaoStart { get; set; }
         public DateTime? NgayChuyenGiaoEnd { get; set; }
+        public DateTime? Year { get; set; }
 
     }
 }

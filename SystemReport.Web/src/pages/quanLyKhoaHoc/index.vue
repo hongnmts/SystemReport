@@ -10,12 +10,13 @@ import {linhVucModel} from "@/models/linhVucModel";
 import {CONSTANTS} from "@/helpers/constants";
 import {hoTroDoanhNghiepModel} from "@/models/hoTroDoanhNghiepModel";
 import {quanLyKhoaHocModel} from "@/models/quanLyKHModel";
+import DatePicker from "vue2-datepicker";
 export default {
   page: {
     title: "Quản lý đề tài",
     meta: [{name: "description", content: appConfig.description}],
   },
-  components: {Layout, PageHeader},
+  components: {Layout, PageHeader, DatePicker},
   data() {
     return {
       title: "Quản lý đề tài",
@@ -50,6 +51,7 @@ export default {
       isBusy: false,
       sortBy: "age",
       sortDesc: false,
+      filterYear: null,
       fields: [
         {
           key: 'STT',
@@ -143,14 +145,14 @@ export default {
         //   sortable: false,
         //   thClass: 'hidden-sortable title-capso text-primary',
         // },
-        // {
-        //   key: 'ngayBatDau',
-        //   label: 'Bắt đầu (ngày tháng năm)',
-        //   thStyle: {width: '110px', minWidth: '110px'},
-        //   class: "text-center content-capso",
-        //   sortable: false,
-        //   thClass: 'hidden-sortable title-capso text-primary',
-        // },
+        {
+          key: 'ngayBatDau',
+          label: 'Ngày bắt đầu hợp đồng',
+          thStyle: {width: '110px', minWidth: '110px'},
+          class: "text-center content-capso",
+          sortable: false,
+          thClass: 'hidden-sortable title-capso text-primary',
+        },
         // {
         //   key: 'ngayKetThuc',
         //   label: 'Kết thúc (ngày tháng năm)',
@@ -240,6 +242,12 @@ export default {
       handler(val) {
         // addCoQuanToModel()
         // this.saveValueToLocalStorage()
+      }
+    },
+    filterYear:{
+      deep: true,
+      handler(val) {
+        this.$refs.tblList?.refresh()
       }
     },
     showModal(status) {
@@ -340,6 +348,7 @@ export default {
         content: this.filter,
         sortBy: ctx.sortBy,
         sortDesc: ctx.sortDesc,
+        year: this.filterYear
       }
       this.loading = true
       try {
@@ -379,8 +388,8 @@ export default {
         <div class="card">
           <div class="card-body">
             <div class="row mb-2">
-              <div class="col-sm-4">
-                <div class="search-box me-2 mb-2 d-inline-block">
+              <div class="row col-sm-8">
+                <div class="col-sm-4 search-box me-2 mb-2 d-inline-block">
                   <div class="position-relative">
                     <input
                         v-model="filter"
@@ -391,8 +400,16 @@ export default {
                     <i class="bx bx-search-alt search-icon"></i>
                   </div>
                 </div>
+                <div class="col-sm-4 mb-3">
+                  <date-picker
+                      v-model="filterYear"
+                      type="year"
+                      lang="vn"
+                      placeholder="Lọc theo năm bắt đầu hợp đồng"
+                  ></date-picker>
+                </div>
               </div>
-              <div class="col-sm-8">
+              <div class="col-sm-4">
                 <div class="text-sm-end">
                   <b-button
                       variant="primary"
