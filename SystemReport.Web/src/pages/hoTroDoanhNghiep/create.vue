@@ -228,7 +228,7 @@ export default {
       }
     },
     async addTagToChuc(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "TOCHUC"
@@ -242,7 +242,7 @@ export default {
       });
     },
     async addTagQuyetDinh(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "QUYETDINH"
@@ -256,7 +256,7 @@ export default {
       });
     },
     async addTagLoaiHinh(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "LOAIHINH"
@@ -269,7 +269,7 @@ export default {
       });
     },
     async addTagDonViHanhChinh(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "HUYEN"
@@ -283,7 +283,7 @@ export default {
       });
     },
     async addTagNoiDung(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "NOIDUNGHOTRO"
@@ -291,7 +291,7 @@ export default {
       await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
         if (res.resultCode === 'SUCCESS') {
           this.optionNoiDungHoTro = [res.data, ...this.optionNoiDungHoTro];
-          this.model.noiDungHoTro = res.data;
+          this.model.noiDungHoTro = [ this.model.noiDungHoTro, res.data];
         }
         this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res))
       });

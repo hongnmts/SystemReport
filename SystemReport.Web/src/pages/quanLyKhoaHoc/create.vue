@@ -144,7 +144,7 @@ export default {
       }
     },
     async addTagChuNhiem(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "CHUNHIEM"
@@ -173,7 +173,7 @@ export default {
       }
     },
     async addTagChuTri(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "CHUTRI"
@@ -202,7 +202,7 @@ export default {
       }
     },
     async addTagLinhVuc(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "LINHVUC"
@@ -231,7 +231,7 @@ export default {
       }
     },
     async addTagQDPheDuyet(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "QUYETDINHPHEQUYET"
@@ -260,7 +260,7 @@ export default {
       }
     },
     async addTagDangThucHien(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "DANGTHUCHIEN"
@@ -289,7 +289,7 @@ export default {
       }
     },
     async addTagXepLoai(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "XEPLOAI"
@@ -318,7 +318,7 @@ export default {
       }
     },
     async addTagQDChuyenGiao(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "QUYETDINHCHUYENGIAO"
@@ -346,7 +346,7 @@ export default {
       }
     },
     async addTagPheDuyetNV(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "PHEDUYETNV"
@@ -374,7 +374,7 @@ export default {
       }
     },
     async addTagCapQuanLy(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "CAPQUANLY"
@@ -402,7 +402,7 @@ export default {
       }
     },
     async addTagDonViTiepNhan(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "DONVITIEPNHAN"
@@ -410,7 +410,7 @@ export default {
       await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
         if (res.resultCode === 'SUCCESS') {
           this.optionsDonViTiepNhan = [res.data, ...this.optionsDonViTiepNhan];
-          this.model.donViTiepNhan = res.data;
+          this.model.donViTiepNhan = [this.model.donViTiepNhan, ...res.data];
         }
         this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res))
       });

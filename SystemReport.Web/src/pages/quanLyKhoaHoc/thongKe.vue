@@ -615,6 +615,14 @@ export default {
       }, "1000")
 
     },
+    formatNumber(value) {
+      if (value) {
+        var temp = value.toString().split('.')
+        temp[0] = temp[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        return temp.join('.')
+      }
+      return 0
+    },
   }
 }
 </script>
@@ -1201,6 +1209,11 @@ export default {
                           <template v-slot:cell(linhVuc)="data">
                             <template v-if="data.item.linhVuc">
                               {{data.item.linhVuc.name}}
+                            </template>
+                          </template>
+                          <template v-slot:cell(soTien)="data">
+                            <template v-if="data.item.soTien">
+                              {{formatNumber(data.item.soTien)}}
                             </template>
                           </template>
                           <template v-slot:cell(pheDuyetNhiemVu)="data">

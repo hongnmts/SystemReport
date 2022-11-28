@@ -357,6 +357,14 @@ export default {
         this.opened.push(id)
       }
     },
+    formatNumber(value) {
+      if (value) {
+        var temp = value.toString().split('.')
+        temp[0] = temp[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        return temp.join('.')
+      }
+      return 0
+    },
     exportTableToExcel(tableId, filename) {
       this.perPage = 1000;
       this.$refs.tblList?.refresh()
@@ -641,7 +649,7 @@ export default {
                             <tr>
                               <td></td>
                               <td colspan="3" style="font-size: 16px; text-align: right">Tổng cộng: <strong>
-                                {{ soHoSo }}</strong> hồ sơ với tổng kinh phí<strong> {{ tongSoTien }}</strong> đồng
+                                {{ soHoSo }}</strong> hồ sơ với tổng kinh phí<strong> {{ formatNumber(tongSoTien) }}</strong> đồng
                               </td>
                             </tr>
                             <template v-for="(item, index) in dataThongKe">
@@ -766,6 +774,11 @@ export default {
                           <template v-slot:cell(loaiHinh)="data">
                             <template v-if="data.item.loaiHinh">
                               {{ data.item.loaiHinh.name }}
+                            </template>
+                          </template>
+                          <template v-slot:cell(soTien)="data">
+                            <template v-if="data.item.soTien">
+                              {{ formatNumber( data.item.soTien) }}
                             </template>
                           </template>
                           <template v-slot:cell(donViHanhChinh)="data">
