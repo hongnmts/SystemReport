@@ -327,7 +327,7 @@ export default {
                     </div>
                   </div>
                 </div>
-                <div class="table-responsive-sm">
+                <div class="table-responsive-sm table-responsive">
                   <b-table
                       class="datatables custom-table"
                       :items="myProvider"

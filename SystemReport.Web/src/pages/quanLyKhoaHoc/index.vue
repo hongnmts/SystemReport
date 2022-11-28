@@ -424,7 +424,7 @@ export default {
                     </div>
                   </div>
                 </div>
-                <div class="table-responsive-sm">
+                <div class="table-responsive-sm table-responsive">
                   <b-table
                       sticky-header
                       class="datatables custom-table"
@@ -639,6 +639,127 @@ export default {
     color: #00568c;
   }
   .b-table-linhvuc>td:nth-of-type(4):before {
+    content: "";
+    font-weight: bold;
+    color: #00568c;
+  }
+}
+@media only screen and (max-width: 768px) {
+
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr {
+    display: block;
+    padding: 5px 0px !important;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border: 1px solid #f5f5f5;
+    margin-bottom: 5px;
+  }
+
+  .table-bordered > :not(caption) > * {
+    border-width: 0.5px;
+    border-radius: 5px;
+  }
+
+  .table-bordered {
+    border: none;
+  }
+
+  .table-bordered th:first-child, .table-bordered td:first-child {
+    border-top: none;
+  }
+
+  .table-bordered th, .table-bordered td {
+    border: none;
+    border-top: 1px solid #f5f5f5;
+  }
+
+  .b-table-vbd > td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    min-height: 30px !important;
+    padding-left: 20% !important;
+    padding: 5px 0px;
+  }
+
+  .b-table-details.b-table-vbd > td {
+    padding-left: 0% !important;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 5px;
+    left: 6px;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  .b-table-vbd .btn-process {
+    padding: 0px !important;
+  }
+
+  .btn-process .btn {
+    background-color: rgb(0 89 144 / 0.1);
+    width: 20%;
+    margin: 5px;
+  }
+
+  .file-box {
+    flex-direction: column;
+  }
+
+  /*
+  Label the data
+  */
+  .b-table-vbd > td:nth-of-type(1):before {
+    content: "STT";
+    font-weight: bold;
+    color: #00568c;
+  }
+
+  .b-table-vbd > td:nth-of-type(2):before {
+    content: "Số VB đi";
+    font-weight: bold;
+    color: #00568c;
+  }
+
+  .b-table-vbd > td:nth-of-type(3):before {
+    content: "Trích yếu";
+    font-weight: bold;
+    color: #00568c;
+  }
+
+  .b-table-vbd > td:nth-of-type(4):before {
+    content: "Ngày nhập";
+    font-weight: bold;
+    color: #00568c;
+  }
+
+  .b-table-vbd > td:nth-of-type(5):before {
+    content: "Ngày ký";
+    font-weight: bold;
+    color: #00568c;
+  }
+
+  .b-table-vbd > td:nth-of-type(6):before {
+    content: "Trạng thái";
+    font-weight: bold;
+    color: #00568c;
+  }
+
+  .b-table-vbd > td:nth-of-type(7):before {
     content: "";
     font-weight: bold;
     color: #00568c;

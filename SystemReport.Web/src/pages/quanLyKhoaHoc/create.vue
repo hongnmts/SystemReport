@@ -982,6 +982,7 @@ export default {
 
 </style>
 <style lang="scss">
+
 .success-checkmark {
   width: 80px;
   height: 115px;

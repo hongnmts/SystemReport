@@ -1127,7 +1127,7 @@ export default {
                   <div class="row">
                     <div class="col-12">
 
-                      <div class="table-responsive-sm">
+                      <div class="table-responsive-sm table-responsive">
                         <b-table
                             id="dynamic-table3"
                             sticky-header
