@@ -72,7 +72,7 @@ export default {
           key: "tenDeTai",
           label: "Tên đề tài",
           class: "content-capso",
-          thStyle: {width: '100px', minWidth: '100px'},
+
           thClass: "text-primary hidden-sortable text-center",
           sortable: true,
         },

@@ -853,6 +853,38 @@ export default {
                   </div>
                   <div class="col-md-2">
                     <div class="mb-2">
+                      <label class="form-label" for="validationCustom01"> Từ ngày (Ngày gia hạn)</label>
+                      <date-picker v-model="filterModel.ngayGiaHanStart"
+                                   format="DD/MM/YYYY"
+                                   value-type="format"
+                      >
+                        <div slot="input">
+                          <input v-model="filterModel.ngayGiaHanStart"
+                                 v-mask="'##/##/####'" type="text" class="form-control"
+                                 placeholder=""
+                          />
+                        </div>
+                      </date-picker>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="mb-2">
+                      <label class="form-label" for="validationCustom01">Đến ngày (Ngày gia hạn)</label>
+                      <date-picker v-model="filterModel.ngayGiaHanEnd"
+                                   format="DD/MM/YYYY"
+                                   value-type="format"
+                      >
+                        <div slot="input">
+                          <input v-model="filterModel.ngayGiaHanEnd"
+                                 v-mask="'##/##/####'" type="text" class="form-control"
+                                 placeholder=""
+                          />
+                        </div>
+                      </date-picker>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="mb-2">
                       <label class="form-label" for="validationCustom01"> Từ ngày (Ngày PDKP)</label>
                       <date-picker v-model="filterModel.ngayPDKQStart"
                                    format="DD/MM/YYYY"
@@ -920,38 +952,7 @@ export default {
 <!--                  </div>-->
 
 
-                  <div class="col-md-2">
-                    <div class="mb-2">
-                      <label class="form-label" for="validationCustom01"> Từ ngày (Ngày gia hạn)</label>
-                      <date-picker v-model="filterModel.ngayGiaHanStart"
-                                   format="DD/MM/YYYY"
-                                   value-type="format"
-                      >
-                        <div slot="input">
-                          <input v-model="filterModel.ngayGiaHanStart"
-                                 v-mask="'##/##/####'" type="text" class="form-control"
-                                 placeholder=""
-                          />
-                        </div>
-                      </date-picker>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="mb-2">
-                      <label class="form-label" for="validationCustom01">Đến ngày (Ngày gia hạn)</label>
-                      <date-picker v-model="filterModel.ngayGiaHanEnd"
-                                   format="DD/MM/YYYY"
-                                   value-type="format"
-                      >
-                        <div slot="input">
-                          <input v-model="filterModel.ngayGiaHanEnd"
-                                 v-mask="'##/##/####'" type="text" class="form-control"
-                                 placeholder=""
-                          />
-                        </div>
-                      </date-picker>
-                    </div>
-                  </div>
+
 
 
                   <div class="col-md-2">
