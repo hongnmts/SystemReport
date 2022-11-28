@@ -100,6 +100,9 @@ export default {
     }
   },
   methods: {
+    resetForm(){
+      this.model = quanLyKhoaHocModel.baseJson();
+    },
     async getDeTai() {
       try {
         await this.$store.dispatch("commonItemStore/getByType", "DETAI").then(resp => {
@@ -115,7 +118,7 @@ export default {
       }
     },
     async addTagDeTai(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "DETAI"
@@ -144,7 +147,7 @@ export default {
       }
     },
     async addTagChuNhiem(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "CHUNHIEM"
@@ -173,7 +176,7 @@ export default {
       }
     },
     async addTagChuTri(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "CHUTRI"
@@ -202,7 +205,7 @@ export default {
       }
     },
     async addTagLinhVuc(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "LINHVUC"
@@ -231,7 +234,7 @@ export default {
       }
     },
     async addTagQDPheDuyet(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "QUYETDINHPHEQUYET"
@@ -260,7 +263,7 @@ export default {
       }
     },
     async addTagDangThucHien(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "DANGTHUCHIEN"
@@ -289,7 +292,7 @@ export default {
       }
     },
     async addTagXepLoai(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "XEPLOAI"
@@ -318,7 +321,7 @@ export default {
       }
     },
     async addTagQDChuyenGiao(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "QUYETDINHCHUYENGIAO"
@@ -346,7 +349,7 @@ export default {
       }
     },
     async addTagPheDuyetNV(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "PHEDUYETNV"
@@ -374,7 +377,7 @@ export default {
       }
     },
     async addTagCapQuanLy(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "CAPQUANLY"
@@ -402,7 +405,7 @@ export default {
       }
     },
     async addTagDonViTiepNhan(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "DONVITIEPNHAN"
@@ -441,8 +444,7 @@ export default {
         await this.$store.dispatch("quanLyKhoaHocStore/update", this.model).then((res) => {
           if (res.resultCode === 'SUCCESS') {
             this.showModal = false;
-            this.model = quanLyKhoaHocModel.baseJson();
-            this.$router.push("/quan-ly-de-tai")
+            this.model = res.data;
           }
           this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res));
         })
@@ -451,8 +453,7 @@ export default {
         await this.$store.dispatch("quanLyKhoaHocStore/create", this.model).then((res) => {
           if (res.resultCode === 'SUCCESS') {
             this.showModal = false;
-            this.model = quanLyKhoaHocModel.baseJson();
-            this.$router.push("/quan-ly-de-tai")
+            this.model = res.data;
           }
           this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res));
         });
@@ -491,7 +492,10 @@ export default {
           <b-button type="submit" variant="primary" size="sm" class="ms-1 w-md">
             Lưu
           </b-button>
-          <b-button type="submit" variant="danger" size="sm" class="ms-1 w-md" @click="$router.push('/quan-ly-de-tai')">
+          <b-button type="button" variant="warning" size="sm" class="ms-1 w-md" @click="resetForm">
+            Thêm mới
+          </b-button>
+          <b-button type="button" variant="danger" size="sm" class="ms-1 w-md" @click="$router.push('/quan-ly-de-tai')">
             Trở về
           </b-button>
         </div>
@@ -500,8 +504,7 @@ export default {
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Cấp quản lý</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">Cấp quản lý</label>
                   <multiselect
                       v-model="model.capQuanLy"
                       :options="optionsCapQuanLy"
@@ -517,8 +520,7 @@ export default {
               </div>
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Tên đề tài</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">Tên đề tài</label>
                   <multiselect
                       v-model="model.tenDeTai"
                       :options="optionsDeTai"
@@ -535,8 +537,7 @@ export default {
 
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Tổ chức chủ trì</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">Tổ chức chủ trì</label>
                   <multiselect
                       v-model="model.chuTri"
                       :options="optionsChuTri"
@@ -553,8 +554,7 @@ export default {
 
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Chủ nhiệm</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">Chủ nhiệm</label>
                   <multiselect
                       v-model="model.chuNhiem"
                       :options="optionsChuNhiem"
@@ -571,8 +571,7 @@ export default {
 
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Lĩnh vực</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">Lĩnh vực</label>
                   <multiselect
                       v-model="model.linhVuc"
                       :options="optionsLinhVuc"
@@ -588,8 +587,7 @@ export default {
               </div>
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">QĐ Phê duyệt NV</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">QĐ Phê duyệt NV</label>
                   <multiselect
                       v-model="model.pheDuyetNhiemVu"
                       :options="optionsPheDuyetNV"
@@ -621,8 +619,7 @@ export default {
               </div>
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">QĐ phê duyệt KP</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">QĐ phê duyệt KP</label>
                   <multiselect
                       v-model="model.quyetDinhPDKQ"
                       :options="optionsQDPheDuyetKP"
@@ -731,8 +728,7 @@ export default {
 
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Trạng thái</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">Trạng thái</label>
                   <multiselect
                       v-model="model.dangThucHien"
                       :options="optionsDangThucHien"
@@ -764,8 +760,7 @@ export default {
               </div>
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Xếp loại</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">Xếp loại</label>
                   <multiselect
                       v-model="model.xepLoai"
                       :options="optionsXepLoai"
@@ -782,8 +777,7 @@ export default {
 
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">QĐ chuyển giao</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">QĐ chuyển giao</label>
                   <multiselect
                       v-model="model.quyetDinhCQ"
                       :options="optionsQuyetDinhCG"
@@ -816,8 +810,7 @@ export default {
               </div>
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Đơn vị tiếp nhận</label> <span
-                    class="text-danger">*</span>
+                  <label class="form-label" for="validationCustom01">Đơn vị tiếp nhận</label>
                   <multiselect
                       v-model="model.donViTiepNhan"
                       :options="optionsDonViTiepNhan"
@@ -836,7 +829,6 @@ export default {
               <div class="col-md-12">
                 <div class="mb-2">
                   <label class="form-label" for="validationCustom01">Mục tiêu</label>
-                  <span class="text-danger">*</span>
                   <ckeditor
                       v-model="model.mucTieu"
                       :editor="editor"
@@ -847,7 +839,6 @@ export default {
               <div class="col-md-12">
                 <div class="mb-2">
                   <label class="form-label" for="validationCustom01">Nội dung</label>
-                  <span class="text-danger">*</span>
                   <ckeditor
                       v-model="model.noiDung"
                       :editor="editor"
@@ -858,7 +849,6 @@ export default {
               <div class="col-md-12">
                 <div class="mb-2">
                   <label class="form-label" for="validationCustom01">Sản phẩm</label>
-                  <span class="text-danger">*</span>
                   <ckeditor
                       v-model="model.sanPham"
                       :editor="editor"

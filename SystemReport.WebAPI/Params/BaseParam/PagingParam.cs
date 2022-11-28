@@ -25,7 +25,7 @@ namespace SystemReport.WebAPI.Params
         public string ParentId { get; set; }
     }
 
-
+    
 
 
     public class PagingModel<T>

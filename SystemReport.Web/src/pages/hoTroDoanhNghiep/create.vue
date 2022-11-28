@@ -211,24 +211,8 @@ export default {
       });
 
     },
-    formatDonVi(node, instanceId) {
-      let index = this.optionsTreeDonVi?.findIndex(x => x.id == node.id);
-      if (index == -1 || index == undefined) {
-        if (!this.modelButPhe.donViPhoiHop) {
-          this.modelButPhe.donViPhoiHop = [];
-        }
-        this.modelButPhe.donViPhoiHop.push({id: node.id, ten: node.label, code: node.code});
-
-      }
-    },
-    formatRemoveDonVi(node, instanceId) {
-      let value = this.optionsTreeDonVi?.find(x => x.id == node.id);
-      if (value != null) {
-        this.modelButPhe.donViPhoiHop = this.optionsTreeDonVi.children.filter(x => x.id != value.id);
-      }
-    },
     async addTagToChuc(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "TOCHUC"
@@ -242,7 +226,7 @@ export default {
       });
     },
     async addTagQuyetDinh(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "QUYETDINH"
@@ -256,7 +240,7 @@ export default {
       });
     },
     async addTagLoaiHinh(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "LOAIHINH"
@@ -269,7 +253,7 @@ export default {
       });
     },
     async addTagDonViHanhChinh(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "HUYEN"
@@ -283,7 +267,7 @@ export default {
       });
     },
     async addTagNoiDung(newTag) {
-      const parts = newTag.split('; ');
+      const parts = newTag;
       const tag = {
         name: parts.pop(),
         type: "NOIDUNGHOTRO"

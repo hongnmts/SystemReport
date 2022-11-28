@@ -192,19 +192,21 @@ namespace SystemReport.WebAPI.Services
             var builder = Builders<QuanLyKH>.Filter;
             var filter = builder.Empty;
             filter = builder.And(filter, builder.Where(x => x.IsDeleted == false));
-            //if (!String.IsNullOrEmpty(param.Content))
-            //{
-            //    filter = builder.And(filter,
-            //        builder.Where(x => x.Name.Trim().ToLower().Contains(param.Content.Trim().ToLower())));
-            //}
+            if (!String.IsNullOrEmpty(param.Content))
+            {
+                param.Content = param.Content.ToLower();
+                filter = builder.And(filter,
+                    builder.Where(x => (x.TenDeTai != default  && x.TenDeTai.Name.ToLower().Contains(param.Content))
+                    || (x.ChuTri != default && x.ChuTri.Name.ToLower().Contains(param.Content))
+                    || (x.ChuNhiem != default && x.ChuNhiem.Name.ToLower().Contains(param.Content))
+                    || (x.LinhVuc != default && x.LinhVuc.Name.ToLower().Contains(param.Content))
+                    || (x.CapQuanLy != default && x.CapQuanLy.Name.ToLower().Contains(param.Content))
+                    ));
+            }
             string sortBy = nameof(HoTroDN.NgayKy);
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             result.Data = await _collection.Find(filter)
-                .Sort(param.SortDesc
-                    ? Builders<QuanLyKH>
-                        .Sort.Descending(sortBy)
-                    : Builders<QuanLyKH>
-                        .Sort.Ascending(sortBy))
+                .SortByDescending(x => x.ModifiedAt)
                 .Skip(param.Skip)
                 .Limit(param.Limit)
                 .ToListAsync();

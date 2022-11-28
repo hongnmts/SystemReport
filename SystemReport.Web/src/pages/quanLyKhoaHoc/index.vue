@@ -383,7 +383,7 @@ export default {
                 <div class="search-box me-2 mb-2 d-inline-block">
                   <div class="position-relative">
                     <input
-                        v-model = "filter"
+                        v-model="filter"
                         type="text"
                         class="form-control"
                         placeholder="Tìm kiếm ..."

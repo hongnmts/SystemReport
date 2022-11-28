@@ -175,11 +175,7 @@ namespace SystemReport.WebAPI.Services
             string sortBy = nameof(HoTroDN.NgayKy);
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
             result.Data = await _collection.Find(filter)
-                .Sort(param.SortDesc
-                    ? Builders<HoTroDN>
-                        .Sort.Descending(sortBy)
-                    : Builders<HoTroDN>
-                        .Sort.Ascending(sortBy))
+                .SortByDescending(x => x.ModifiedAt)
                 .Skip(param.Skip)
                 .Limit(param.Limit)
                 .ToListAsync();
@@ -267,12 +263,10 @@ namespace SystemReport.WebAPI.Services
             }
 
 
-
-            string sortBy = nameof(HoTroDN.NgayKy);
             result.TotalRows = await _collection.CountDocumentsAsync(filter);
-            var data = await _collection.Find(filter).SortByDescending(x => x.NgayKy)
+            var data = await _collection.Find(filter).SortByDescending(x => x.ModifiedAt)
                 .ToListAsync();
-            result.Data = await _collection.Find(filter).SortByDescending(x => x.NgayKy).Skip(param.Skip)
+            result.Data = await _collection.Find(filter).SortByDescending(x => x.ModifiedAt).Skip(param.Skip)
                 .Limit(param.Limit)
                 .ToListAsync();
             result.SoHoSo = data.Count();
