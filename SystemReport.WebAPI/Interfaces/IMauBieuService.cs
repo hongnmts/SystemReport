@@ -32,5 +32,6 @@ namespace SystemReport.WebAPI.Interfaces
         Task ChangeStatus(TrangThaiParam model);
 
         List<ListNamMauBieuVM> ListNamMauBieu();
+        List<MauBieuItemVM> GetMauBieuPaging();
     }
 }

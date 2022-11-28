@@ -1498,5 +1498,47 @@ namespace SystemReport.WebAPI.Services
 
             return result;
         }
+
+        public List<MauBieuItemVM> GetMauBieuPaging()
+        {
+            var mauBieusVM = new List<MauBieuItemVM>();
+            
+            var mauBieus = _context.MauBieu.Find(x => x.CloneId == null && x.IsDeleted != true).ToList();
+            foreach (var mb in mauBieus)
+            {
+                var itemMB = new MauBieuItemVM();
+                itemMB.Id = mb.Id;
+                itemMB.Ten = mb.Ten;
+
+                var bangBieus = _context.BangBieu.Find(x => x.MauBieuId == mb.Id && x.CloneId == null && x.IsDeleted != true).ToList();
+                foreach (var bb in bangBieus)
+                {
+                    var itemBB = new BangBieuItemVM();
+                    itemBB.Id = bb.Id;
+                    itemBB.Ten = bb.Ten;
+                    
+                    var bangBieuAfterClone = _context.BangBieu.Find(x => x.CloneId == bb.Id && x.IsDeleted != true).ToList();
+                    foreach (var itemBBAC in bangBieuAfterClone)
+                    {
+                        var mauBieuAfterClone = _context.MauBieu
+                            .Find(x => x.Id == itemBBAC.MauBieuId && x.IsDeleted != true).FirstOrDefault();
+
+                        var kyBaoCaoItem = new KyBaoItemVM();
+                        kyBaoCaoItem.Id = itemBBAC.Id;
+                        kyBaoCaoItem.BangBieu = itemBBAC;
+                        kyBaoCaoItem.KyBaoCao = mauBieuAfterClone.KyBaoCao;
+                        kyBaoCaoItem.TuNgay = mauBieuAfterClone.TuNgay;
+                        kyBaoCaoItem.DenNgay = mauBieuAfterClone.DenNgay;
+                        
+                        itemBB.KyBaos.Add(kyBaoCaoItem);
+                    }
+                    itemMB.BangBieus.Add(itemBB);
+                }
+
+                mauBieusVM.Add(itemMB);
+            }
+
+            return mauBieusVM;
+        }
     }
 }

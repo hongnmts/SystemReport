@@ -115,7 +115,7 @@ export default {
       }
     },
     async addTagDeTai(newTag) {
-      const parts = newTag.split(', ');
+      const parts = newTag.split('; ');
       const tag = {
         name: parts.pop(),
         type: "DETAI"
@@ -442,6 +442,7 @@ export default {
           if (res.resultCode === 'SUCCESS') {
             this.showModal = false;
             this.model = quanLyKhoaHocModel.baseJson();
+            this.$router.push("/quan-ly-de-tai")
           }
           this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res));
         })
@@ -451,6 +452,7 @@ export default {
           if (res.resultCode === 'SUCCESS') {
             this.showModal = false;
             this.model = quanLyKhoaHocModel.baseJson();
+            this.$router.push("/quan-ly-de-tai")
           }
           this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res));
         });

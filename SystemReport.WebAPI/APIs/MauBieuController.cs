@@ -452,5 +452,34 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
+        [HttpGet]
+        [Route("getMauBieuPaging")]
+        public async Task<IActionResult> getMauBieuPaging()
+        {
+            try
+            {
+                var response =  _mauBieuService.GetMauBieuPaging();
+
+                return Ok(
+                    new ResultResponse<dynamic>().WithData(response)
+                        .WithCode(EResultResponse.SUCCESS.ToString())
+                        .WithMessage("Dữ liệu")
+                );
+            }
+            catch (ResponseMessageException ex)
+            {
+                return Ok(
+                    new ResultMessageResponse().WithCode(ex.ResultCode)
+                        .WithMessage(ex.ResultString)
+                );
+            }
+            catch (Exception ex)
+            {
+                return Ok(
+                    new ResultMessageResponse().WithCode(EResultResponse.FAIL.ToString())
+                        .WithMessage(ex.Message)
+                );
+            }
+        }
     }
 }
