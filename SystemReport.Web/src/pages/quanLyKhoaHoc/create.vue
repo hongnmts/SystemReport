@@ -586,7 +586,7 @@ export default {
               </div>
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Phê duyệt NV</label> <span
+                  <label class="form-label" for="validationCustom01">QĐ Phê duyệt NV</label> <span
                     class="text-danger">*</span>
                   <multiselect
                       v-model="model.pheDuyetNhiemVu"
@@ -603,7 +603,7 @@ export default {
               </div>
               <div class="col-md-6">
                 <div class="mb-2">
-                  <label class="form-label" for="validationCustom01">Ngày Phê duyệt NV</label>
+                  <label class="form-label" for="validationCustom01">Ngày QĐ Phê duyệt NV</label>
                   <date-picker v-model="model.ngayPheDuyetNhiemVu"
                                format="DD/MM/YYYY"
                                value-type="format"

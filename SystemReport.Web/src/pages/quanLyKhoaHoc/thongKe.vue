@@ -108,15 +108,15 @@ export default {
         },
         {
           key: 'pheDuyetNhiemVu',
-          label: 'Phê duyệt NV',
+          label: 'Quyết định \n Phê duyệt NV',
           thStyle: {width: '110px', minWidth: '110px'},
           class: " content-capso",
           sortable: false,
-          thClass: 'hidden-sortable title-capso text-primary',
+          thClass: 'hidden-sortable title-capso text-primary text-center',
         },
         {
           key: 'ngayPheDuyetNhiemVu',
-          label: 'Ngày phê duyệt NV',
+          label: 'Ngày QĐ phê duyệt NV',
           thStyle: {width: '110px', minWidth: '110px'},
           class: " content-capso",
           sortable: false,
