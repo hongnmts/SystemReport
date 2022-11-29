@@ -1396,6 +1396,383 @@ namespace SystemReport.WebAPI.Services
             }
         }
 
+        public async Task<List<RowValue>> MergeTable(List<string> bangBieuIds)
+        {
+            var bangBieu = await _context.BangBieu.Find(x => bangBieuIds.Contains(x.Id) && x.IsDeleted != true).ToListAsync();
+
+            var cloneId = bangBieu.Select(x => x.CloneId).FirstOrDefault();
+
+            var bangBieuFirst = bangBieu.FirstOrDefault();
+
+            var bangBieuClone = (BangBieu)bangBieuFirst.Clone();
+
+            var rowValuesFirst = _context.RowValue.Find(x => x.BangBieuId == bangBieuFirst.Id && x.IsDeleted != true).ToList();
+            var thuocTinhsFirst = _context.ThuocTinh.Find(x => x.BangBieuId == bangBieuFirst.Id && x.IsDeleted != true).ToList();
+
+            var rowValuesResult = new List<RowValue>();
+
+            bool firstIndex = true;
+            bool checkFirst = true;
+            foreach (var item in bangBieu)
+            {
+                var rowValues = _context.RowValue.Find(x => x.BangBieuId == item.Id && x.IsDeleted != true).ToList();
+                var thuocTinhs = _context.ThuocTinh.Find(x => x.BangBieuId == item.Id && x.IsDeleted != true).ToList();
+
+                var thuocTinhId = thuocTinhs.Where(x => x.IsChiTieu).Select(x => x.Id).ToList();
+             
+                foreach (var rv in rowValuesFirst)
+                {
+                    var checkThuocTinh = thuocTinhId.Where(x => x ==rv.ThuocTinhId).FirstOrDefault();
+                    if(checkThuocTinh != default)
+                        continue;
+                    var findCode = rowValues.Where(x => x.Code == rv.Code).FirstOrDefault();
+                    if (findCode == default)
+                    {
+
+                    }
+                    else
+                    {
+                        if (findCode.StyleInput != default
+                            && (findCode.StyleInput.Id == "int"
+                            || findCode.StyleInput.Id == "float"
+                            || findCode.StyleInput.Id == "formula"))
+                        {
+                            try
+                            {
+                                var vl = float.Parse(rv.Value.ToString());
+                                if (checkFirst)
+                                {
+                                    vl = float.Parse(findCode.Value.ToString());
+                                 
+                                }
+                                else
+                                {
+                                    vl += float.Parse(findCode.Value.ToString());
+                                }
+              
+                                rv.Value = vl;
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
+                    }
+                }
+                
+                checkFirst = false;
+            }
+
+            return rowValuesFirst;
+
+        }
+        public async Task GenerateMauBieuTongHop(InputMauBieuModel model)
+        {
+            try
+            {
+                if (model == default)
+                {
+                    throw new ResponseMessageException()
+                        .WithCode(EResultResponse.FAIL.ToString())
+                        .WithMessage(DefaultMessage.DATA_NOT_FOUND);
+                }
+
+                var mauBieu = _context.MauBieu.Find(x => x.Id == model.MauBieuId && x.IsDeleted != true)
+                    .FirstOrDefault();
+                var code = CommonExtensions.GenerateNewRandomDigit();
+                if (mauBieu != default)
+                {
+                    // Tạo mẫu biểu mới
+                    var newMauBieu = new MauBieu();
+                    newMauBieu = (MauBieu)mauBieu.Clone();
+
+                    newMauBieu.CloneId = mauBieu.Id;
+                    newMauBieu.Code = code;
+                    newMauBieu.IsTemplate = false;
+                    newMauBieu.Id = BsonObjectId.GenerateNewId().ToString();
+
+                    newMauBieu.CreatedBy = CurrentUserName;
+                    newMauBieu.ModifiedBy = CurrentUserName;
+                    newMauBieu.ModifiedAt = DateTime.Now;
+                    newMauBieu.CreatedAt = DateTime.Now;
+                    // Người sở hữu mẫu biểu
+                    newMauBieu.OwerId = CurrentUserName;
+                    newMauBieu.OwerIds = new List<string>() { CurrentUserName };
+
+                    // Trạng thái của mẫu biểu
+                    var trangThai = _context.TrangThai.Find(x => x.Code.ToUpper() == StatusForm.NHAP_LIEU).FirstOrDefault();
+                    if (trangThai == default)
+                    {
+                        throw new ResponseMessageException()
+                        .WithCode(EResultResponse.FAIL.ToString())
+                        .WithMessage("Không tìm thấy trạng thái!");
+                    }
+                    trangThai.CurrentUser = CurrentUser;
+                    newMauBieu.LastStatus = trangThai;
+                    newMauBieu.ListStatus = new List<TrangThai>();
+                    newMauBieu.ListStatus.Add(trangThai);
+
+                    var kyBaoCao = _context.KyBaoCao.Find(x => x.Code.ToLower() == "tonghop").FirstOrDefault();
+                    model.KyBaoCao = kyBaoCao;
+                    
+                    // // Tính từ ngày đến ngày
+                    // if (model.KyBaoCao != default)
+                    // {
+                    //     newMauBieu.KyBaoCao = model.KyBaoCao;
+                    //
+                    //     if (model.KyBaoCao.Code == CodeKyBaoCao.NAM)
+                    //     {
+                    //         int year = model.NamLocal;
+                    //         DateTime firstDay = new DateTime(year, 1, 1);
+                    //         DateTime lastDay = firstDay.AddYears(1).AddTicks(-1);
+                    //
+                    //         newMauBieu.TuNgay = firstDay;
+                    //         newMauBieu.DenNgay = lastDay;
+                    //     }
+                    //
+                    //     if (model.KyBaoCao.Code == CodeKyBaoCao.THANG)
+                    //     {
+                    //         int year = model.NamLocal;
+                    //         DateTime firstDay = new DateTime(year, int.Parse(model.Thang.Id), 1);
+                    //         DateTime lastDay = firstDay.AddMonths(1).AddTicks(-1);
+                    //
+                    //         newMauBieu.TuNgay = firstDay;
+                    //         newMauBieu.DenNgay = lastDay;
+                    //     }
+                    //
+                    //     if (model.KyBaoCao.Code == CodeKyBaoCao._6THANGDAUNAM)
+                    //     {
+                    //         int year = model.NamLocal;
+                    //         DateTime firstDay = new DateTime(year, 1, 1);
+                    //         DateTime lastDay = firstDay.AddMonths(6).AddTicks(-1);
+                    //
+                    //         newMauBieu.TuNgay = firstDay;
+                    //         newMauBieu.DenNgay = lastDay;
+                    //     }
+                    //
+                    //     if (model.KyBaoCao.Code == CodeKyBaoCao._6THANGCUOINAM)
+                    //     {
+                    //         int year = model.NamLocal;
+                    //         DateTime firstDay = new DateTime(year, 7, 1);
+                    //         DateTime lastDay = new DateTime(year, 1, 1).AddYears(1).AddTicks(-1);
+                    //
+                    //         newMauBieu.TuNgay = firstDay;
+                    //         newMauBieu.DenNgay = lastDay;
+                    //     }
+                    //
+                    //     if (model.KyBaoCao.Code == CodeKyBaoCao.QUYI)
+                    //     {
+                    //         int year = model.NamLocal;
+                    //         DateTime firstDay = new DateTime(year, 1, 1);
+                    //         DateTime lastDay = firstDay.AddMonths(3).AddTicks(-1);
+                    //
+                    //         newMauBieu.TuNgay = firstDay;
+                    //         newMauBieu.DenNgay = lastDay;
+                    //     }
+                    //
+                    //     if (model.KyBaoCao.Code == CodeKyBaoCao.QUYII)
+                    //     {
+                    //         int year = model.NamLocal;
+                    //         DateTime firstDay = new DateTime(year, 4, 1);
+                    //         DateTime lastDay = firstDay.AddMonths(3).AddTicks(-1);
+                    //
+                    //         newMauBieu.TuNgay = firstDay;
+                    //         newMauBieu.DenNgay = lastDay;
+                    //     }
+                    //
+                    //     if (model.KyBaoCao.Code == CodeKyBaoCao.QUYIII)
+                    //     {
+                    //         int year = model.NamLocal;
+                    //         DateTime firstDay = new DateTime(year, 8, 1);
+                    //         DateTime lastDay = firstDay.AddMonths(3).AddTicks(-1);
+                    //
+                    //         newMauBieu.TuNgay = firstDay;
+                    //         newMauBieu.DenNgay = lastDay;
+                    //     }
+                    //
+                    //     if (model.KyBaoCao.Code == CodeKyBaoCao.QUYIV)
+                    //     {
+                    //         int year = model.NamLocal;
+                    //         DateTime firstDay = new DateTime(year, 10, 1);
+                    //         DateTime lastDay = new DateTime(year, 1, 1).AddYears(1).AddTicks(-1);
+                    //
+                    //         newMauBieu.TuNgay = firstDay;
+                    //         newMauBieu.DenNgay = lastDay;
+                    //     }
+                    //
+                    //     if (model.KyBaoCao.Code == CodeKyBaoCao.GIAIDOAN)
+                    //     {
+                    //         newMauBieu.TuNgay = model.TuNgay;
+                    //         newMauBieu.DenNgay = model.DenNgay;
+                    //     }
+                    // }
+
+                    await BaseMongoDb.CreateAsync(newMauBieu);
+                    var oldBangBieu = _context.BangBieu
+                        .Find(x => x.MauBieuId == newMauBieu.CloneId && x.IsDeleted != true)
+                        .ToList();
+
+                    if (oldBangBieu.Count <= 0)
+                    {
+                        throw new ResponseMessageException()
+                            .WithCode(EResultResponse.FAIL.ToString())
+                            .WithMessage("Không tìm thấy bảng biểu");
+                    }
+
+                    foreach (var bb in oldBangBieu)
+                    {
+                        var newBangBieu = new BangBieu();
+                        newBangBieu = (BangBieu)bb.Clone();
+                        newBangBieu.Id = BsonObjectId.GenerateNewId().ToString();
+                        newBangBieu.MauBieuId = newMauBieu.Id;
+                        newBangBieu.CloneId = bb.Id;
+                        newBangBieu.CreatedBy = CurrentUserName;
+                        newBangBieu.ModifiedBy = CurrentUserName;
+                        newBangBieu.ModifiedAt = DateTime.Now;
+                        newBangBieu.CreatedAt = DateTime.Now;
+                        await BangBieuDb.CreateAsync(newBangBieu);
+
+                        #region TinhToanThuocTinh
+
+                        // Tạo thuộc tính
+
+                        var thuocTinhs = _context.ThuocTinh.Find(x => x.BangBieuId == bb.Id && x.IsDeleted != true)
+                            .ToList();
+                        if (thuocTinhs.Count <= 0)
+                        {
+                            throw new ResponseMessageException()
+                                .WithCode(EResultResponse.FAIL.ToString())
+                                .WithMessage("Không tìm thấy thuộc tính");
+                        }
+                        var keyRowThuocTinh = BsonObjectId.GenerateNewId().ToString();
+                        var compareThuocTinh = new List<CompareThuocTinh>();
+                        foreach (var tt in thuocTinhs)
+                        {
+                            var cpThuocTinh = new CompareThuocTinh();
+
+
+                            var newThuocTinh = new ThuocTinh();
+                            newThuocTinh = (ThuocTinh)tt.Clone();
+                            newThuocTinh.BangBieuId = newBangBieu.Id;
+                            newThuocTinh.MauBieuId = newBangBieu.MauBieuId;
+                            newThuocTinh.CloneId = tt.Id;
+                            newThuocTinh.Id = BsonObjectId.GenerateNewId().ToString();
+                            newThuocTinh.CreatedBy = CurrentUserName;
+                            newThuocTinh.ModifiedBy = CurrentUserName;
+                            newThuocTinh.Order = tt.Order;
+                            newThuocTinh.ModifiedAt = DateTime.Now;
+                            newThuocTinh.CreatedAt = DateTime.Now;
+                            cpThuocTinh.NewValue = newThuocTinh.Id;
+                            cpThuocTinh.OldValue = tt.Id;
+
+                            compareThuocTinh.Add(cpThuocTinh);
+                            await ThuocTinhDb.CreateAsync(newThuocTinh);
+                        }
+
+                        // sync thuoc tinh parent
+                        var newThuocTinhs = _context.ThuocTinh
+                            .Find(x => x.BangBieuId == newBangBieu.Id && x.IsDeleted != true).ToList();
+
+                        foreach (var tt in newThuocTinhs)
+                        {
+                            var findTT = compareThuocTinh.Where(x => x.OldValue == tt.ParentId).FirstOrDefault();
+                            if (findTT != default)
+                            {
+                                tt.ParentId = findTT.NewValue;
+                                await ThuocTinhDb.UpdateAsync(tt);
+                            }
+                        }
+
+                        // Kết thúc tính toán thuộc tính
+
+                        #endregion
+
+                        #region TinhToanChiTieu
+
+                        // Tạo thuộc tính
+
+                        var _listNewThuocTinh = _context.ThuocTinh
+                            .Find(x => x.BangBieuId == newBangBieu.Id && x.IsDeleted != true).ToList();
+                        var rowValues = await MergeTable(model.BangBieuIds);
+                        var compareRowValue = new List<CompareThuocTinh>();
+
+                        var groupByRowValues = rowValues.GroupBy(x => x.KeyRow).Select(x => new BodyTableVM() { KeyRow = x.Key, RowValues = x.ToList() }).ToList();
+                            foreach (var gbValue in groupByRowValues)
+                        {
+                            var keyRowRowValue = BsonObjectId.GenerateNewId().ToString();
+                            if (gbValue.RowValues.Count > 0)
+                            {
+                                var rows = gbValue.RowValues;
+                                foreach (var tt in rows)
+                                {
+                                    var cpRowValue = new CompareThuocTinh();
+
+                                    var newRowValue = new RowValue();
+
+                                    newRowValue = (RowValue)tt.Clone();
+                                    newRowValue.KeyRow = keyRowRowValue;
+                                    newRowValue.BangBieuId = newBangBieu.Id;
+                                    newRowValue.MauBieuId = newBangBieu.MauBieuId;
+                                    newRowValue.CloneId = tt.Id;
+                                    newRowValue.ThuocTinhId =
+                                        _listNewThuocTinh.FirstOrDefault(x => x.CloneId == tt.ThuocTinhId)?.Id;
+                                    newRowValue.Value = tt.Value;
+                                    newRowValue.StyleInput = tt.StyleInput;
+                                    newRowValue.Id = BsonObjectId.GenerateNewId().ToString();
+                                    newRowValue.CreatedBy = CurrentUserName;
+                                    newRowValue.ModifiedBy = CurrentUserName;
+                                    newRowValue.ModifiedAt = DateTime.Now;
+                                    newRowValue.CreatedAt = DateTime.Now;
+                                    newRowValue.Order = tt.Order;
+                                    cpRowValue.NewValue = newRowValue.KeyRow;
+                                    cpRowValue.OldValue = tt.KeyRow;
+                                    compareRowValue.Add(cpRowValue);
+                                    await RowValueDb.CreateAsync(newRowValue);
+                                }
+                            }
+                        }
+
+                        // sync thuoc tinh parent
+                        var newRowValues = _context.RowValue
+                            .Find(x => x.BangBieuId == newBangBieu.Id && x.ParentId != null && x.IsDeleted != true).ToList();
+
+                        foreach (var tt in newRowValues)
+                        {
+                            var findTT = compareRowValue.Where(x => x.OldValue == tt.ParentId).FirstOrDefault();
+                            if (findTT != default)
+                            {
+                                tt.ParentId = findTT.NewValue;
+                                await RowValueDb.UpdateAsync(tt);
+                            }
+                        }
+
+                        // Kết thúc tính toán thuộc tính
+
+                        #endregion
+                    }
+
+                    await _historyMauBieu.WithFormKey(newMauBieu.Id)
+                            .WithCollection(_settings.MauBieuCollectionName, newMauBieu.Id, "Mẫu biểu")
+                            .WithTitle("Tạo mới mẫu biểu")
+                            .WithStatus(newMauBieu.LastStatus)
+                            .WithAction(nameof(this.GenerateMauBieu))
+                            .WithUserName(CurrentUser)
+                            .SaveChangeHistory();
+                }
+            }
+            catch (ResponseMessageException e)
+            {
+                throw new ResponseMessageException()
+                    .WithCode(EResultResponse.FAIL.ToString())
+                    .WithMessage(DefaultMessage.DATA_NOT_FOUND);
+            }
+            catch (Exception e)
+            {
+                throw new ResponseMessageException()
+                    .WithCode(EResultResponse.FAIL.ToString())
+                    .WithMessage(e.Message);
+            }
+        }
+        
         public async Task DeleteMauBieu(string mauBieuId)
         {
             var mauBieu = _context.MauBieu.Find(x => x.Id == mauBieuId).FirstOrDefault();

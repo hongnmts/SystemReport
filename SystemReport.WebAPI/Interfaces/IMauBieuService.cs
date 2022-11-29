@@ -33,5 +33,6 @@ namespace SystemReport.WebAPI.Interfaces
 
         List<ListNamMauBieuVM> ListNamMauBieu();
         Task<PagingModel<MauBieuItemVM>> GetMauBieuPaging(MauBieuParam param);
+        Task GenerateMauBieuTongHop(InputMauBieuModel model);
     }
 }

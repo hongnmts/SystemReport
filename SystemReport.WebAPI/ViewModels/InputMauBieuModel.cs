@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SystemReport.WebAPI.Models;
 
 namespace SystemReport.WebAPI.ViewModels
@@ -19,6 +20,9 @@ namespace SystemReport.WebAPI.ViewModels
         public ThangModel Thang { get; set; }
         public DateTime? TuNgay { get; set; }
         public DateTime? DenNgay { get; set; }
+        public List<string> BangBieuIds { get; set; }
+        
+        public string KyBaoCaoCode { get; set; } = "TONGHOP";
     }
 
     public class ThangModel

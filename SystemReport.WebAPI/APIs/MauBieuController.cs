@@ -396,6 +396,28 @@ namespace SystemReport.WebAPI.APIs
                         .WithMessage(ex.ResultString)
                 );
             }
+        }     
+        
+        [HttpPost]
+        [Route("generate-maubieutonghop")]
+        public async Task<IActionResult> GenerateMauBieuTongHop([FromBody] InputMauBieuModel model)
+        {
+            try
+            {
+                await _mauBieuService.GenerateMauBieuTongHop(model);
+                return Ok(
+                    new ResultResponse<dynamic>()
+                        .WithCode(EResultResponse.SUCCESS.ToString())
+                        .WithMessage("Tổng hợp báo cáo thành công!")
+                );
+            }
+            catch (ResponseMessageException ex)
+            {
+                return Ok(
+                    new ResultMessageResponse().WithCode(ex.ResultCode)
+                        .WithMessage(ex.ResultString)
+                );
+            }
         }
 
         [HttpPost]

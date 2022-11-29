@@ -453,7 +453,6 @@ namespace SystemReport.WebAPI.Services
                             || findCode.StyleInput.Id == "float"
                             || findCode.StyleInput.Id == "formula"))
                         {
-
                             try
                             {
                                 rv.Value += float.Parse(findCode.Value);

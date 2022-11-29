@@ -149,18 +149,18 @@
                                   <div class="header-thiet-ke-mau-bieu mb-1"
                                        style="display: flex; justify-content: space-between">
                                     <h5 class="pe-1">Biểu mẫu: <i> {{ data.item.ten }} </i></h5>
-                                    <div
-                                        style="display: flex; flex-direction: column; justify-content: center; align-items: end">
-                                      <b-button
-                                          variant="info"
-                                          type="button"
-                                          class="btn w-lg btn-primary mb-2"
-                                          @click="handleXemMauBieu(data.item.id)"
-                                          size="sm"
-                                      >
-                                        <i class="mdi mdi-eye-check me-1"></i> Xem mẫu biểu
-                                      </b-button>
-                                    </div>
+<!--                                    <div-->
+<!--                                        style="display: flex; flex-direction: column; justify-content: center; align-items: end">-->
+<!--                                      <b-button-->
+<!--                                          variant="info"-->
+<!--                                          type="button"-->
+<!--                                          class="btn w-lg btn-primary mb-2"-->
+<!--                                          @click="handleTongHop(data.item.id)"-->
+<!--                                          size="sm"-->
+<!--                                      >-->
+<!--                                        <i class="mdi mdi-eye-check me-1"></i> Tổng hợp-->
+<!--                                      </b-button>-->
+<!--                                    </div>-->
                                   </div>
                                   <div class="row" v-if="data.item.bangBieus.length > 0">
                                     <div class="col-12 ">
@@ -169,7 +169,17 @@
                                         <div class="card-body">
                                           <h4 class="card-title"><h4 class="card-title">#{{ index + 1 }}.
                                             {{ value.ten }}</h4></h4>
-                                          <p></p>
+                                          <p>
+                                            <b-button
+                                                variant="info"
+                                                type="button"
+                                                class="btn w-lg btn-primary mb-2"
+                                                @click="handleTongHop(data.item.id)"
+                                                size="sm"
+                                            >
+                                              <i class="mdi mdi-eye-check me-1"></i> Tổng hợp
+                                            </b-button>
+                                          </p>
                                           <table class="table b-table table-striped table-bordered">
                                             <thead>
                                             <tr>
@@ -195,8 +205,18 @@
                                             </thead>
                                             <tbody>
                                             <tr v-for="(item, index) in value.kyBaos" :key="index">
+                                              <td style="text-align: center">
+                                                <input type="checkbox" :value="item.id" v-model="selected" />
+                                              </td>
                                               <td style="text-align: center">{{ index + 1 }}</td>
-                                              <td style="text-align: center">{{ item.kyBaoCao.ten }}</td>
+                                              <td style="text-align: center">
+                                                <template v-if="item.kyBaoCao">
+                                                  {{ item.kyBaoCao.ten }}
+                                                </template>
+                                                <template v-else>
+                                                  Tổng hợp
+                                                </template>
+                                              </td>
                                               <td style="text-align: center">{{ item.tuNgay }}</td>
                                               <td style="text-align: center">{{ item.denNgay }}</td>
                                               <td>
@@ -217,6 +237,14 @@
                                                     data-toggle="tooltip" data-placement="bottom" title="Xem bảng biểu"
                                                     v-on:click="handleXemBangBieu(item.id)">
                                                   <i class="mdi mdi-eye me-1"></i>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    size="sm"
+                                                    class="btn btn-edit btn-sm"
+                                                    data-toggle="tooltip" data-placement="bottom" title="Chỉnh sửa"
+                                                    v-on:click="$router.push('/thuc-hien-nhap-lieu/' + item.id)">
+                                                  <i class="fas fa-pencil-alt text-success me-1"></i>
                                                 </button>
                                               </td>
                                             </tr>
@@ -1122,6 +1150,33 @@
         </b-button>
       </template>
     </b-modal>
+    <b-modal
+        v-model="showModalThongKe"
+        centered
+        title="Tổng hợp dữ liệu"
+        title-class="font-18"
+        no-close-on-backdrop
+    >
+      <p>
+        Tổng hợp sẽ tạo ra dữ liệu mới từ những bảng biểu có sẳn!
+      </p>
+      <template #modal-footer>
+        <b-button v-b-modal.modal-close_visit
+                  size="sm"
+                  class="btn btn-outline-info w-md"
+                  v-on:click="showModalThongKe = false">
+          Đóng
+        </b-button>
+        <b-button v-b-modal.modal-close_visit
+                  size="sm"
+                  variant="danger"
+                  type="button"
+                  class="w-md"
+                  v-on:click="handleSubmitTongHop">
+          Tổng hợp
+        </b-button>
+      </template>
+    </b-modal>
   </Layout>
 </template>
 
@@ -1369,7 +1424,13 @@ export default {
         // },
       ],
       dataNoiDungTuChoi: null,
-      showModalNoiDungTuChoi: false
+      showModalNoiDungTuChoi: false,
+      selected: [],
+      showModalThongKe: false,
+      modelMB:{
+        mauBieuId: null,
+        bangBieuIds: null
+      }
     }
   },
   validations: {
@@ -1405,9 +1466,32 @@ export default {
       handler(val) {
         this.$refs.tblList?.refresh();
       }
+    },
+    selected: {
+      deep: true,
+      handler(val) {
+       console.log("selected", val)
+      }
     }
   },
   methods: {
+   async handleSubmitTongHop(){
+     if(this.modelMB.bangBieuIds && this.modelMB.bangBieuIds.length <=1)
+       this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage({resultString: "Bảng tổng hợp không bé hơn 1", resultCode: "FAIL"}))
+
+     await this.$store.dispatch("mauBieuStore/generateMauBieuTongHop", this.modelMB).then((res) => {
+        if (res.resultCode === 'SUCCESS') {
+          this.showModalThongKe = false;
+          this.$refs.tblList?.refresh()
+        }
+        this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res))
+      });
+    },
+    handleTongHop(mauBieuId){
+      this.modelMB.mauBieuId = mauBieuId;
+      this.modelMB.bangBieuIds = this.selected;
+      this.showModalThongKe = true;
+    },
     isEmpty(str) {
       return (!str || str.length === 0);
     },

@@ -55,6 +55,9 @@ export const actions = {
     async generateMauBieu({commit}, values) {
         return apiClient.post(controller + "/generate-maubieu", values);
     },
+    async generateMauBieuTongHop({commit}, values) {
+        return apiClient.post(controller + "/generate-maubieutonghop", values);
+    },
     async changeStatus({commit}, values) {
         return apiClient.post(controller + "/change-status", values);
     },
