@@ -310,12 +310,35 @@ namespace SystemReport.WebAPI.Services
                 }
             }
 
+            // if (param.NgayBatDauStart != default && param.NgayBatDauEnd != default)
+            // {
+            //     var start = DateTime.SpecifyKind((DateTime)param.NgayBatDauStart, DateTimeKind.Utc);
+            //     var end = DateTime.SpecifyKind((DateTime)param.NgayBatDauEnd, DateTimeKind.Utc);
+            //
+            //     filter &= builder.Where(x => x.NgayBatDau >= start && x.NgayKetThuc <= end);
+            // }
+            // else
+            // {
+            //     if (param.NgayBatDauStart != default)
+            //     {
+            //         var start = DateTime.SpecifyKind((DateTime)param.NgayBatDauStart, DateTimeKind.Utc);
+            //
+            //         filter &= builder.Where(x => x.NgayBatDau >= start);
+            //     }
+            //     if (param.NgayBatDauEnd != default)
+            //     {
+            //         var end = DateTime.SpecifyKind((DateTime)param.NgayBatDauEnd, DateTimeKind.Utc);
+            //
+            //         filter &= builder.Where(x => x.NgayKetThuc <= end);
+            //     }
+            // }
+
             if (param.NgayBatDauStart != default && param.NgayBatDauEnd != default)
             {
                 var start = DateTime.SpecifyKind((DateTime)param.NgayBatDauStart, DateTimeKind.Utc);
                 var end = DateTime.SpecifyKind((DateTime)param.NgayBatDauEnd, DateTimeKind.Utc);
 
-                filter &= builder.Where(x => x.NgayBatDau >= start && x.NgayKetThuc <= end);
+                filter &= builder.Where(x => x.NgayBatDau >= start && x.NgayBatDau <= end);
             }
             else
             {
@@ -329,32 +352,9 @@ namespace SystemReport.WebAPI.Services
                 {
                     var end = DateTime.SpecifyKind((DateTime)param.NgayBatDauEnd, DateTimeKind.Utc);
 
-                    filter &= builder.Where(x => x.NgayKetThuc <= end);
+                    filter &= builder.Where(x => x.NgayBatDau <= end);
                 }
             }
-
-            //if (param.NgayKetThucStart != default && param.NgayKetThucEnd != default)
-            //{
-            //    var start = DateTime.SpecifyKind((DateTime)param.NgayKetThucStart, DateTimeKind.Utc);
-            //    var end = DateTime.SpecifyKind((DateTime)param.NgayKetThucEnd, DateTimeKind.Utc);
-
-            //    filter &= builder.Where(x => x.NgayKetThuc >= start && x.NgayKetThuc <= end);
-            //}
-            //else
-            //{
-            //    if (param.NgayKetThucStart != default)
-            //    {
-            //        var start = DateTime.SpecifyKind((DateTime)param.NgayKetThucStart, DateTimeKind.Utc);
-
-            //        filter &= builder.Where(x => x.NgayKetThuc >= start);
-            //    }
-            //    if (param.NgayKetThucEnd != default)
-            //    {
-            //        var end = DateTime.SpecifyKind((DateTime)param.NgayKetThucEnd, DateTimeKind.Utc);
-
-            //        filter &= builder.Where(x => x.NgayKetThuc <= end);
-            //    }
-            //}
 
             if (param.NgayGiaHanStart != default && param.NgayGiaHanEnd != default)
             {
