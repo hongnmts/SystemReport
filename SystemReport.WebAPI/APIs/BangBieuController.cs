@@ -259,5 +259,30 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
+
+
+        [HttpPost]
+        [Route("get-value")]
+        public async Task<IActionResult> GetValue([FromBody] List<string> ids)
+        {
+            try
+            {
+                var response = await _bangBieuService.MergeTable(ids);
+
+                return Ok(
+                    new ResultResponse<dynamic>()
+                        .WithData(response)
+                        .WithCode(EResultResponse.SUCCESS.ToString())
+                        .WithMessage(DefaultMessage.GET_DATA_SUCCESS)
+                );
+            }
+            catch (ResponseMessageException ex)
+            {
+                return Ok(
+                    new ResultMessageResponse().WithCode(ex.ResultCode)
+                        .WithMessage(ex.ResultString)
+                );
+            }
+        }
     }
 }

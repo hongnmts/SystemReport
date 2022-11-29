@@ -419,6 +419,55 @@ namespace SystemReport.WebAPI.Services
 
         }
 
+        public async Task<List<RowValue>> MergeTable(List<string> bangBieuIds)
+        {
+            var bangBieu = await _context.BangBieu.Find(x => bangBieuIds.Contains(x.Id) && x.IsDeleted != true).ToListAsync();
 
+            var cloneId = bangBieu.Select(x => x.CloneId).FirstOrDefault();
+
+            var bangBieuFirst = bangBieu.FirstOrDefault();
+
+            var bangBieuClone = (BangBieu)bangBieuFirst.Clone();
+
+            var rowValuesFirst = _context.RowValue.Find(x => x.BangBieuId == bangBieuFirst.Id && x.IsDeleted != true).ToList();
+            var thuocTinhsFirst = _context.ThuocTinh.Find(x => x.BangBieuId == bangBieuFirst.Id && x.IsDeleted != true).ToList();
+
+            var rowValuesResult = new List<RowValue>();
+
+            bool firstIndex = true;
+            foreach (var item in bangBieu)
+            {
+                var rowValues = _context.RowValue.Find(x => x.BangBieuId == item.Id && x.IsDeleted != true).ToList();
+                var thuocTinhs = _context.ThuocTinh.Find(x => x.BangBieuId == item.Id && x.IsDeleted != true).ToList();
+                foreach (var rv in rowValuesFirst)
+                {
+                    var findCode = rowValues.Where(x => x.Code == rv.Code).FirstOrDefault();
+                    if (findCode == default)
+                    {
+
+                    }
+                    else
+                    {
+                        if (findCode.StyleInput != default
+                            && (findCode.StyleInput.Id == "int"
+                            || findCode.StyleInput.Id == "float"
+                            || findCode.StyleInput.Id == "formula"))
+                        {
+
+                            try
+                            {
+                                rv.Value += float.Parse(findCode.Value);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+                }
+            }
+
+            return rowValuesFirst;
+
+        }
     }
 }

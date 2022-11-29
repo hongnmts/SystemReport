@@ -452,18 +452,21 @@ namespace SystemReport.WebAPI.APIs
                 );
             }
         }
-        [HttpGet]
+
+
+        [HttpPost]
         [Route("getMauBieuPaging")]
-        public async Task<IActionResult> getMauBieuPaging()
+        public async Task<IActionResult> GetMauBieuPaging([FromBody] MauBieuParam param)
         {
             try
             {
-                var response =  _mauBieuService.GetMauBieuPaging();
+                var response = await _mauBieuService.GetMauBieuPaging(param);
 
                 return Ok(
-                    new ResultResponse<dynamic>().WithData(response)
+                    new ResultResponse<dynamic>()
+                        .WithData(response)
                         .WithCode(EResultResponse.SUCCESS.ToString())
-                        .WithMessage("Dữ liệu")
+                        .WithMessage(DefaultMessage.GET_DATA_SUCCESS)
                 );
             }
             catch (ResponseMessageException ex)
@@ -471,13 +474,6 @@ namespace SystemReport.WebAPI.APIs
                 return Ok(
                     new ResultMessageResponse().WithCode(ex.ResultCode)
                         .WithMessage(ex.ResultString)
-                );
-            }
-            catch (Exception ex)
-            {
-                return Ok(
-                    new ResultMessageResponse().WithCode(EResultResponse.FAIL.ToString())
-                        .WithMessage(ex.Message)
                 );
             }
         }

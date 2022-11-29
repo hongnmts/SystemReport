@@ -277,4 +277,9 @@ export default [
         name: "/ho-tro-doanh-nghiep - thong-ke",
         component: () => import("../pages/quanLyKhoaHoc/thongKe"),
     },
+    {
+        path: "/test-thongke",
+        name: "/quan-ly-khoa-hoc",
+        component: () => import("../pages/baocao/thongKe"),
+    },
 ]

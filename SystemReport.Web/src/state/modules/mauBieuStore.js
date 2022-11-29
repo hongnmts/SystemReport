@@ -10,6 +10,9 @@ export const actions = {
     async getPagingParams({commit}, params) {
         return apiClient.post(controller + "/get-paging-params", params);
     },
+    async getMauBieuPaging({commit}, params) {
+        return apiClient.post(controller + "/getMauBieuPaging", params);
+    },
     async getPagingParamsNhapLieu({commit}, params) {
         return apiClient.post(controller + "/get-paging-params-nhaplieu", params);
     },

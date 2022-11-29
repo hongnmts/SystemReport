@@ -8,6 +8,8 @@ namespace SystemReport.WebAPI.ViewModels
     {
         public string Id { get; set; }
         public string Ten { get; set; }
+        public string KyHieu { get; set; }
+        public LoaiMauBieu LoaiMauBieu { get; set; }
         public List<BangBieuItemVM> BangBieus { get; set; } = new List<BangBieuItemVM>();
     }
 
@@ -27,5 +29,6 @@ namespace SystemReport.WebAPI.ViewModels
         public BangBieu BangBieu { get; set; }
         public DateTime? TuNgay { get; set; }
         public DateTime? DenNgay { get; set; }
+        public TrangThai TrangThai { get; set; }
     }
 }

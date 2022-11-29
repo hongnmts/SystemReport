@@ -19,5 +19,6 @@ namespace SystemReport.WebAPI.Interfaces
         Task<List<HeaderTableVM>> RenderHeader(List<ThuocTinh> thuocTinhs);
         Task<RenderTableNhapLieu> RenderNhapLieuBangBieu(string bangBieuId);
         Task SaveDataBangBieu(List<BodyTableVM> data);
+        Task<List<RowValue>> MergeTable(List<string> bangBieuIds);
     }
 }

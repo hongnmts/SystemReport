@@ -1499,16 +1499,25 @@ namespace SystemReport.WebAPI.Services
             return result;
         }
 
-        public List<MauBieuItemVM> GetMauBieuPaging()
+        public async Task<PagingModel<MauBieuItemVM>>  GetMauBieuPaging(MauBieuParam param)
         {
+            PagingModel<MauBieuItemVM> result = new PagingModel<MauBieuItemVM>();
             var mauBieusVM = new List<MauBieuItemVM>();
-            
-            var mauBieus = _context.MauBieu.Find(x => x.CloneId == null && x.IsDeleted != true).ToList();
+
+            var builder = Builders<MauBieu>.Filter;
+            var filter = builder.Empty;
+
+            filter = builder.And(filter,
+                  builder.Where(x => x.CloneId == null && x.IsDeleted != true));
+
+            var mauBieus = _context.MauBieu.Find(filter).SortByDescending(x => x.KyHieu).Skip(param.Skip).Limit(param.Limit).ToList();
             foreach (var mb in mauBieus)
             {
                 var itemMB = new MauBieuItemVM();
                 itemMB.Id = mb.Id;
                 itemMB.Ten = mb.Ten;
+                itemMB.LoaiMauBieu = mb.LoaiMauBieu;
+                itemMB.KyHieu = mb.KyHieu;
 
                 var bangBieus = _context.BangBieu.Find(x => x.MauBieuId == mb.Id && x.CloneId == null && x.IsDeleted != true).ToList();
                 foreach (var bb in bangBieus)
@@ -1529,7 +1538,9 @@ namespace SystemReport.WebAPI.Services
                         kyBaoCaoItem.KyBaoCao = mauBieuAfterClone.KyBaoCao;
                         kyBaoCaoItem.TuNgay = mauBieuAfterClone.TuNgay;
                         kyBaoCaoItem.DenNgay = mauBieuAfterClone.DenNgay;
-                        
+                        kyBaoCaoItem.TrangThai = mauBieuAfterClone.LastStatus;
+
+
                         itemBB.KyBaos.Add(kyBaoCaoItem);
                     }
                     itemMB.BangBieus.Add(itemBB);
@@ -1538,7 +1549,9 @@ namespace SystemReport.WebAPI.Services
                 mauBieusVM.Add(itemMB);
             }
 
-            return mauBieusVM;
+            result.Data = mauBieusVM;
+            result.TotalRows = await _context.MauBieu.Find(filter).CountDocumentsAsync();
+            return result;
         }
     }
 }
