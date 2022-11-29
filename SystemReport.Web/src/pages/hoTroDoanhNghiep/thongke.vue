@@ -664,7 +664,7 @@ export default {
                                     <td style="width: 50px; text-align: center">{{ index + 1 }}.{{ index1 + 1 }}</td>
                                     <td>{{ value.name }}</td>
                                     <td style="width: 100px; text-align: center">{{ value.count }}</td>
-                                    <td style="width: 100px; text-align: center">{{ formatNumber( value.soTien) }}</td>
+                                    <td style="width: 100px; text-align: right">{{ formatNumber( value.soTien) }}</td>
                                   </tr>
                                 </template>
 
