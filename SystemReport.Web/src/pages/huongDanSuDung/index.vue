@@ -13,13 +13,13 @@ import {pagingModel} from "@/models/pagingModel";
 import {CONSTANTS} from "@/helpers/constants";
 import {mauBieuModel} from "@/models/mauBieuModel";
 import {notifyModel} from "@/models/notifyModel";
-
+import PDFViewer from 'pdf-viewer-vue/dist/vue2-pdf-viewer'
 
 /**
  * Horizontal-layout component
  */
 export default {
-  components: {Header, Footer,},
+  components: {Header, Footer,PDFViewer},
   data() {
     return {
       activeIndex: [],
@@ -323,81 +323,79 @@ export default {
                 <a
                     class="card-link"
                     href="javascript: void(0);"
-                >Thông tin</a>
+                > Hướng dẫn sử dụng</a>
               </h6>
             </b-card-header>
             <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel" class="d-sm-none">
               <b-card-body>
-                <b-card-text>
-                  1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </b-card-text>
+                <PDFViewer
+                    source="/huongdansudung.pdf"
+                    style="height: 100vh; width: 100vw"
+                />
               </b-card-body>
             </b-collapse>
-            <!--            item - 2-->
-            <b-card-header
-                v-b-toggle.accordion-2
-                header-tag="header" role="tab" class="mb-2 card-accordion">
-              <h6 class="m-0 font-14">
-                <a
-                    class="card-link"
-                    href="javascript: void(0);"
-                >Hình ảnh</a>
-              </h6>
-            </b-card-header>
-            <b-collapse id="accordion-2" visible accordion="my-accordion" role="tabpanel" class="d-sm-none">
-              <b-card-body>
-                <b-card-text>
-                  2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </b-card-text>
-              </b-card-body>
-            </b-collapse>
-            <!--            item - 3-->
-            <b-card-header
-                v-b-toggle.accordion-3
-                header-tag="header" role="tab" class="mb-2 card-accordion">
-              <h6 class="m-0 font-14">
-                <a
-                    class="card-link"
-                    href="javascript: void(0);"
-                >Video</a>
-              </h6>
-            </b-card-header>
-            <b-collapse id="accordion-3" visible accordion="my-accordion" role="tabpanel" class="d-sm-none">
-              <b-card-body>
-                <b-card-text>
-                  2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </b-card-text>
-              </b-card-body>
-            </b-collapse>
+<!--            <b-card-header-->
+<!--                v-b-toggle.accordion-2-->
+<!--                header-tag="header" role="tab" class="mb-2 card-accordion">-->
+<!--              <h6 class="m-0 font-14">-->
+<!--                <a-->
+<!--                    class="card-link"-->
+<!--                    href="javascript: void(0);"-->
+<!--                >Hình ảnh</a>-->
+<!--              </h6>-->
+<!--            </b-card-header>-->
+<!--            <b-collapse id="accordion-2" visible accordion="my-accordion" role="tabpanel" class="d-sm-none">-->
+<!--              <b-card-body>-->
+<!--                <b-card-text>-->
+<!--                  2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.-->
+<!--                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
+<!--                </b-card-text>-->
+<!--              </b-card-body>-->
+<!--            </b-collapse>-->
+<!--            <b-card-header-->
+<!--                v-b-toggle.accordion-3-->
+<!--                header-tag="header" role="tab" class="mb-2 card-accordion">-->
+<!--              <h6 class="m-0 font-14">-->
+<!--                <a-->
+<!--                    class="card-link"-->
+<!--                    href="javascript: void(0);"-->
+<!--                >Video</a>-->
+<!--              </h6>-->
+<!--            </b-card-header>-->
+<!--            <b-collapse id="accordion-3" visible accordion="my-accordion" role="tabpanel" class="d-sm-none">-->
+<!--              <b-card-body>-->
+<!--                <b-card-text>-->
+<!--                  2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.-->
+<!--                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
+<!--                </b-card-text>-->
+<!--              </b-card-body>-->
+<!--            </b-collapse>-->
           </div>
           <div class="col-md-9 col-12 border content-show">
             <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
               <b-card-body>
-                <b-card-text>
-                  1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </b-card-text>
+                <PDFViewer
+                    source="/huongdansudung.pdf"
+                    style="height: 100vh; width: 100%"
+                />
               </b-card-body>
             </b-collapse>
-            <b-collapse id="accordion-2" visible accordion="my-accordion" role="tabpanel">
-              <b-card-body>
-                <b-card-text>
-                  2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </b-card-text>
-              </b-card-body>
-            </b-collapse>
-            <b-collapse id="accordion-3" visible accordion="my-accordion" role="tabpanel">
-              <b-card-body>
-                <b-card-text>
-                  3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </b-card-text>
-              </b-card-body>
-            </b-collapse>
+<!--            <b-collapse id="accordion-2" visible accordion="my-accordion" role="tabpanel">-->
+<!--              <b-card-body>-->
+<!--                <b-card-text>-->
+<!--                  2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.-->
+<!--                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
+<!--                </b-card-text>-->
+<!--              </b-card-body>-->
+<!--            </b-collapse>-->
+<!--            <b-collapse id="accordion-3" visible accordion="my-accordion" role="tabpanel">-->
+<!--              <b-card-body>-->
+<!--                <b-card-text>-->
+<!--                  3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.-->
+<!--                  Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
+<!--                </b-card-text>-->
+<!--              </b-card-body>-->
+<!--            </b-collapse>-->
 
           </div>
         </div>
