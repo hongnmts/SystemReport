@@ -184,6 +184,8 @@
                                             <thead>
                                             <tr>
                                               <td style="width: 50px; text-align: center">
+                                              </td>
+                                              <td style="width: 50px; text-align: center">
                                                 STT
                                               </td>
                                               <td style="text-align: center">

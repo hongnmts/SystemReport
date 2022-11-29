@@ -640,6 +640,7 @@ export default {
                               <td style="width: 50px; text-align: center; font-weight: bold">STT</td>
                               <td style="font-weight: bold">Tên</td>
                               <td style="width: 100px; text-align: center; font-weight: bold">Số lượng</td>
+                              <td style="width: 100px; text-align: center; font-weight: bold">Số tiền</td>
                             </tr>
 
                             </thead>
@@ -655,6 +656,7 @@ export default {
                                 <td style="text-align: center; font-weight: bold">{{ index + 1 }}</td>
                                 <td style="font-weight: bold">{{ item.name }}</td>
                                 <td style="text-align: center;font-weight: bold ">{{ item.count }}</td>
+                                <td style="text-align: center;font-weight: bold "></td>
                               </tr>
                               <template v-if="opened.includes(item.id) && item.items && item.items.length > 0">
                                 <template v-for="(value, index1) in item.items">
@@ -662,6 +664,7 @@ export default {
                                     <td style="width: 50px; text-align: center">{{ index + 1 }}.{{ index1 + 1 }}</td>
                                     <td>{{ value.name }}</td>
                                     <td style="width: 100px; text-align: center">{{ value.count }}</td>
+                                    <td style="width: 100px; text-align: center">{{ formatNumber( value.soTien) }}</td>
                                   </tr>
                                 </template>
 

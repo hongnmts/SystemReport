@@ -7,6 +7,7 @@ namespace SystemReport.WebAPI.ViewModels
         public string Id { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
+        public decimal SoTien { get; set; }
         public List<ThongKeHTDItem> Items { get; set; }
 
     }
@@ -16,5 +17,6 @@ namespace SystemReport.WebAPI.ViewModels
         public string Id { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
+        public decimal SoTien { get; set; }
     }
 }

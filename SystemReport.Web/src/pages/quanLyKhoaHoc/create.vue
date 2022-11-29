@@ -796,7 +796,22 @@ export default {
                   ></multiselect>
                 </div>
               </div>
-
+              <div class="col-md-3">
+                <div class="mb-2">
+                  <label class="form-label" for="validationCustom01">Ngày chuyển giao</label>
+                  <date-picker v-model="model.ngayChuyenGiao"
+                               format="DD/MM/YYYY"
+                               value-type="format"
+                  >
+                    <div slot="input">
+                      <input v-model="model.ngayChuyenGiao"
+                             v-mask="'##/##/####'" type="text" class="form-control"
+                             placeholder=""
+                      />
+                    </div>
+                  </date-picker>
+                </div>
+              </div>
 
               <div class="col-md-3">
                 <div class="mb-2">

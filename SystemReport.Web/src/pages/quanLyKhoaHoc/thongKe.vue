@@ -211,6 +211,13 @@ export default {
           thClass: 'hidden-sortable title-capso text-primary',
         },
         {
+          key: 'ngayChuyenGiao',
+          label: 'Ngày chuyển giao',
+          class: "text-center content-capso",
+          sortable: false,
+          thClass: 'hidden-sortable title-capso text-primary',
+        },
+        {
           key: 'donViTiepNhan',
           label: 'Đơn vị tiếp nhận',
           thStyle: {width: '210px', minWidth: '210px'},
