@@ -39,5 +39,9 @@ namespace SystemReport.WebAPI.Models
         public string MucTieu { get; set; }
         public string NoiDung { get; set; }
         public string SanPham { get; set; }
+
+        public decimal TongKinhPhi { get; set; }
+        public CommonItem SoHopDong { get; set; }
+
     }
 }

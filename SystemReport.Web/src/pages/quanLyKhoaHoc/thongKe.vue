@@ -139,6 +139,14 @@ export default {
           thClass: 'hidden-sortable title-capso text-primary',
         },
         {
+          key: 'tongKinhPhi',
+          label: 'Tổng Kinh phí \n (ngàn đồng)',
+          thStyle: {width: '110px', minWidth: '110px'},
+          class: "text-center content-capso",
+          sortable: false,
+          thClass: 'hidden-sortable title-capso text-primary',
+        },
+        {
           key: 'nguonNSNN',
           label: 'Nguồn NSNN',
           thStyle: {width: '110px', minWidth: '110px'},
@@ -153,6 +161,14 @@ export default {
           class: "text-center content-capso",
           sortable: false,
           thClass: 'hidden-sortable title-capso text-primary',
+        },
+        {
+          key: 'soHopDong',
+          label: 'Hợp đồng số',
+          thStyle: {width: '110px', minWidth: '110px'},
+          class: " content-capso",
+          sortable: false,
+          thClass: 'hidden-sortable title-capso text-primary  text-center',
         },
         {
           key: 'ngayBatDau',
@@ -204,7 +220,7 @@ export default {
         },
         {
           key: 'quyetDinhCQ',
-          label: 'QĐ chuyển giao',
+          label: 'QĐ Công nhận \n chuyển giao',
           thStyle: {width: '110px', minWidth: '110px'},
           class: "text-center content-capso",
           sortable: false,
@@ -1229,6 +1245,11 @@ export default {
                           <template v-slot:cell(STT)="data">
                             {{ data.index + ((currentPage-1)*perPage) + 1  }}
                           </template>
+                          <template v-slot:cell(tongKinhPhi)="data">
+                            <template v-if="data.item.tongKinhPhi">
+                              {{ formatNumber( data.item.tongKinhPhi) }}
+                            </template>
+                          </template>
                           <template v-slot:cell(nguonNSNN)="data">
                             <template v-if="data.item.nguonNSNN">
                               {{ formatNumber( data.item.nguonNSNN) }}
@@ -1283,6 +1304,11 @@ export default {
                           <template v-slot:cell(quyetDinhPDKQ)="data">
                             <template v-if="data.item.quyetDinhPDKQ">
                               {{data.item.quyetDinhPDKQ.name}}
+                            </template>
+                          </template>
+                          <template v-slot:cell(soHopDong)="data">
+                            <template v-if="data.item.soHopDong">
+                              {{data.item.soHopDong.name}}
                             </template>
                           </template>
                           <template v-slot:cell(dangThucHien)="data">

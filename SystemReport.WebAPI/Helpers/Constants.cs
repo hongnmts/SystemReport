@@ -78,6 +78,7 @@ namespace SystemReport.WebAPI.Helpers
         public const string DONVITIEPNHAN = "QUYETDINHCHUYENGIAO";
         public const string CAPQUANLY = "CAPQUANLY";
         public const string PHEDUYETNV = "PHEDUYETNV";
+        public const string SOHOPDONG = "SOHOPDONG";
     }
 
     public class ECommonItem

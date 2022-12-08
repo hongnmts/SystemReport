@@ -71,6 +71,7 @@ export default {
       optionsLinhVuc: [],
       optionsQDPheDuyetKP: [],
       optionsPheDuyetNV: [],
+      optionsSoHopDong: [],
       optionsCapQuanLy: [],
       optionsDangThucHien: [],
       optionsXepLoai: [],
@@ -103,6 +104,7 @@ export default {
     this.getQDPheDuyet();
     this.getCapQuanLy();
     this.getPheDuyetNV();
+    this.getSoHopDong();
     if (this.$route.params.id) {
       this.handleDetail();
     } else {
@@ -431,7 +433,34 @@ export default {
         this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res))
       });
     },
-
+    async getSoHopDong() {
+      try {
+        await this.$store.dispatch("commonItemStore/getByType", "SOHOPDONG").then(resp => {
+          if (resp.resultCode == "SUCCESS") {
+            let items = resp.data
+            this.loading = false
+            this.optionsSoHopDong = items;
+          }
+          return [];
+        });
+      } finally {
+        this.loading = false
+      }
+    },
+    async addTagSoHopDong(newTag) {
+      const parts = newTag;
+      const tag = {
+        name: parts,
+        type: "SOHOPDONG"
+      }
+      await this.$store.dispatch("commonItemStore/create", tag).then((res) => {
+        if (res.resultCode === 'SUCCESS') {
+          this.optionsSoHopDong = [res.data, ...this.optionsSoHopDong];
+          this.model.soHopDong = res.data;
+        }
+        this.$store.dispatch("snackBarStore/addNotify", notifyModel.addMessage(res))
+      });
+    },
     handleCreate() {
       this.model = hoTroDoanhNghiepModel.baseJson();
     },
@@ -661,6 +690,17 @@ export default {
               </div>
               <div class="col-md-3">
                 <div class="mb-2">
+                  <label class="form-label" for="validationCustom01"> Tổng kinh phí (ngàn đồng)</label>
+                  <money
+                      v-model="model.tongKinhPhi"
+                      v-bind="money"
+                      class="form-control text-right"
+                      placeholder=""
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="mb-2">
                   <label class="form-label" for="validationCustom01">Nguồn NSNN (ngàn đồng)</label>
                   <money
                       v-model="model.nguonNSNN"
@@ -679,6 +719,22 @@ export default {
                       class="form-control text-right"
                       placeholder="Kinh phí từ nguồn khác"
                   />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="mb-2">
+                  <label class="form-label" for="validationCustom01"> Hợp đồng số</label>
+                  <multiselect
+                      v-model="model.soHopDong"
+                      :options="optionsSoHopDong"
+                      track-by="id"
+                      label="name"
+                      placeholder="Chọn"
+                      deselect-label="Nhấn để xoá"
+                      selectLabel="Nhấn enter để chọn"
+                      selectedLabel="Đã chọn"
+                      :taggable="true" @tag="addTagSoHopDong"
+                  ></multiselect>
                 </div>
               </div>
               <div class="col-md-3">

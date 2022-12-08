@@ -72,6 +72,8 @@ namespace SystemReport.WebAPI.Services
                 NgayDungNghiemThu = model.NgayDungNghiemThu,
                 PheDuyetNhiemVu = model.PheDuyetNhiemVu,
                 NgayPheDuyetNhiemVu = model.NgayPheDuyetNhiemVu,
+                TongKinhPhi = model.TongKinhPhi,
+                SoHopDong = model.SoHopDong,
                 CreatedBy = CurrentUserName,
                 ModifiedBy = CurrentUserName,
                 CreatedAt = DateTime.Now,
@@ -129,6 +131,8 @@ namespace SystemReport.WebAPI.Services
             entity.NgayDungNghiemThu = model.NgayDungNghiemThu;
             entity.PheDuyetNhiemVu = model.PheDuyetNhiemVu;
             entity.NgayPheDuyetNhiemVu = model.NgayPheDuyetNhiemVu;
+            entity.TongKinhPhi = model.TongKinhPhi;
+            entity.SoHopDong = model.SoHopDong;
             entity.ModifiedAt = DateTime.Now;
             entity.ModifiedBy = CurrentUserName;
 
@@ -265,7 +269,12 @@ namespace SystemReport.WebAPI.Services
             {
                 var ids = param.LinhVuc.Select(x => x.Id).ToList();
                 filter &= builder.Where(x => x.LinhVuc != default && ids.Contains(x.LinhVuc.Id));
-            }            
+            }
+            if (param.SoHopDong != default && param.SoHopDong.Count > 0)
+            {
+                var ids = param.SoHopDong.Select(x => x.Id).ToList();
+                filter &= builder.Where(x => x.SoHopDong != default && ids.Contains(x.SoHopDong.Id));
+            }
             if (param.QuyetDinhPDKQ != default && param.QuyetDinhPDKQ.Count > 0)
             {
                 var ids = param.QuyetDinhPDKQ.Select(x => x.Id).ToList();

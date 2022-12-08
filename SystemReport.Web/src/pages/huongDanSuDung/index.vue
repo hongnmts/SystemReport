@@ -329,7 +329,7 @@ export default {
             <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel" class="d-sm-none">
               <b-card-body>
                 <PDFViewer
-                    source="/huongdansudung.pdf"
+                    source="/abc.doc"
                     style="height: 100vh; width: 100vw"
                 />
               </b-card-body>
@@ -375,7 +375,7 @@ export default {
             <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
               <b-card-body>
                 <PDFViewer
-                    source="/huongdansudung.pdf"
+                    source="/abc.doc"
                     style="height: 100vh; width: 100%"
                 />
               </b-card-body>

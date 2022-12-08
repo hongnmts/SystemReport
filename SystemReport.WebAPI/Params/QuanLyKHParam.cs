@@ -17,6 +17,7 @@ namespace SystemReport.WebAPI.Params
         public List<CommonItem> XepLoai { get; set; }
         public List<CommonItem> QuyetDinhCQ { get; set; }
         public List<CommonItem> DonViTiepNhan { get; set; }
+        public List<CommonItem> SoHopDong { get; set; }
         public DateTime? NgayPDKQStart { get; set; }
         public DateTime? NgayPDKQEnd { get; set; }
 
