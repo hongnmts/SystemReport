@@ -43,6 +43,8 @@ namespace SystemReport.WebAPI.Data
         private readonly IMongoCollection<CommonItem> _commonItem;
         private readonly IMongoCollection<HoTroDN> _hoTroDN;
         private readonly IMongoCollection<QuanLyKH> _quanLyKhoaHoc;
+        private readonly IMongoCollection<HoatDongKhoaHoc> _hoatDongKhoaHoc;
+        private readonly IMongoCollection<QuanLyKHNNS> _quanLyKHNNS;
 
         private readonly IDbSettings _settings;
         public DataContext(IDbSettings settings)
@@ -106,6 +108,8 @@ namespace SystemReport.WebAPI.Data
             _commonItem = _context.GetCollection<CommonItem>(_settings.CommonItemCollectionName);
             _hoTroDN = _context.GetCollection<HoTroDN>(_settings.HoTroDNCollectionName);
             _quanLyKhoaHoc = _context.GetCollection<QuanLyKH>(_settings.QuanLyKhoaHocCollectionName);
+            _hoatDongKhoaHoc = _context.GetCollection<HoatDongKhoaHoc>(_settings.HoatDongKhoaHocCollectionName);
+            _quanLyKHNNS = _context.GetCollection<QuanLyKHNNS>(_settings.QuanLyKHNNSCollectionName);
         }
 
         public IMongoDatabase Database
@@ -183,6 +187,16 @@ namespace SystemReport.WebAPI.Data
         public IMongoCollection<DanhMuc> DanhMuc
         {
             get => _danhMuc;
+        }
+
+        public IMongoCollection<HoatDongKhoaHoc> HoatDongKhoaHoc
+        {
+            get => _hoatDongKhoaHoc;
+        }
+
+        public IMongoCollection<QuanLyKHNNS> QuanLyKHNNS
+        {
+            get => _quanLyKHNNS;
         }
     }
 }

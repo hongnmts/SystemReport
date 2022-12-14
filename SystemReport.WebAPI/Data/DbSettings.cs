@@ -42,6 +42,7 @@ namespace SystemReport.WebAPI.Data
         public string CommonItemCollectionName { get; set; }
         public string HoTroDNCollectionName { get; set; }
         public string QuanLyKhoaHocCollectionName { get; set; }
+        public string HoatDongKhoaHocCollectionName { get; set; }
     }
 
     public interface IDbSettings
@@ -85,5 +86,6 @@ namespace SystemReport.WebAPI.Data
         string CommonItemCollectionName { get; set; }
         string HoTroDNCollectionName { get; set; }
         string QuanLyKhoaHocCollectionName { get; set; }
+        string HoatDongKhoaHocCollectionName { get; set; }
     }
 }
